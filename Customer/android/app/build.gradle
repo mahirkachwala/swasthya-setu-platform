@@ -1,0 +1,82 @@
+// Use the legacy "apply plugin" lines at the end of this file instead of the
+// plugins {} block. The `dev.flutter.flutter-gradle-plugin` id is not hosted
+// in the Gradle Plugin Portal for this project configuration and was causing
+// plugin resolution failures. The existing `apply plugin` calls below are
+// sufficient for the Android build.
+
+def localProperties = new Properties()
+def localPropertiesFile = rootProject.file('local.properties')
+if (localPropertiesFile.exists()) {
+    localPropertiesFile.withReader('UTF-8') { reader ->
+        localProperties.load(reader)
+    }
+}
+
+def flutterRoot = localProperties.getProperty('flutter.sdk')
+if (flutterRoot == null) {
+    throw new GradleException("Flutter SDK not found. Define location with flutter.sdk in the local.properties file.")
+}
+
+def flutterVersionCode = localProperties.getProperty('flutter.versionCode')
+if (flutterVersionCode == null) {
+    flutterVersionCode = '1'
+}
+
+def flutterVersionName = localProperties.getProperty('flutter.versionName')
+if (flutterVersionName == null) {
+    flutterVersionName = '1.0'
+}
+
+// Apply the Android and Kotlin plugins before the Flutter Gradle script so
+// the flutter.gradle helper can configure the Android project correctly.
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+apply from: "$flutterRoot/packages/flutter_tools/gradle/flutter.gradle"
+
+android {
+    // The namespace for the Android Gradle Plugin (required for AGP >= 7.0).
+    // Keep this in sync with the package in AndroidManifest.xml and
+    // the applicationId in defaultConfig.
+    namespace "com.example.immune"
+    compileSdkVersion 34
+
+    sourceSets {
+        main.java.srcDirs += 'src/main/kotlin'
+    }
+
+    lintOptions {
+        disable 'InvalidPackage'
+    }
+
+    defaultConfig {
+        // Application ID used at build/runtime. Keep this consistent with
+        // the AndroidManifest package and the namespace above.
+        applicationId "com.example.immune"
+    minSdkVersion 21
+    targetSdkVersion 34
+        versionCode flutterVersionCode.toInteger()
+        versionName flutterVersionName
+    }
+
+    buildTypes {
+        release {
+            // TODO: Add your own signing config for the release build.
+            // Signing with the debug keys for now, so `flutter run --release` works.
+            signingConfig signingConfigs.debug
+        }
+    }
+}
+
+flutter {
+    source '../..'
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
+    implementation platform('com.google.firebase:firebase-bom:26.1.0')
+    implementation 'com.google.firebase:firebase-analytics-ktx'
+    implementation 'com.google.firebase:firebase-messaging:21.0.0'
+}
+
+apply plugin: 'com.google.gms.google-services'

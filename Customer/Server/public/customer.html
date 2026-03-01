@@ -1,0 +1,301 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>VaccineChain</title>
+  <link rel="stylesheet" href="/css/customer.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+<body>
+  <div id="app">
+
+    <div id="page-auth" class="page active">
+      <div class="auth-container">
+        <div class="auth-header">
+          <div class="logo-icon">
+            <svg width="48" height="48" viewBox="0 0 48 48" fill="none"><circle cx="24" cy="24" r="24" fill="#2563eb"/><path d="M24 12v24M24 12l-6 6M24 12l6 6M16 28h16M16 28l-2 4h20l-2-4" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <h1>VaccineChain</h1>
+          <p class="tagline">Safe Vaccines. Trusted Delivery.</p>
+        </div>
+
+        <div id="auth-login" class="auth-form">
+          <h2>Welcome Back</h2>
+          <div class="form-group">
+            <label>Aadhaar Number</label>
+            <input type="text" id="login-aadhaar" placeholder="Enter 12-digit Aadhaar" maxlength="12" inputmode="numeric">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="login-password" placeholder="Enter password">
+          </div>
+          <div id="login-error" class="error-msg"></div>
+          <button onclick="doLogin()" class="btn-primary" id="login-btn">Sign In</button>
+          <p class="auth-switch">New user? <a onclick="showRegister()">Register here</a></p>
+        </div>
+
+        <div id="auth-register" class="auth-form" style="display:none">
+          <h2>Create Account</h2>
+          <div class="form-group">
+            <label>Full Name</label>
+            <input type="text" id="reg-name" placeholder="Enter your full name">
+          </div>
+          <div class="form-group">
+            <label>Aadhaar Number</label>
+            <input type="text" id="reg-aadhaar" placeholder="Enter 12-digit Aadhaar" maxlength="12" inputmode="numeric">
+          </div>
+          <div class="form-group">
+            <label>Password</label>
+            <input type="password" id="reg-password" placeholder="Create a password">
+          </div>
+          <div id="reg-error" class="error-msg"></div>
+          <button onclick="doRegister()" class="btn-primary">Create Account</button>
+          <p class="auth-switch">Already registered? <a onclick="showLogin()">Sign in</a></p>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-home" class="page">
+      <header class="app-header">
+        <div class="header-left">
+          <h2>VaccineChain</h2>
+        </div>
+        <div class="header-right">
+          <span id="header-lang" class="lang-badge" onclick="showLangPicker()">EN</span>
+          <div id="header-avatar" class="avatar" onclick="navigateTo('profile')"></div>
+        </div>
+      </header>
+
+      <div class="home-content">
+        <div class="greeting-card">
+          <h2 id="greeting-name">Hello!</h2>
+          <p>Book your vaccination appointment or verify vaccine safety</p>
+        </div>
+
+        <div class="quick-actions">
+          <div class="action-card" onclick="navigateTo('book')">
+            <div class="action-icon blue">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+            </div>
+            <span>Book Appointment</span>
+          </div>
+          <div class="action-card" onclick="navigateTo('centers')">
+            <div class="action-icon green">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            </div>
+            <span>Find Centers</span>
+          </div>
+          <div class="action-card" onclick="navigateTo('verify')">
+            <div class="action-icon purple">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+            <span>Verify Vaccine</span>
+          </div>
+          <div class="action-card" onclick="navigateTo('chat')">
+            <div class="action-icon orange">
+              <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+            </div>
+            <span>AI Assistant</span>
+          </div>
+        </div>
+
+        <div class="section">
+          <div class="section-header">
+            <h3>Your Appointments</h3>
+            <a onclick="navigateTo('book')" class="see-all">Book New</a>
+          </div>
+          <div id="home-appointments"></div>
+        </div>
+      </div>
+
+      <nav class="bottom-nav">
+        <div class="nav-item active" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/></svg>
+          <span>Home</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('book')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="4" width="18" height="18" rx="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          <span>Book</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('chat')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg>
+          <span>Chat</span>
+        </div>
+        <div class="nav-item" onclick="navigateTo('profile')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+          <span>Profile</span>
+        </div>
+      </nav>
+    </div>
+
+    <div id="page-book" class="page">
+      <header class="page-header">
+        <button class="back-btn" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Book Appointment</h2>
+      </header>
+      <div class="page-body">
+        <div id="booking-step1">
+          <h3>Select Vaccination Center</h3>
+          <div id="centers-list" class="centers-list"></div>
+        </div>
+        <div id="booking-step2" style="display:none">
+          <h3>Choose Date & Details</h3>
+          <div id="selected-center-info" class="selected-center"></div>
+          <div class="form-group">
+            <label>Preferred Date</label>
+            <input type="date" id="book-date">
+          </div>
+          <div class="form-group">
+            <label>Preferred Time</label>
+            <select id="book-time">
+              <option value="09:00">9:00 AM</option>
+              <option value="10:00">10:00 AM</option>
+              <option value="11:00">11:00 AM</option>
+              <option value="12:00">12:00 PM</option>
+              <option value="14:00">2:00 PM</option>
+              <option value="15:00">3:00 PM</option>
+              <option value="16:00">4:00 PM</option>
+            </select>
+          </div>
+          <div class="form-group">
+            <label>Dose Number</label>
+            <select id="book-dose">
+              <option value="1">Dose 1</option>
+              <option value="2">Dose 2</option>
+              <option value="3">Booster</option>
+            </select>
+          </div>
+          <div id="book-error" class="error-msg"></div>
+          <button onclick="confirmBooking()" class="btn-primary">Confirm Booking</button>
+          <button onclick="backToStep1()" class="btn-secondary">Back to Centers</button>
+        </div>
+        <div id="booking-success" style="display:none">
+          <div class="success-card">
+            <div class="success-icon">
+              <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="#16a34a" stroke-width="2"><path d="M22 11.08V12a10 10 0 11-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+            </div>
+            <h3>Appointment Booked!</h3>
+            <div id="booking-details" class="booking-details"></div>
+            <div id="booking-qr" class="qr-container"></div>
+            <button onclick="navigateTo('home')" class="btn-primary">Back to Home</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-centers" class="page">
+      <header class="page-header">
+        <button class="back-btn" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Vaccination Centers</h2>
+      </header>
+      <div class="page-body">
+        <div id="all-centers-list" class="centers-list"></div>
+      </div>
+    </div>
+
+    <div id="page-verify" class="page">
+      <header class="page-header">
+        <button class="back-btn" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Verify Vaccine</h2>
+      </header>
+      <div class="page-body">
+        <div class="verify-container">
+          <div class="verify-icon">
+            <svg width="80" height="80" viewBox="0 0 24 24" fill="none" stroke="#6366f1" stroke-width="1.5"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/><polyline points="9 12 11 14 15 10"/></svg>
+          </div>
+          <h3>Check Vaccine Safety</h3>
+          <p class="muted">Enter the shipment ID printed on your vaccine vial or scan the QR code</p>
+          <div class="form-group">
+            <input type="text" id="verify-shipment-id" placeholder="e.g. SHIP-DEMO-001">
+          </div>
+          <button onclick="verifyShipment()" class="btn-primary">Verify</button>
+          <div id="verify-result" style="display:none"></div>
+        </div>
+      </div>
+    </div>
+
+    <div id="page-chat" class="page">
+      <header class="page-header">
+        <button class="back-btn" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>AI Assistant</h2>
+        <span id="chat-lang-badge" class="lang-badge sm" onclick="showLangPicker()">EN</span>
+      </header>
+      <div class="chat-body" id="chat-messages">
+        <div class="chat-bubble bot">
+          <p>Hello! I'm your vaccination assistant. I can help you book appointments, find centers, or answer questions. How can I help you today?</p>
+        </div>
+      </div>
+      <div class="chat-input-bar">
+        <input type="text" id="chat-input" placeholder="Type your message..." onkeydown="if(event.key==='Enter')sendChat()">
+        <button onclick="sendChat()" class="send-btn">
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2"><line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/></svg>
+        </button>
+      </div>
+    </div>
+
+    <div id="page-profile" class="page">
+      <header class="page-header">
+        <button class="back-btn" onclick="navigateTo('home')">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="15 18 9 12 15 6"/></svg>
+        </button>
+        <h2>Profile</h2>
+      </header>
+      <div class="page-body">
+        <div class="profile-header-card">
+          <div class="profile-avatar" id="profile-avatar"></div>
+          <h3 id="profile-name"></h3>
+          <p id="profile-aadhaar" class="muted"></p>
+        </div>
+        <div class="profile-stats">
+          <div class="stat-item">
+            <span class="stat-value" id="profile-vaccinated"></span>
+            <span class="stat-label">Vaccinated</span>
+          </div>
+          <div class="stat-item">
+            <span class="stat-value" id="profile-appointments-count">0</span>
+            <span class="stat-label">Appointments</span>
+          </div>
+        </div>
+        <div class="section">
+          <h3>Your Appointments</h3>
+          <div id="profile-appointments"></div>
+        </div>
+        <button onclick="doLogout()" class="btn-danger logout-btn">Sign Out</button>
+      </div>
+    </div>
+
+    <div id="lang-picker" class="modal" style="display:none">
+      <div class="modal-overlay" onclick="closeLangPicker()"></div>
+      <div class="modal-content">
+        <h3>Select Language</h3>
+        <div class="lang-options">
+          <button onclick="setLang('en')" class="lang-option">English</button>
+          <button onclick="setLang('hi')" class="lang-option">हिन्दी (Hindi)</button>
+          <button onclick="setLang('mr')" class="lang-option">मराठी (Marathi)</button>
+          <button onclick="setLang('ta')" class="lang-option">தமிழ் (Tamil)</button>
+          <button onclick="setLang('te')" class="lang-option">తెలుగు (Telugu)</button>
+          <button onclick="setLang('bn')" class="lang-option">বাংলা (Bengali)</button>
+          <button onclick="setLang('gu')" class="lang-option">ગુજરાતી (Gujarati)</button>
+          <button onclick="setLang('kn')" class="lang-option">ಕನ್ನಡ (Kannada)</button>
+          <button onclick="setLang('pa')" class="lang-option">ਪੰਜਾਬੀ (Punjabi)</button>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/qrcode@1.5.3/build/qrcode.min.js"></script>
+  <script src="/js/customer.js"></script>
+</body>
+</html>

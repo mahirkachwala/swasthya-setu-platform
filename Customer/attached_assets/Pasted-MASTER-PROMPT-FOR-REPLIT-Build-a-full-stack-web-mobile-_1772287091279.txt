@@ -1,0 +1,389 @@
+MASTER PROMPT FOR REPLIT
+
+Build a full-stack web + mobile backend system called:
+
+"VaccineChain – Blockchain Secured Vaccine Cold Chain & Rural Appointment Platform"
+
+This system has two major components:
+
+Vaccine Cold Chain Monitoring + Blockchain Integrity
+
+Rural Vaccination Booking App with Multilingual AI Assistant
+
+The system must be modular and production-structured.
+
+1. TECH STACK REQUIREMENTS
+
+Frontend:
+
+Flutter (for Android low-end devices)
+
+Doctor Dashboard (Web React or Flutter Web)
+
+Backend:
+
+Node.js
+
+Express.js
+
+MongoDB
+
+JWT authentication
+
+REST APIs
+
+Blockchain:
+
+Ethereum (Sepolia testnet)
+
+Solidity smart contract
+
+Hardhat
+
+ethers.js integration
+
+Store event hashes only on-chain
+
+Off-chain telemetry in MongoDB
+
+AI:
+
+Sarvam AI API for:
+
+Multilingual STT
+
+Multilingual TTS
+
+Text translation
+
+Rule-based fallback if AI fails
+
+IoT:
+
+ESP32 sends telemetry (or simulated telemetry)
+
+Synthetic simulation engine for demo mode
+
+2. CORE SYSTEM ARCHITECTURE
+
+Create the following modules:
+
+/server
+/routes
+/controllers
+/models
+/services
+/blockchain
+/contracts
+/scripts
+/flutter_app
+/doctor_dashboard
+
+3. USER ROLES
+
+Rural User
+
+Doctor
+
+Admin
+
+IoT Device (simulated truck)
+
+4. VACCINE COLD CHAIN LOGIC
+
+Each vaccine shipment has:
+
+shipmentId
+
+source
+
+destination
+
+expected route (geofenced coordinates)
+
+allowed temperature range (2°C–8°C)
+
+tamper status
+
+status (SAFE / UNSAFE)
+
+5. TELEMETRY API
+
+Create endpoint:
+
+POST /api/iot/telemetry
+
+Payload:
+{
+shipmentId,
+temperature,
+humidity,
+pressure,
+latitude,
+longitude,
+tamperFlag,
+timestamp
+}
+
+Store raw telemetry in MongoDB.
+
+6. RULE ENGINE (CRITICAL LOGIC)
+
+When telemetry arrives:
+
+Check temperature range.
+
+Check tamper flag.
+
+Check geofence deviation.
+
+If violation detected:
+
+Create violation event
+
+Generate canonical JSON
+
+Hash event using SHA256
+
+Store event locally
+
+Call blockchain service
+
+7. BLOCKCHAIN LOGIC
+
+Smart Contract Requirements:
+
+recordViolation(shipmentId, eventHash, eventType, timestamp)
+
+Emit event:
+ViolationRecorded(shipmentId, eventHash, eventType, timestamp)
+
+Do NOT store large data on chain.
+
+Only store:
+
+shipmentId
+
+eventHash
+
+eventType
+
+timestamp
+
+Backend must:
+
+Use ethers.js
+
+Sign transaction
+
+Wait for confirmation
+
+Store txHash in MongoDB
+
+8. QR CODE LOGIC
+
+Each vaccine vial has QR code containing:
+
+{
+shipmentId,
+latestStatus,
+blockchainTxHash,
+verificationURL
+}
+
+When doctor scans:
+
+GET /api/vaccine/:shipmentId
+
+Return:
+
+status SAFE / UNSAFE
+
+violation history
+
+blockchain proof
+
+last telemetry
+
+9. SIMULATION ENGINE (NO HARDWARE MODE)
+
+Create:
+
+POST /api/simulator/start
+
+Simulator must:
+
+Generate fake GPS path from A to B
+
+Simulate temperature over time
+
+Allow trigger:
+
+Normal mode
+
+Heat breach mode
+
+Route deviation mode
+
+Tamper mode
+
+It should auto-send telemetry every 5 seconds.
+
+10. ESP32 INTEGRATION MODE
+
+Create endpoint:
+
+POST /api/iot/register-device
+
+ESP32 sends:
+
+temperature
+
+humidity
+
+System must treat real and simulated telemetry equally.
+
+11. RURAL USER APP FEATURES
+
+User can:
+
+Register with phone number
+
+Simulated Aadhaar verification
+
+Book vaccination appointment
+
+Select nearest center
+
+Receive QR appointment token
+
+Appointment stored in blockchain as:
+
+hash of appointmentId
+
+timestamp
+
+centerId
+
+12. SARVAM AI MULTILINGUAL LOGIC
+
+Integrate Sarvam AI:
+
+For user side:
+
+Voice input → STT
+
+Translate to English internally
+
+Process logic
+
+Generate response
+
+Translate back to user language
+
+TTS output
+
+Must support:
+
+Hindi
+
+Tamil
+
+Telugu
+
+Bengali
+
+Fallback:
+If AI fails → rule-based responses.
+
+13. DOCTOR DASHBOARD
+
+Doctor dashboard must show:
+
+Shipment list
+
+Status color-coded:
+
+Green = Safe
+
+Red = Unsafe
+
+Live telemetry chart
+
+Blockchain verification badge
+
+Scan QR to verify
+
+14. SECURITY REQUIREMENTS
+
+JWT authentication
+
+Role-based access
+
+Input validation
+
+Hashing using crypto library
+
+Store private key in .env
+
+Never expose private key
+
+15. DEPLOYMENT CONFIG
+
+Support:
+
+Local development (Hardhat network)
+
+Sepolia deployment
+
+MongoDB Atlas
+
+Environment variables
+
+16. DEMO MODE REQUIREMENTS
+
+Include:
+
+One normal shipment
+
+One breached shipment
+
+One tampered shipment
+
+Doctor dashboard must visibly update in real-time.
+
+17. OUTPUT EXPECTATION
+
+Generate:
+
+Full folder structure
+
+Backend boilerplate
+
+Smart contract code
+
+Blockchain service integration
+
+Simulation service
+
+Example Flutter screens
+
+Doctor dashboard page
+
+.env template
+
+README with setup steps
+
+END GOAL
+
+The system must demonstrate:
+
+Vaccine safety tracking
+
+Blockchain-backed tamper-proof audit
+
+Rural multilingual accessibility
+
+IoT + AI + Blockchain integration
+
+Works with real ESP32 or simulation

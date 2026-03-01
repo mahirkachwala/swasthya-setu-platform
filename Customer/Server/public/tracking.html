@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaccineChain — Shipment Verification</title>
+  <link rel="stylesheet" href="/css/tracking.css">
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>VaccineChain</h1>
+      <p class="subtitle">Blockchain-Secured Vaccine Verification</p>
+    </header>
+
+    <div id="loading" class="loading">Loading shipment data...</div>
+    <div id="error" class="error" style="display:none"></div>
+
+    <div id="content" style="display:none">
+      <div id="verdictBanner" class="verdict-banner">
+        <span id="verdictIcon" class="verdict-icon"></span>
+        <span id="verdictText" class="verdict-text"></span>
+      </div>
+
+      <div class="card">
+        <h2>Shipment Details</h2>
+        <div class="detail-grid">
+          <div class="detail-item"><label>Shipment ID</label><span id="shipmentId"></span></div>
+          <div class="detail-item"><label>Source</label><span id="source"></span></div>
+          <div class="detail-item"><label>Destination</label><span id="destination"></span></div>
+          <div class="detail-item"><label>Allowed Temp</label><span id="tempRange"></span></div>
+          <div class="detail-item"><label>Status</label><span id="status"></span></div>
+          <div class="detail-item"><label>Last Updated</label><span id="updatedAt"></span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Latest Telemetry</h2>
+        <div id="noTelemetry" style="display:none" class="muted">No telemetry data yet</div>
+        <div id="telemetryData" class="detail-grid">
+          <div class="detail-item"><label>Temperature</label><span id="tempC" class="temp-value"></span></div>
+          <div class="detail-item"><label>Humidity</label><span id="humidity"></span></div>
+          <div class="detail-item"><label>Location</label><span id="location"></span></div>
+          <div class="detail-item"><label>Tamper (Lid)</label><span id="lidOpen"></span></div>
+          <div class="detail-item"><label>Timestamp</label><span id="telemetryTs"></span></div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2>Temperature History</h2>
+        <canvas id="tempChart" height="200"></canvas>
+      </div>
+
+      <div class="card">
+        <h2>Violation Events</h2>
+        <div id="noEvents" class="muted" style="display:none">No violations recorded</div>
+        <div id="eventsList"></div>
+      </div>
+
+      <div class="card">
+        <h2>Blockchain Verification</h2>
+        <div class="detail-grid">
+          <div class="detail-item"><label>Audit Chain</label><span id="chainStatus"></span></div>
+          <div class="detail-item"><label>Chain Length</label><span id="chainLength"></span></div>
+        </div>
+        <div id="blockchainProofs"></div>
+      </div>
+    </div>
+  </div>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <script src="/js/tracking.js"></script>
+</body>
+</html>

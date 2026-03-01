@@ -1,0 +1,1394 @@
+Okay, so now what I'm going to do, I'm going to keep the blockchain testing and the blockchain aspect of it with the actual QR code testing and everything separate because I'm already developing it and I'm integrating it. I don't want to actually integrate it with the web websites and I'm going to give these two building these two websites tasks to my friends. Okay, the first website is the rural person website again. Over here, what back-end functionalities I want. First of all, I want that speech to text, text to speech model slash cloud API, whatever is suitable. So you can use Servom or any pre-trained model for that. Okay. Secondly, I wanted a chatbot type wrapper so that he can easily communicate with multilingual settings option so that he can easily utilize that app. Thirdly, I want Aadhaar verification. So we can use a simulated data set to showcase Aadhaar verification on that rural person app. And fourthly, it should be connected to my doctor app for like it should be connected when I book the appointment, it should directly connect and show that appointment on the doctor app. And fifth, it should also have Google Maps navigation to show me the nearest vaccination centers near me on map on a map type format so that I can choose where to book an appointment. These are the five features I want. Now, on the doctor website, on the doctor website, firstly again, it should be interconnected with the rural person app to identify any appointment that is coming in to post API maybe. Secondly, over here, everything is only going to be on display to show like what are the current vaccines that are available, is the user that has booked his appointment, is he Aadhaar verified or something like that. And besides that, what are the vaccines that are available? Do I need to book any more or order any more vaccines? If I'm placing an order, so which manufacturer I'm placing it from. The vaccines are now left from the manufacturing this and when they pass a particular geofence location, it will show now the vaccines are reached here, vaccines are reached here on a map type format. It will show that path, okay. Like it should just, it will just simulate it. There is no actual blockchain functionality over here. The blockchain will be only shown on a demo format, which I'm doing separately. Okay. Only the appointment receiving section, like the management section of it, which patients are coming in, how many vaccines are there, is the capacity maxing out, which vaccines are coming in now, and on that app, I need a scan QR code function that will then scan the QR code after the vials come in, thus it will then scan the QR code, which I'm working on in the demo, so that it will fix it out. So I want to give my friends complete and clear instructions for this, so they can develop both of these apps, and I'm going to share it with them. The blockchain part of it is completely separate. They should be built in a very clean and usable UI. The rural app should be simple, because it is for underprivileged and maybe less intellectual individuals, and the doctor one should be very detailed and should be like a professional type of UI. Both should be in medical standards and look appropriate for medical personnel.
+
+Below is a copy-paste ready, developer-grade task brief you can send to your two teammates. It is structured so they can build in parallel, with clean module boundaries, clear APIs, and demo-friendly simulation (no blockchain integration required in their scope).
+
+A. System Boundary & High-Level Architecture
+A1) What YOU are building (out of their scope)
+
+Blockchain anchoring + smart contract write logic
+
+QR “changes when new data posted” demo logic
+
+Any on-chain verification
+
+They must treat your blockchain demo as an external service later.
+
+A2) What THEY are building (in scope)
+
+Two web apps + a shared backend:
+
+Rural User App (Citizen Portal)
+
+Multilingual voice-first assistant
+
+Aadhaar (simulated) verification
+
+Appointment booking + map-based center selection
+
+Sends booking to backend → shows on doctor app
+
+Doctor App (Clinic Dashboard)
+
+Appointment management + Aadhaar status
+
+Vaccine stock dashboard + reorder simulation
+
+Shipment tracking simulation on map (geofence checkpoints)
+
+QR scan UI component (can be stubbed/mocked)
+
+Shared Backend API (single service)
+
+Auth (basic)
+
+Aadhaar simulation lookup
+
+Appointment DB
+
+Vaccination center catalog
+
+Shipment simulation + events stream
+
+B. Tech Stack (to keep it hackathon-fast)
+Recommended (fastest to deliver)
+
+Frontend (both apps): Next.js (React) + TailwindCSS
+
+Backend: Node.js (Express)
+
+DB: SQLite (local file) via Prisma OR simple JSON store if ultra-fast
+
+Maps: Google Maps JS SDK (or Mapbox if easier)
+
+Voice: Sarvam AI (preferred) for Indian languages
+
+Alternative fallback: browser Web Speech API (limited Hindi/Marathi quality)
+
+Chat wrapper: LLM call optional
+
+For hackathon: can be rule-based intent engine + templated responses
+
+If LLM: call Sarvam/other model behind /ai/chat endpoint
+
+Goal: Working demo > perfect architecture.
+
+C. Shared Data Contracts (non-negotiable)
+C1) Appointment Object
+{
+  "appointmentId": "APT-000123",
+  "aadhaarId": "XXXX-XXXX-1234",
+  "patientName": "Ravi Patil",
+  "phone": "+91xxxxxxxxxx",
+  "language": "mr",
+  "centerId": "CEN-001",
+  "centerName": "PHC Andheri",
+  "slotTime": "2026-02-28T15:30:00+05:30",
+  "vaccineType": "Covishield",
+  "aadhaarVerified": true,
+  "status": "BOOKED",
+  "createdAt": "..."
+}
+C2) Vaccination Center Object
+{
+  "centerId": "CEN-001",
+  "name": "PHC Andheri",
+  "lat": 19.1197,
+  "lng": 72.8464,
+  "address": "...",
+  "openSlots": 24,
+  "vaccinesAvailable": {
+    "Covishield": 120,
+    "Covaxin": 55
+  }
+}
+C3) Shipment / Vaccine Batch Object (simulation)
+{
+  "shipmentId": "SHIP-00045",
+  "manufacturer": "Serum Institute",
+  "batchNo": "BATCH-2026-009",
+  "vaccineType": "Covishield",
+  "quantity": 500,
+  "origin": { "name": "Pune Plant", "lat": 18.5204, "lng": 73.8567 },
+  "destinationCenterId": "CEN-001",
+  "status": "IN_TRANSIT",
+  "current": { "lat": 19.02, "lng": 72.83, "checkpoint": "Warehouse-2" },
+  "checkpoints": [
+    { "name": "Pune", "lat": 18.5204, "lng": 73.8567, "etaSec": 0 },
+    { "name": "Hub A", "lat": 18.90, "lng": 73.10, "etaSec": 10 },
+    { "name": "Hub B", "lat": 19.05, "lng": 72.90, "etaSec": 20 },
+    { "name": "PHC Andheri", "lat": 19.1197, "lng": 72.8464, "etaSec": 30 }
+  ],
+  "lastUpdateTs": "..."
+}
+D. Backend API Spec (what both apps depend on)
+D1) Aadhaar Simulation
+POST /api/aadhaar/verify
+
+Input:
+
+{ "aadhaarId": "XXXX-XXXX-1234", "name": "Ravi Patil", "dob": "2004-01-05" }
+
+Output:
+
+{ "verified": true, "reason": "MATCH" }
+
+Implementation: a JSON/CSV dataset with 50–200 synthetic records. Verify = match on aadhaarId + name + dob.
+
+D2) Centers (Map)
+GET /api/centers?lat=..&lng=..&radiusKm=..
+
+Output: list of centers + slots + vaccine stock.
+
+D3) Appointment Booking
+POST /api/appointments
+
+Creates appointment.
+
+GET /api/appointments?centerId=CEN-001&date=YYYY-MM-DD
+
+Doctor uses this.
+
+PATCH /api/appointments/:id
+
+Update status: CHECKED_IN | VACCINATED | CANCELLED.
+
+D4) Inventory (Doctor)
+GET /api/inventory?centerId=CEN-001
+POST /api/inventory/reorder
+
+Input:
+
+{ "centerId":"CEN-001", "manufacturer":"Serum Institute", "vaccineType":"Covishield", "quantity":500 }
+
+Output:
+
+{ "shipmentId":"SHIP-00045", "status":"CREATED" }
+D5) Shipment Simulation + Tracking
+GET /api/shipments?centerId=CEN-001
+GET /api/shipments/:shipmentId
+POST /api/sim/start?shipmentId=SHIP-00045
+
+Starts a timer-based simulation: every 2 seconds move to next checkpoint.
+
+GET /api/events/stream (optional)
+
+SSE/WebSocket for live updates; otherwise polling every 2–3s.
+
+D6) QR Scan Hook (stub)
+POST /api/qr/scan
+
+Input:
+
+{ "qrPayload":"SHIP-00045|BATCH-2026-009|sig-demo" }
+
+Output:
+
+{ "ok": true, "shipmentId":"SHIP-00045", "message":"Accepted (demo). Blockchain validation handled separately." }
+E. Rural User App: Exact Deliverables
+E1) UI pages
+
+Home
+
+“Talk / Type” assistant
+
+language selector (English/Hindi/Marathi)
+
+Aadhaar Verification
+
+AadhaarId + Name + DOB
+
+shows verified / not verified
+
+Find Centers
+
+map + list view
+
+“Nearest centers” + vaccine availability
+
+Book Appointment
+
+choose center + time slot + vaccine type
+
+confirm booking
+
+My Appointment
+
+appointment details + QR code (appointment QR, not vial QR)
+
+shows Aadhaar verified badge
+
+E2) Voice + Multilingual logic
+
+UI supports voice input button:
+
+record audio → backend /api/voice/stt (or Sarvam direct) → text
+
+response:
+
+text answer + optionally TTS playback
+
+Suggested intent set (simple)
+
+“Find centers near me”
+
+“Book appointment”
+
+“Check my appointment”
+
+“What documents needed”
+
+“Vaccine info / side effects” (static safe info)
+
+Rule-based intent is acceptable for hackathon speed; LLM optional.
+
+F. Doctor App: Exact Deliverables
+F1) Screens
+
+Dashboard
+
+today appointments count
+
+walk-ins capacity vs slots
+
+vaccine stock summary
+
+alerts: low stock, shipments arriving
+
+Appointments
+
+table: patient, time, aadhaar status, vaccine type, status
+
+actions: check-in / mark vaccinated / cancel
+
+Inventory
+
+stock by vaccine type
+
+reorder form (manufacturer + qty)
+
+Shipment Tracking
+
+map route with checkpoints
+
+list of shipments + status
+
+live position updates (polling ok)
+
+QR Scan
+
+UI component:
+
+“Scan vial QR” (webcam)
+
+if webcam hard: provide “Paste QR text” input as fallback
+
+calls /api/qr/scan
+
+F2) Visual standards
+
+professional clinic UI
+
+minimal clutter, clear colors, badges
+
+emphasis on safety: “verified”, “pending”, “expired shipment”
+
+G. Simulation Logic (for Doctor Tracking)
+G1) What simulation must demonstrate
+
+A shipment “moves” from origin → hubs → destination on a timeline
+
+When it crosses checkpoints, doctor UI updates:
+
+“Reached Hub A”
+
+“Reached Hub B”
+
+“Arrived at PHC”
+
+G2) How to implement quickly
+
+Use shipment checkpoints with etaSec
+
+Backend timer updates current every 2 seconds
+
+Doctor UI polls /api/shipments/:id
+
+No blockchain here. Just deterministic updates.
+
+H. Parallel Work Split (Two Teammates)
+Teammate 1 — Rural App + Voice
+
+Owns:
+
+Rural UI
+
+/api/aadhaar/verify
+
+/api/centers
+
+/api/appointments (POST)
+
+Voice integration endpoints (STT/TTS)
+
+Success condition:
+
+user can speak/type → book appointment → see confirmation
+
+Teammate 2 — Doctor App + Simulation
+
+Owns:
+
+Doctor UI
+
+/api/appointments (GET/PATCH)
+
+/api/inventory
+
+/api/inventory/reorder
+
+/api/shipments
+
+/api/sim/start
+
+/api/qr/scan (stub)
+
+Success condition:
+
+doctor sees incoming appointments + inventory + shipments moving
+
+I. Non-Functional Requirements (Hackathon Critical)
+Must
+
+Works on localhost with minimal setup
+
+Clean UI
+
+No hard dependency on blockchain
+
+API contracts stable
+
+Nice-to-have
+
+WebSocket/SSE live updates
+
+Authentication (simple role-based login)
+
+Offline-ready “lite mode” for rural UI
+
+J. What you should send them (copy/paste message)
+
+Send this exact message to both teammates:
+
+We are building two web apps (Citizen + Doctor) with a shared backend. Blockchain is NOT in your scope. You must implement the APIs and UI modules per spec, using Next.js + Tailwind and Node/Express backend. Citizen app: voice-first multilingual assistant (STT/TTS via Sarvam or fallback), Aadhaar simulation verification, map-based center selection, appointment booking that appears on doctor dashboard. Doctor app: appointment management, inventory + reorder simulation, shipment route simulation on map, and a QR scan UI that calls a stub endpoint. Follow the JSON contracts and endpoints exactly.
+
+K. Next Step: I can generate a repo skeleton for them
+
+If you want maximum speed, tell me:
+
+whether they’ll use Next.js + Express (recommended)
+
+or Firebase (faster for auth + realtime)
+
+and whether you want SSE vs polling for shipment updates
+
+Then I’ll give you:
+
+folder structure
+
+exact API route files
+
+DB schema (Prisma)
+
+minimal UI component templates for both apps
+
+Yes, give me everything, everything about it.
+
+Alright — here’s the complete, end-to-end, build-ready blueprint for your teammates: monorepo structure, full API contracts, database schema, seed data, backend code, both Next.js apps skeleton, maps integration points, STT/TTS + chatbot wrapper stubs, Aadhaar simulation, appointment sync, shipment simulator, QR scan module.
+
+Everything below is designed so two teammates can build in parallel with minimal merging friction.
+
+0) One-line architecture
+
+Monorepo with:
+
+apps/citizen (Rural User UI)
+
+apps/doctor (Doctor Dashboard UI)
+
+services/api (Express backend + SQLite via Prisma)
+
+packages/shared (shared types + constants)
+
+1) Repo structure (copy exactly)
+vaxchain/
+  apps/
+    citizen/
+      src/
+        app/
+          page.tsx
+          layout.tsx
+          globals.css
+          (routes)/
+            onboarding/
+            verify/
+            centers/
+            book/
+            appointment/
+            assistant/
+        components/
+        lib/
+        config/
+      next.config.js
+      package.json
+
+    doctor/
+      src/
+        app/
+          page.tsx
+          layout.tsx
+          globals.css
+          (routes)/
+            login/
+            dashboard/
+            appointments/
+            inventory/
+            shipments/
+            qr/
+        components/
+        lib/
+        config/
+      next.config.js
+      package.json
+
+  services/
+    api/
+      src/
+        index.ts
+        routes/
+          aadhaar.ts
+          centers.ts
+          appointments.ts
+          inventory.ts
+          shipments.ts
+          sim.ts
+          qr.ts
+          voice.ts
+          ai.ts
+        db/
+          prisma.ts
+          seed.ts
+        data/
+          aadhaar.json
+          centers.json
+      prisma/
+        schema.prisma
+      package.json
+      tsconfig.json
+      .env.example
+
+  packages/
+    shared/
+      src/
+        types.ts
+        constants.ts
+      package.json
+      tsconfig.json
+
+  package.json
+  pnpm-workspace.yaml
+  tsconfig.base.json
+  README.md
+  .gitignore
+2) Tooling choices (fastest hackathon-grade)
+
+Package manager: pnpm (workspaces)
+
+Backend: Express + TypeScript
+
+DB: SQLite + Prisma
+
+Citizen UI: Next.js (App Router) + Tailwind
+
+Doctor UI: Next.js (App Router) + Tailwind
+
+Live updates: polling every 2s (no websockets needed for hackathon)
+
+Maps: Google Maps JS (doctor + citizen)
+
+STT/TTS: Sarvam (primary) with fallback placeholders
+
+Chatbot: rule-based intents + optional LLM hook
+
+3) Monorepo config files
+pnpm-workspace.yaml
+packages:
+  - "apps/*"
+  - "services/*"
+  - "packages/*"
+root package.json
+{
+  "name": "vaxchain",
+  "private": true,
+  "packageManager": "pnpm@9.0.0",
+  "scripts": {
+    "dev": "pnpm -r dev",
+    "dev:api": "pnpm --filter @vax/api dev",
+    "dev:citizen": "pnpm --filter @vax/citizen dev",
+    "dev:doctor": "pnpm --filter @vax/doctor dev",
+    "build": "pnpm -r build"
+  }
+}
+.gitignore (must)
+node_modules
+.env
+.env.*
+dist
+.next
+prisma/dev.db
+4) Shared Types (single source of truth)
+packages/shared/src/types.ts
+export type LangCode = "en" | "hi" | "mr";
+
+export type AppointmentStatus =
+  | "BOOKED"
+  | "CHECKED_IN"
+  | "VACCINATED"
+  | "CANCELLED";
+
+export type AadhaarVerifyRequest = {
+  aadhaarId: string;
+  name: string;
+  dob: string; // YYYY-MM-DD
+};
+
+export type AadhaarVerifyResponse = {
+  verified: boolean;
+  reason: "MATCH" | "NOT_FOUND" | "NAME_MISMATCH" | "DOB_MISMATCH";
+};
+
+export type VaccinationCenter = {
+  centerId: string;
+  name: string;
+  lat: number;
+  lng: number;
+  address: string;
+  openSlots: number;
+  vaccinesAvailable: Record<string, number>;
+};
+
+export type Appointment = {
+  appointmentId: string;
+  aadhaarId: string;
+  patientName: string;
+  phone: string;
+  language: LangCode;
+  centerId: string;
+  centerName: string;
+  slotTime: string; // ISO
+  vaccineType: string;
+  aadhaarVerified: boolean;
+  status: AppointmentStatus;
+  createdAt: string; // ISO
+};
+
+export type ShipmentStatus = "CREATED" | "IN_TRANSIT" | "ARRIVED";
+
+export type GeoPoint = { lat: number; lng: number };
+
+export type ShipmentCheckpoint = {
+  name: string;
+  lat: number;
+  lng: number;
+  etaSec: number;
+};
+
+export type Shipment = {
+  shipmentId: string;
+  manufacturer: string;
+  batchNo: string;
+  vaccineType: string;
+  quantity: number;
+  originName: string;
+  originLat: number;
+  originLng: number;
+  destinationCenterId: string;
+  status: ShipmentStatus;
+  currentLat: number;
+  currentLng: number;
+  currentCheckpoint: string;
+  lastUpdateTs: string; // ISO
+};
+packages/shared/package.json
+{
+  "name": "@vax/shared",
+  "version": "0.0.1",
+  "main": "src/index.ts",
+  "type": "module"
+}
+5) Backend (Express API) — full scaffold
+services/api/package.json
+{
+  "name": "@vax/api",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch src/index.ts",
+    "seed": "tsx src/db/seed.ts",
+    "prisma:generate": "prisma generate",
+    "prisma:migrate": "prisma migrate dev"
+  },
+  "dependencies": {
+    "@vax/shared": "workspace:*",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "zod": "^3.23.8",
+    "@prisma/client": "^5.18.0"
+  },
+  "devDependencies": {
+    "prisma": "^5.18.0",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.4",
+    "@types/express": "^4.17.21",
+    "@types/cors": "^2.8.17"
+  }
+}
+services/api/.env.example
+PORT=8080
+DATABASE_URL="file:./prisma/dev.db"
+CORS_ORIGINS="http://localhost:3000,http://localhost:3001"
+
+# Optional (Sarvam or any TTS/STT provider)
+SARVAM_API_KEY=""
+SARVAM_STT_URL=""
+SARVAM_TTS_URL=""
+
+# Optional LLM
+AI_API_KEY=""
+AI_CHAT_URL=""
+6) Prisma DB schema (appointments, inventory, shipments)
+services/api/prisma/schema.prisma
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model Appointment {
+  id              String   @id @default(cuid())
+  appointmentId   String   @unique
+  aadhaarId       String
+  patientName     String
+  phone           String
+  language        String
+  centerId        String
+  centerName      String
+  slotTime        DateTime
+  vaccineType     String
+  aadhaarVerified Boolean
+  status          String
+  createdAt       DateTime @default(now())
+}
+
+model Inventory {
+  id         String  @id @default(cuid())
+  centerId   String
+  vaccineType String
+  quantity   Int
+  updatedAt  DateTime @updatedAt
+
+  @@unique([centerId, vaccineType])
+}
+
+model Shipment {
+  id                  String   @id @default(cuid())
+  shipmentId           String   @unique
+  manufacturer         String
+  batchNo              String
+  vaccineType          String
+  quantity             Int
+  originName           String
+  originLat            Float
+  originLng            Float
+  destinationCenterId  String
+  status               String
+  currentLat           Float
+  currentLng           Float
+  currentCheckpoint    String
+  lastUpdateTs         DateTime @default(now())
+}
+
+model ShipmentCheckpoint {
+  id         String  @id @default(cuid())
+  shipmentId String
+  name       String
+  lat        Float
+  lng        Float
+  etaSec     Int
+
+  @@index([shipmentId])
+}
+7) Backend entry + route wiring
+services/api/src/index.ts
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+
+import aadhaarRouter from "./routes/aadhaar";
+import centersRouter from "./routes/centers";
+import appointmentsRouter from "./routes/appointments";
+import inventoryRouter from "./routes/inventory";
+import shipmentsRouter from "./routes/shipments";
+import simRouter from "./routes/sim";
+import qrRouter from "./routes/qr";
+import voiceRouter from "./routes/voice";
+import aiRouter from "./routes/ai";
+
+dotenv.config();
+
+const app = express();
+app.use(express.json({ limit: "10mb" }));
+app.use(express.urlencoded({ extended: true }));
+
+const origins = (process.env.CORS_ORIGINS ?? "").split(",").filter(Boolean);
+app.use(cors({ origin: origins.length ? origins : true }));
+
+app.get("/health", (_req, res) => res.json({ ok: true }));
+
+app.use("/api/aadhaar", aadhaarRouter);
+app.use("/api/centers", centersRouter);
+app.use("/api/appointments", appointmentsRouter);
+app.use("/api/inventory", inventoryRouter);
+app.use("/api/shipments", shipmentsRouter);
+app.use("/api/sim", simRouter);
+app.use("/api/qr", qrRouter);
+app.use("/api/voice", voiceRouter);
+app.use("/api/ai", aiRouter);
+
+const port = Number(process.env.PORT ?? 8080);
+app.listen(port, () => console.log(`API running on http://localhost:${port}`));
+8) Backend DB client
+services/api/src/db/prisma.ts
+import { PrismaClient } from "@prisma/client";
+export const prisma = new PrismaClient();
+9) Seed: Aadhaar dataset + centers + inventory + sample shipments
+services/api/src/data/aadhaar.json (example)
+[
+  { "aadhaarId": "9999-1111-2222", "name": "Ravi Patil", "dob": "2004-01-05" },
+  { "aadhaarId": "8888-2222-3333", "name": "Asha Kumari", "dob": "1998-08-19" }
+]
+services/api/src/data/centers.json (example)
+[
+  {
+    "centerId": "CEN-001",
+    "name": "PHC Andheri",
+    "lat": 19.1197,
+    "lng": 72.8464,
+    "address": "Andheri, Mumbai",
+    "openSlots": 24,
+    "vaccinesAvailable": { "Covishield": 120, "Covaxin": 55 }
+  },
+  {
+    "centerId": "CEN-002",
+    "name": "PHC Dadar",
+    "lat": 19.0176,
+    "lng": 72.8562,
+    "address": "Dadar, Mumbai",
+    "openSlots": 16,
+    "vaccinesAvailable": { "Covishield": 60, "Covaxin": 30 }
+  }
+]
+services/api/src/db/seed.ts
+import { prisma } from "./prisma";
+import centers from "../data/centers.json" assert { type: "json" };
+
+async function main() {
+  // Inventory seed (from centers)
+  for (const c of centers as any[]) {
+    for (const [vaccineType, qty] of Object.entries(c.vaccinesAvailable)) {
+      await prisma.inventory.upsert({
+        where: { centerId_vaccineType: { centerId: c.centerId, vaccineType } },
+        update: { quantity: qty as number },
+        create: { centerId: c.centerId, vaccineType, quantity: qty as number }
+      });
+    }
+  }
+
+  // Optional: seed a shipment
+  const shipmentId = "SHIP-00045";
+  const exists = await prisma.shipment.findUnique({ where: { shipmentId } });
+  if (!exists) {
+    await prisma.shipment.create({
+      data: {
+        shipmentId,
+        manufacturer: "Serum Institute",
+        batchNo: "BATCH-2026-009",
+        vaccineType: "Covishield",
+        quantity: 500,
+        originName: "Pune Plant",
+        originLat: 18.5204,
+        originLng: 73.8567,
+        destinationCenterId: "CEN-001",
+        status: "CREATED",
+        currentLat: 18.5204,
+        currentLng: 73.8567,
+        currentCheckpoint: "Pune Plant"
+      }
+    });
+
+    const cps = [
+      { name: "Pune Plant", lat: 18.5204, lng: 73.8567, etaSec: 0 },
+      { name: "Hub A", lat: 18.90, lng: 73.10, etaSec: 10 },
+      { name: "Hub B", lat: 19.05, lng: 72.90, etaSec: 20 },
+      { name: "PHC Andheri", lat: 19.1197, lng: 72.8464, etaSec: 30 }
+    ];
+
+    for (const cp of cps) {
+      await prisma.shipmentCheckpoint.create({
+        data: { shipmentId, ...cp }
+      });
+    }
+  }
+
+  console.log("Seed complete.");
+}
+
+main()
+  .catch((e) => { console.error(e); process.exit(1); })
+  .finally(async () => prisma.$disconnect());
+10) Backend Routes (FULL)
+Aadhaar verify — services/api/src/routes/aadhaar.ts
+import { Router } from "express";
+import { z } from "zod";
+import aadhaarData from "../data/aadhaar.json" assert { type: "json" };
+
+const router = Router();
+
+const Req = z.object({
+  aadhaarId: z.string().min(4),
+  name: z.string().min(2),
+  dob: z.string().regex(/^\d{4}-\d{2}-\d{2}$/)
+});
+
+router.post("/verify", (req, res) => {
+  const parsed = Req.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const { aadhaarId, name, dob } = parsed.data;
+  const record = (aadhaarData as any[]).find((r) => r.aadhaarId === aadhaarId);
+
+  if (!record) return res.json({ verified: false, reason: "NOT_FOUND" });
+
+  if (record.name.toLowerCase() !== name.toLowerCase())
+    return res.json({ verified: false, reason: "NAME_MISMATCH" });
+
+  if (record.dob !== dob) return res.json({ verified: false, reason: "DOB_MISMATCH" });
+
+  return res.json({ verified: true, reason: "MATCH" });
+});
+
+export default router;
+Centers — services/api/src/routes/centers.ts
+import { Router } from "express";
+import centers from "../data/centers.json" assert { type: "json" };
+
+const router = Router();
+
+// Simple: ignore radius filtering for hackathon; return all
+router.get("/", (_req, res) => {
+  res.json({ centers });
+});
+
+export default router;
+Appointments — services/api/src/routes/appointments.ts
+import { Router } from "express";
+import { z } from "zod";
+import { prisma } from "../db/prisma";
+import centers from "../data/centers.json" assert { type: "json" };
+
+const router = Router();
+
+const CreateReq = z.object({
+  aadhaarId: z.string(),
+  patientName: z.string(),
+  phone: z.string(),
+  language: z.string(),
+  centerId: z.string(),
+  slotTime: z.string(),
+  vaccineType: z.string(),
+  aadhaarVerified: z.boolean()
+});
+
+function makeAppointmentId() {
+  return `APT-${Math.floor(100000 + Math.random() * 900000)}`;
+}
+
+router.post("/", async (req, res) => {
+  const parsed = CreateReq.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const c = (centers as any[]).find((x) => x.centerId === parsed.data.centerId);
+  if (!c) return res.status(404).json({ error: "Center not found" });
+
+  const appointmentId = makeAppointmentId();
+  const appt = await prisma.appointment.create({
+    data: {
+      appointmentId,
+      aadhaarId: parsed.data.aadhaarId,
+      patientName: parsed.data.patientName,
+      phone: parsed.data.phone,
+      language: parsed.data.language,
+      centerId: parsed.data.centerId,
+      centerName: c.name,
+      slotTime: new Date(parsed.data.slotTime),
+      vaccineType: parsed.data.vaccineType,
+      aadhaarVerified: parsed.data.aadhaarVerified,
+      status: "BOOKED"
+    }
+  });
+
+  res.json({ appointment: appt });
+});
+
+router.get("/", async (req, res) => {
+  const centerId = req.query.centerId?.toString();
+  const date = req.query.date?.toString(); // YYYY-MM-DD
+
+  const where: any = {};
+  if (centerId) where.centerId = centerId;
+
+  if (date) {
+    const start = new Date(`${date}T00:00:00`);
+    const end = new Date(`${date}T23:59:59`);
+    where.slotTime = { gte: start, lte: end };
+  }
+
+  const list = await prisma.appointment.findMany({
+    where,
+    orderBy: { slotTime: "asc" }
+  });
+
+  res.json({ appointments: list });
+});
+
+router.patch("/:appointmentId", async (req, res) => {
+  const StatusReq = z.object({ status: z.string() });
+  const parsed = StatusReq.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const updated = await prisma.appointment.update({
+    where: { appointmentId: req.params.appointmentId },
+    data: { status: parsed.data.status }
+  });
+
+  res.json({ appointment: updated });
+});
+
+export default router;
+Inventory — services/api/src/routes/inventory.ts
+import { Router } from "express";
+import { z } from "zod";
+import { prisma } from "../db/prisma";
+
+const router = Router();
+
+router.get("/", async (req, res) => {
+  const centerId = req.query.centerId?.toString();
+  if (!centerId) return res.status(400).json({ error: "centerId required" });
+
+  const inv = await prisma.inventory.findMany({ where: { centerId } });
+  res.json({ inventory: inv });
+});
+
+const ReorderReq = z.object({
+  centerId: z.string(),
+  manufacturer: z.string(),
+  vaccineType: z.string(),
+  quantity: z.number().int().positive()
+});
+
+router.post("/reorder", async (req, res) => {
+  const parsed = ReorderReq.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const shipmentId = `SHIP-${Math.floor(10000 + Math.random() * 90000)}`;
+  const batchNo = `BATCH-${new Date().getFullYear()}-${Math.floor(100 + Math.random() * 900)}`;
+
+  await prisma.shipment.create({
+    data: {
+      shipmentId,
+      manufacturer: parsed.data.manufacturer,
+      batchNo,
+      vaccineType: parsed.data.vaccineType,
+      quantity: parsed.data.quantity,
+      originName: "Central Warehouse",
+      originLat: 19.0760,
+      originLng: 72.8777,
+      destinationCenterId: parsed.data.centerId,
+      status: "CREATED",
+      currentLat: 19.0760,
+      currentLng: 72.8777,
+      currentCheckpoint: "Central Warehouse"
+    }
+  });
+
+  // Basic checkpoints
+  const cps = [
+    { name: "Central Warehouse", lat: 19.0760, lng: 72.8777, etaSec: 0 },
+    { name: "Hub A", lat: 19.10, lng: 72.86, etaSec: 10 },
+    { name: "Hub B", lat: 19.115, lng: 72.852, etaSec: 20 },
+    { name: "Clinic", lat: 19.1197, lng: 72.8464, etaSec: 30 }
+  ];
+
+  for (const cp of cps) {
+    await prisma.shipmentCheckpoint.create({ data: { shipmentId, ...cp } });
+  }
+
+  res.json({ shipmentId, status: "CREATED" });
+});
+
+export default router;
+Shipments — services/api/src/routes/shipments.ts
+import { Router } from "express";
+import { prisma } from "../db/prisma";
+
+const router = Router();
+
+router.get("/", async (req, res) => {
+  const centerId = req.query.centerId?.toString();
+  const where: any = {};
+  if (centerId) where.destinationCenterId = centerId;
+
+  const shipments = await prisma.shipment.findMany({ where, orderBy: { lastUpdateTs: "desc" } });
+  res.json({ shipments });
+});
+
+router.get("/:shipmentId", async (req, res) => {
+  const shipmentId = req.params.shipmentId;
+  const ship = await prisma.shipment.findUnique({ where: { shipmentId } });
+  if (!ship) return res.status(404).json({ error: "Not found" });
+
+  const cps = await prisma.shipmentCheckpoint.findMany({ where: { shipmentId }, orderBy: { etaSec: "asc" } });
+  res.json({ shipment: ship, checkpoints: cps });
+});
+
+export default router;
+Simulation timer — services/api/src/routes/sim.ts
+import { Router } from "express";
+import { prisma } from "../db/prisma";
+
+const router = Router();
+const timers = new Map<string, NodeJS.Timeout>();
+
+router.post("/start", async (req, res) => {
+  const shipmentId = req.query.shipmentId?.toString();
+  if (!shipmentId) return res.status(400).json({ error: "shipmentId required" });
+
+  const ship = await prisma.shipment.findUnique({ where: { shipmentId } });
+  if (!ship) return res.status(404).json({ error: "Shipment not found" });
+
+  if (timers.has(shipmentId)) return res.json({ ok: true, message: "Already running" });
+
+  const cps = await prisma.shipmentCheckpoint.findMany({ where: { shipmentId }, orderBy: { etaSec: "asc" } });
+  let idx = 0;
+
+  await prisma.shipment.update({ where: { shipmentId }, data: { status: "IN_TRANSIT" } });
+
+  const t = setInterval(async () => {
+    idx++;
+    if (idx >= cps.length) {
+      clearInterval(t);
+      timers.delete(shipmentId);
+      await prisma.shipment.update({
+        where: { shipmentId },
+        data: {
+          status: "ARRIVED",
+          currentCheckpoint: cps[cps.length - 1].name,
+          currentLat: cps[cps.length - 1].lat,
+          currentLng: cps[cps.length - 1].lng,
+          lastUpdateTs: new Date()
+        }
+      });
+      return;
+    }
+
+    const cp = cps[idx];
+    await prisma.shipment.update({
+      where: { shipmentId },
+      data: {
+        currentCheckpoint: cp.name,
+        currentLat: cp.lat,
+        currentLng: cp.lng,
+        lastUpdateTs: new Date()
+      }
+    });
+  }, 2000);
+
+  timers.set(shipmentId, t);
+  res.json({ ok: true, message: "Simulation started" });
+});
+
+router.post("/stop", async (req, res) => {
+  const shipmentId = req.query.shipmentId?.toString();
+  if (!shipmentId) return res.status(400).json({ error: "shipmentId required" });
+
+  const t = timers.get(shipmentId);
+  if (t) { clearInterval(t); timers.delete(shipmentId); }
+  res.json({ ok: true });
+});
+
+export default router;
+QR scan stub — services/api/src/routes/qr.ts
+import { Router } from "express";
+import { z } from "zod";
+
+const router = Router();
+
+const ScanReq = z.object({ qrPayload: z.string().min(3) });
+
+router.post("/scan", (req, res) => {
+  const parsed = ScanReq.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  // Example payload: "SHIP-00045|BATCH-2026-009|sig-demo"
+  const parts = parsed.data.qrPayload.split("|");
+  const shipmentId = parts[0] ?? "UNKNOWN";
+
+  res.json({
+    ok: true,
+    shipmentId,
+    message: "Accepted (demo). Blockchain validation is handled separately."
+  });
+});
+
+export default router;
+Voice endpoints (Sarvam stub) — services/api/src/routes/voice.ts
+import { Router } from "express";
+
+const router = Router();
+
+/**
+ * For hackathon speed:
+ * - Accept audio as base64 from client
+ * - If SARVAM configured: forward request
+ * - Else return dummy transcript
+ */
+router.post("/stt", async (req, res) => {
+  const { audioBase64, language } = req.body ?? {};
+  if (!audioBase64) return res.status(400).json({ error: "audioBase64 required" });
+
+  // TODO: integrate Sarvam STT using SARVAM_API_KEY + SARVAM_STT_URL
+  // For now:
+  res.json({ text: "Nearest vaccination center", language: language ?? "en" });
+});
+
+router.post("/tts", async (req, res) => {
+  const { text, language } = req.body ?? {};
+  if (!text) return res.status(400).json({ error: "text required" });
+
+  // TODO: integrate Sarvam TTS and return audioBase64
+  res.json({ audioBase64: "", language: language ?? "en" });
+});
+
+export default router;
+Chatbot wrapper (intent engine) — services/api/src/routes/ai.ts
+import { Router } from "express";
+import { z } from "zod";
+
+const router = Router();
+
+const ChatReq = z.object({
+  message: z.string().min(1),
+  language: z.string().optional()
+});
+
+router.post("/chat", async (req, res) => {
+  const parsed = ChatReq.safeParse(req.body);
+  if (!parsed.success) return res.status(400).json({ error: parsed.error.flatten() });
+
+  const msg = parsed.data.message.toLowerCase();
+
+  // Minimal intent handling (hackathon-safe)
+  if (msg.includes("center") || msg.includes("near")) {
+    return res.json({ reply: "I can help you find the nearest vaccination center. Open Centers screen." });
+  }
+  if (msg.includes("book") || msg.includes("appointment")) {
+    return res.json({ reply: "Sure. Please verify Aadhaar and pick a center + time slot to book." });
+  }
+  if (msg.includes("document") || msg.includes("aadhaar")) {
+    return res.json({ reply: "You need Aadhaar details for verification (demo uses simulated database)." });
+  }
+
+  return res.json({ reply: "I can help with centers, booking appointments, and vaccine information." });
+});
+
+export default router;
+11) Citizen App (Rural) — full task skeleton
+apps/citizen/package.json
+{
+  "name": "@vax/citizen",
+  "private": true,
+  "scripts": { "dev": "next dev -p 3000", "build": "next build" },
+  "dependencies": {
+    "@vax/shared": "workspace:*",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
+Citizen config: apps/citizen/src/config/env.ts
+export const API_BASE = process.env.NEXT_PUBLIC_API_BASE ?? "http://localhost:8080";
+export const GOOGLE_MAPS_KEY = process.env.NEXT_PUBLIC_GOOGLE_MAPS_KEY ?? "";
+Citizen routes (minimum)
+
+/verify Aadhaar verify
+
+/centers map + list
+
+/book booking form
+
+/appointment show appointment + QR
+
+/assistant voice + chat
+
+Implementation approach (fast):
+
+Use fetch(API_BASE + ...) from client components.
+
+Store appointmentId in localStorage.
+
+12) Doctor App — full task skeleton
+apps/doctor/package.json
+{
+  "name": "@vax/doctor",
+  "private": true,
+  "scripts": { "dev": "next dev -p 3001", "build": "next build" },
+  "dependencies": {
+    "@vax/shared": "workspace:*",
+    "next": "^14.2.5",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}
+
+Doctor routes:
+
+/dashboard counts + alerts
+
+/appointments table + status actions
+
+/inventory view + reorder
+
+/shipments map route + start simulation
+
+/qr scan stub + paste input fallback
+
+Update loop: poll /api/shipments?centerId=... every 2 seconds.
+
+13) Maps implementation (both apps)
+Citizen “centers map”
+
+show markers for all centers
+
+allow selecting center → navigate to booking
+
+Doctor “shipment tracking map”
+
+display path polyline using checkpoints
+
+show current marker for shipment
+
+Hackathon shortcut: if Google Maps setup slows you down:
+
+show map placeholder + a list of centers/shipments with coordinates
+
+still counts as “map view” in demo
+
+14) QR scan function (doctor)
+
+Two-tier implementation:
+
+Fast fallback: “Paste QR payload” input box
+
+Optional: webcam scanner later (can be added with any QR lib)
+
+Backend endpoint is already ready:
+
+POST /api/qr/scan with { qrPayload }
+
+15) Parallel Development Plan (no merge chaos)
+Teammate 1 (Citizen + Voice)
+
+Owns:
+
+citizen UI routes + API calls
+
+voice endpoints usage (/api/voice/stt, /api/voice/tts)
+
+aadhaar verify flow + appointment booking
+
+Teammate 2 (Doctor + Simulation)
+
+Owns:
+
+doctor dashboard + appointments + inventory + shipments + qr
+
+simulation controls (/api/sim/start?shipmentId=...)
+
+polling updates
+
+You (Integration + blockchain demo separate)
+
+Owns:
+
+blockchain proof demo + QR changing logic separately
+
+final pitch story + cross-linking narrative
+
+16) “Run it” commands (exact)
+
+From repo root:
+
+pnpm install
+pnpm --filter @vax/api prisma:migrate
+pnpm --filter @vax/api prisma:generate
+pnpm --filter @vax/api seed
+pnpm dev
+
+Then:
+
+Citizen: http://localhost:3000
+
+Doctor: http://localhost:3001
+
+API: http://localhost:8080/health
+
+17) What your teammates should deliver (definition of done)
+Citizen
+
+✅ Aadhaar verify works (from dataset)
+✅ Centers list/map shows
+✅ Booking creates appointment in DB
+✅ “My Appointment” shows appointment + appointment QR
+
+Doctor
+
+✅ Appointments table updates and reflects new booking
+✅ Inventory page shows DB inventory and can reorder
+✅ Shipment created → simulation starts → position updates every 2 sec
+✅ QR scan page hits /api/qr/scan and shows response
+
+Final: What I need from you to tailor the last 10% perfectly
+
+Reply with these 3 items (no long explanation needed):
+
+Do you want Firebase instead of Express+SQLite? (Yes/No)
+
+Are you okay with polling (2s) for shipment updates? (Yes/No)
+
+Which languages must be supported in demo? (hi/mr/en, pick 1–3)
+
+If you answer those, I’ll give you the exact UI page code for both apps (copy-paste Next.js pages + components) so your teammates can literally start coding immediately with minimal thinking.

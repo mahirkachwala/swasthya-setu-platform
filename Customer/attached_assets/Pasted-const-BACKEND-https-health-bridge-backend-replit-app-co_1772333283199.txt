@@ -1,0 +1,191 @@
+const BACKEND = 'https://health-bridge-backend.replit.app';
+
+const SUPABASE_URL = 'https://iwvqypawztxulfjhpjyz.supabase.co';
+const SUPABASE_ANON_KEY = 'YOUR_SUPABASE_KEY';
+const supabaseClient = window.supabase 
+  ? window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY) 
+  : null;
+
+let currentUser = null;
+let currentLang = 'en';
+let selectedCenter = null;
+let centersCache = [];
+
+const LANG_LABELS = { 
+  en:'EN', hi:'HI', mr:'MR', ta:'TA', 
+  te:'TE', bn:'BN', gu:'GU', kn:'KN', pa:'PA' 
+};
+
+//////////////////////////////////////////////////
+// DATE FUNCTION (MAIN FIX)
+//////////////////////////////////////////////////
+
+function setTodayAsMinimumDate() {
+  const dateInput = document.getElementById('book-date');
+  if (!dateInput) return;
+
+  const today = new Date();
+
+  const localDate = new Date(
+    today.getTime() - today.getTimezoneOffset() * 60000
+  ).toISOString().split('T')[0];
+
+  dateInput.min = localDate;
+  dateInput.value = localDate;
+}
+
+//////////////////////////////////////////////////
+// INIT
+//////////////////////////////////////////////////
+
+function init() {
+  const saved = localStorage.getItem('vc_user');
+  if (saved) {
+    try {
+      currentUser = JSON.parse(saved);
+      showApp();
+    } catch(e) { 
+      localStorage.removeItem('vc_user'); 
+    }
+  }
+
+  const lang = localStorage.getItem('vc_lang');
+  if (lang) { 
+    currentLang = lang; 
+    updateLangBadges(); 
+  }
+
+  setTodayAsMinimumDate();
+}
+
+//////////////////////////////////////////////////
+// SELECT CENTER
+//////////////////////////////////////////////////
+
+function selectCenter(index) {
+  selectedCenter = centersCache[index];
+
+  document.querySelectorAll('.center-card')
+    .forEach(c => c.classList.remove('selected'));
+
+  document.getElementById('center-' + index)
+    .classList.add('selected');
+
+  document.getElementById('booking-step1').style.display = 'none';
+  document.getElementById('booking-step2').style.display = 'block';
+
+  // Apply date restriction again
+  setTodayAsMinimumDate();
+
+  document.getElementById('selected-center-info').innerHTML = `
+    <h4>${selectedCenter.name}</h4>
+    <p>${selectedCenter.address || 
+      `Lat: ${selectedCenter.latitude}, Lng: ${selectedCenter.longitude}`}</p>
+  `;
+}
+
+//////////////////////////////////////////////////
+// CONFIRM BOOKING
+//////////////////////////////////////////////////
+
+async function confirmBooking() {
+
+  const date = document.getElementById('book-date').value;
+  const time = document.getElementById('book-time').value;
+  const dose = document.getElementById('book-dose').value;
+  const errEl = document.getElementById('book-error');
+  errEl.textContent = '';
+
+  if (!date) {
+    errEl.textContent = 'Please select a date';
+    return;
+  }
+
+  if (!selectedCenter) {
+    errEl.textContent = 'Please select a center';
+    return;
+  }
+
+  //////////////////////////////////////////////////
+  // EXTRA SECURITY VALIDATION
+  //////////////////////////////////////////////////
+
+  const selectedDate = new Date(date);
+  const today = new Date();
+  today.setHours(0,0,0,0);
+
+  if (selectedDate < today) {
+    errEl.textContent = 'Please select today or a future date';
+    return;
+  }
+
+  const slot = `${date}T${time}:00+05:30`;
+
+  try {
+    const res = await fetch(`${BACKEND}/api/appointments`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        aadhaarId: currentUser.aadhar_no,
+        patientName: currentUser.username || currentUser.name,
+        phone: currentUser.phone || '',
+        language: currentLang,
+        centerId: selectedCenter._id || selectedCenter.centerId,
+        slotTime: slot,
+        vaccineType: 'Covishield',
+        aadhaarVerified: true
+      })
+    });
+
+    const data = await res.json();
+
+    if (data.appointment) {
+      showBookingSuccess(data.appointment);
+    } else {
+      errEl.textContent = data.error || 'Booking failed';
+    }
+
+  } catch (err) {
+    errEl.textContent = 'Connection error. Please try again.';
+  }
+}
+
+//////////////////////////////////////////////////
+// BOOKING SUCCESS
+//////////////////////////////////////////////////
+
+function showBookingSuccess(apt) {
+
+  document.getElementById('booking-step1').style.display = 'none';
+  document.getElementById('booking-step2').style.display = 'none';
+  document.getElementById('booking-success').style.display = 'block';
+
+  const slotDate = new Date(apt.slotTime || apt.slot);
+
+  document.getElementById('booking-details').innerHTML = `
+    <div class="detail">
+      <label>Appointment ID</label>
+      <span>${apt.appointmentId}</span>
+    </div>
+    <div class="detail">
+      <label>Center</label>
+      <span>${apt.centerName}</span>
+    </div>
+    <div class="detail">
+      <label>Date</label>
+      <span>${slotDate.toLocaleDateString('en-IN')}</span>
+    </div>
+    <div class="detail">
+      <label>Time</label>
+      <span>${slotDate.toLocaleTimeString('en-IN')}</span>
+    </div>
+    <div class="detail">
+      <label>Status</label>
+      <span>${apt.status}</span>
+    </div>
+  `;
+}
+
+//////////////////////////////////////////////////
+
+init();

@@ -1,0 +1,286 @@
+🧠 FULL SYSTEM ARCHITECTURE
+User (Voice or Text)
+        ↓
+Customer App (Chatbot UI)
+        ↓
+POST /api/voice/stt   (if voice)
+        ↓
+Text Message
+        ↓
+POST /api/ai/chat
+        ↓
+AI Response + Intent
+        ↓
+If intent == BOOK_APPOINTMENT
+        ↓
+POST /api/appointments
+        ↓
+Backend stores
+        ↓
+Doctor Dashboard polling
+        ↓
+Doctor updates status
+        ↓
+Customer polling reflects update
+🎯 PART 1 — CHATBOT COMPLETE FLOW
+STEP 1 — User Speaks
+
+User says:
+
+“मला उद्या अंधेरी मध्ये लस बुक करायची आहे”
+
+(Customer app records audio)
+
+STEP 2 — Speech To Text
+
+Customer app sends audio to backend:
+
+POST /api/voice/stt
+
+Body:
+
+{
+  audioBase64: "...",
+  language: "mr"
+}
+
+Backend (Sarvam) returns:
+
+{
+  text: "मला उद्या अंधेरी मध्ये लस बुक करायची आहे"
+}
+STEP 3 — Send Text To AI
+
+Customer app sends:
+
+POST /api/ai/chat
+
+Body:
+
+{
+  message: "मला उद्या अंधेरी मध्ये लस बुक करायची आहे",
+  language: "mr"
+}
+
+Backend sends to OpenAI/Ollama.
+
+AI should respond structured:
+
+{
+  reply: "मी अंधेरी केंद्रात उद्यासाठी अपॉइंटमेंट बुक करू का?",
+  intent: "BOOK_APPOINTMENT",
+  extracted: {
+     center: "Andheri",
+     date: "2026-03-02"
+  }
+}
+
+This is important:
+
+AI must return structured JSON.
+
+Not plain text.
+
+🎯 PART 2 — BOOKING VIA CHATBOT
+
+If intent == BOOK_APPOINTMENT
+
+Customer app calls:
+
+POST /api/appointments
+
+Body:
+
+{
+  name: "Ravi Patil",
+  phone: "9999999999",
+  center: "Andheri",
+  date: "2026-03-02"
+}
+
+Backend stores appointment.
+
+Returns:
+
+{
+  appointment: {
+     id: "12345",
+     status: "BOOKED"
+  }
+}
+
+Customer app shows:
+
+“आपली अपॉइंटमेंट यशस्वीपणे बुक झाली आहे”
+
+🎯 PART 3 — DOCTOR SIDE
+
+Doctor dashboard:
+
+Every 3 seconds:
+
+GET /api/appointments
+
+New booking appears automatically.
+
+🎯 PART 4 — STATUS UPDATE
+
+Doctor clicks “Vaccinated”
+
+PATCH /api/appointments/12345
+{
+   status: "VACCINATED"
+}
+
+Backend updates.
+
+Customer polling:
+
+GET /api/appointments/12345
+
+Status becomes VACCINATED.
+
+Chatbot can also announce:
+
+“आपली लसीकरण प्रक्रिया पूर्ण झाली आहे”
+
+🧠 COMPLETE API STRUCTURE
+
+Backend must have:
+
+POST /api/voice/stt
+POST /api/ai/chat
+POST /api/appointments
+GET  /api/appointments
+GET  /api/appointments/:id
+PATCH /api/appointments/:id
+🔥 BACKEND AI ROUTE (Clean Version)
+POST /api/ai/chat
+
+Backend pseudo code:
+
+Receive message
+Send to AI model
+AI returns structured JSON:
+{
+  reply,
+  intent,
+  extracted
+}
+Return to frontend
+
+Important:
+
+Always instruct AI:
+
+“Respond in JSON format:
+{
+reply: string,
+intent: string,
+extracted: object
+}”
+
+Otherwise AI will break format.
+
+🧠 FRONTEND CHATBOT LOGIC
+
+Customer script:
+
+async function handleMessage(message) {
+
+   const aiRes = await fetch("/api/ai/chat");
+
+   if(aiRes.intent === "BOOK_APPOINTMENT") {
+
+       await fetch("/api/appointments");
+
+       showMessage("Appointment booked!");
+   }
+
+   showMessage(aiRes.reply);
+}
+
+Voice version:
+
+recordAudio()
+↓
+POST /api/voice/stt
+↓
+handleMessage(transcribedText)
+🎯 MULTILINGUAL RETURN FLOW
+
+Very important:
+
+If user language is Marathi,
+AI must respond in Marathi.
+
+So when calling AI:
+
+Send:
+
+System prompt:
+"You are multilingual healthcare assistant.
+Always reply in same language as user input."
+
+No translation layer needed.
+
+🎯 FULL VOICE BOOKING FLOW DIAGRAM
+User speaks
+↓
+Mic captures audio
+↓
+POST /api/voice/stt
+↓
+Text received
+↓
+POST /api/ai/chat
+↓
+AI detects BOOK_APPOINTMENT
+↓
+POST /api/appointments
+↓
+Backend saves
+↓
+Doctor sees booking
+↓
+Customer sees confirmation
+🧠 IMPORTANT SEPARATION OF RESPONSIBILITIES
+
+Chatbot:
+• Understand user
+• Extract intent
+• Call booking API
+
+Backend:
+• Store appointment
+• Provide endpoints
+
+Doctor:
+• Read appointments
+• Update status
+
+Voice:
+• Only converts speech to text
+
+Never mix responsibilities.
+
+🚀 OPTIONAL ADVANCED FLOW (State Machine)
+
+If user says:
+
+“Book vaccine”
+
+Bot asks:
+“Which center?”
+
+User replies:
+“Andheri”
+
+Bot asks:
+“What date?”
+
+That requires temporary chat session memory.
+
+Simple version:
+
+Store extracted data in local JS variable until all fields collected.

@@ -1,0 +1,36 @@
+﻿Running Gradle task 'assembleDebug'...                          
+flutter : 
+At line:1 char:1
++ flutter build apk --debug --no-pub > build_errors_v4.txt 
+2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~
+    + CategoryInfo          : NotSpecified: (:String) [], R 
+   emoteException
+    + FullyQualifiedErrorId : NativeCommandError
+ 
+FAILURE: Build failed with an exception.
+
+* Where:
+Build file 'D:\AfterMath\immune\android\app\build.gradle' 
+line: 3
+
+* What went wrong:
+An exception occurred applying plugin request [id: 
+'kotlin-android']
+> Failed to apply plugin 'kotlin-android'.
+   > Could not create an instance of type 
+org.jetbrains.kotlin.gradle.plugin.mpp.KotlinAndroidTarget.
+      > Could not generate a decorated class for type 
+KotlinAndroidTarget.
+         > com/android/build/gradle/api/BaseVariant
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 1s
+Running Gradle task 'assembleDebug'...                           2,231ms
+Gradle task assembleDebug failed with exit code 1

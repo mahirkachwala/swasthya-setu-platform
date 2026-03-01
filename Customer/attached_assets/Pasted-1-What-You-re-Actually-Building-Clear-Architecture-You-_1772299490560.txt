@@ -1,0 +1,379 @@
+1️⃣ What You’re Actually Building (Clear Architecture)
+
+You are building 3 logical systems, but only 2 web apps right now.
+
+System A — Rural Citizen App
+
+Purpose: Voice-based simple booking system
+
+Flow:
+Speech → Text → Chat wrapper → Aadhaar verify → Map → Book appointment → Done
+
+System B — Doctor Dashboard
+
+Purpose: Professional management panel
+
+Flow:
+See appointments → Manage inventory → Track shipments → Scan QR → Done
+
+System C — Blockchain (Your Separate Demo)
+
+Completely independent.
+Only shows QR + proof concept.
+NOT integrated into the two apps.
+
+Good decision keeping it separate.
+
+2️⃣ Since You’re Using Replit — Use This Structure
+
+On Replit, don’t create complicated monorepos.
+
+Do this instead:
+
+Create 3 Repls:
+
+1️⃣ backend-api
+2️⃣ citizen-app
+3️⃣ doctor-app
+
+This avoids dependency chaos.
+
+3️⃣ Backend API (Core Brain) — FIRST Build This
+
+Everything depends on this.
+
+Repl #1: backend-api
+
+Stack:
+Node.js + Express
+SQLite (file DB)
+No Prisma needed in Replit (too heavy)
+
+Install:
+
+npm init -y
+npm install express cors uuid better-sqlite3
+
+Why SQLite file DB?
+Because Replit keeps files persistent.
+No cloud DB headache.
+Perfect for hackathon.
+
+Backend Features To Implement (In Order)
+
+Build in this exact order:
+
+Step 1 — Aadhaar Simulation
+
+Create:
+POST /api/aadhaar/verify
+
+Use simple JSON file:
+aadhaar.json
+
+Check:
+aadhaarId
+name
+dob
+
+Return verified true/false.
+
+Done.
+
+Step 2 — Centers Data
+
+Create:
+GET /api/centers
+
+Hardcode 3–5 Mumbai centers.
+
+Return:
+lat
+lng
+slots
+vaccines available
+
+Done.
+
+Step 3 — Appointment Booking
+
+POST /api/appointments
+
+Store in SQLite:
+appointmentId
+aadhaarId
+name
+centerId
+slotTime
+vaccine
+status
+
+Then:
+
+GET /api/appointments?centerId=CEN-001
+
+Doctor app will use this.
+
+Done.
+
+Step 4 — Inventory System
+
+Create:
+GET /api/inventory?centerId=
+POST /api/inventory/reorder
+
+When reorder happens:
+Create shipment record.
+
+Done.
+
+Step 5 — Shipment Simulation
+
+Create:
+
+POST /api/sim/start?shipmentId=
+
+Use setInterval() to:
+update checkpoint every 2 seconds.
+
+Doctor app polls:
+GET /api/shipments/:id
+
+That’s enough.
+No WebSockets needed in Replit.
+
+Step 6 — QR Scan Stub
+
+POST /api/qr/scan
+
+Just accept:
+qrPayload
+
+Return:
+ok true
+shipmentId parsed
+
+Done.
+
+Step 7 — Voice Stub
+
+In hackathon, do NOT integrate heavy STT models locally.
+
+Use:
+
+Browser SpeechRecognition API for speech → text
+Browser SpeechSynthesis for text → speech
+
+Much easier.
+
+So backend voice endpoints can be skipped for now.
+
+4️⃣ Citizen App (Repl #2)
+
+Stack:
+Next.js OR plain React
+
+In Replit, easiest:
+Vite + React
+
+Install:
+
+npm create vite@latest
+
+Keep it simple.
+
+Citizen App Pages (Exact Structure)
+
+Home (Big buttons)
+
+Verify Aadhaar
+
+Centers (Map)
+
+Book Appointment
+
+My Appointment
+
+Assistant (Voice + Chat)
+
+Citizen App Features
+Aadhaar Verify
+
+Form:
+aadhaarId
+name
+dob
+
+Call:
+POST backend/api/aadhaar/verify
+
+Show:
+Verified badge
+
+Find Centers
+
+Use:
+Google Maps JS SDK
+
+Show markers.
+Click marker → Book.
+
+Booking
+
+Call:
+POST /api/appointments
+
+Store appointmentId in localStorage.
+
+Voice Assistant
+
+Use:
+
+window.SpeechRecognition
+window.speechSynthesis
+
+Flow:
+
+User speaks
+Convert to text
+Simple intent matching:
+
+if text includes "center" → navigate to /centers
+if includes "book" → navigate to /book
+if includes "appointment" → navigate to /appointment
+
+Keep it simple.
+Hackathon judges don’t inspect AI deeply.
+
+5️⃣ Doctor App (Repl #3)
+
+Also React (Vite)
+
+Pages:
+
+Dashboard
+Appointments
+Inventory
+Shipments
+QR Scan
+
+Doctor Dashboard Details
+Dashboard
+
+Show:
+Today appointment count
+Low stock alert
+Shipments in transit
+
+Appointments
+
+Table:
+Name
+Time
+Aadhaar verified
+Status
+
+Buttons:
+Check-in
+Vaccinated
+
+PATCH /api/appointments/:id
+
+Inventory
+
+Show:
+Covishield: 120
+Covaxin: 50
+
+Reorder form:
+Manufacturer
+Quantity
+
+POST /api/inventory/reorder
+
+Creates shipment.
+
+Shipments Page
+
+Map
+Route line
+Current checkpoint
+Status
+
+Poll every 2 seconds:
+GET /api/shipments/:id
+
+QR Scan
+
+Simple input:
+Paste QR text
+
+Call:
+POST /api/qr/scan
+
+Show result.
+
+Webcam scanner optional.
+Not required.
+
+6️⃣ UI Design Instructions (Very Important)
+
+Citizen UI:
+
+• Large buttons
+• Minimal text
+• Language dropdown top-right
+• Medical soft blue/green
+• Big icons
+
+Doctor UI:
+
+• Clean white background
+• Sidebar navigation
+• Professional dashboard style
+• Data tables
+• Alert badges
+
+No flashy gradients.
+Medical = clean + trustworthy.
+
+7️⃣ Division of Work (Clear)
+
+Friend 1:
+Citizen App
+
+Friend 2:
+Doctor App
+
+You:
+Backend API + blockchain demo
+
+Do not mix responsibilities.
+Otherwise chaos.
+
+8️⃣ Demo Flow For Judges
+
+You show:
+
+Rural person speaks:
+“Find nearest vaccination center”
+
+App shows map.
+
+Aadhaar verification.
+
+Book appointment.
+
+Switch to doctor app.
+
+Appointment appears instantly.
+
+Doctor reorders vaccines.
+
+Shipment moves on map.
+
+QR scan demo.
+
+Then you show separate blockchain proof demo.
+
+That’s powerful storytelling.

@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>VaccineChain — Doctor Dashboard</title>
+  <link rel="stylesheet" href="/css/dashboard.css">
+</head>
+<body>
+  <nav class="navbar">
+    <div class="nav-brand">VaccineChain Dashboard</div>
+    <div class="nav-links">
+      <a href="/dashboard" class="active">Shipments</a>
+      <a href="/app">Admin</a>
+    </div>
+  </nav>
+
+  <div class="container">
+    <div class="controls">
+      <h2>Vaccine Shipments</h2>
+      <div class="control-group">
+        <button onclick="refreshShipments()" class="btn">Refresh</button>
+        <button onclick="showSimulator()" class="btn btn-secondary">Simulator</button>
+        <button onclick="showCreateForm()" class="btn btn-secondary">+ New Shipment</button>
+      </div>
+    </div>
+
+    <div id="dbWarning" class="chain-status error" style="display:none"></div>
+    <div id="chainStatus" class="chain-status"></div>
+
+    <div id="simulatorPanel" class="panel" style="display:none">
+      <h3>Simulation Control</h3>
+      <p class="muted">Run pre-built scenarios to demo the cold-chain pipeline</p>
+      <div class="sim-buttons">
+        <button onclick="runScenario('normal')" class="btn btn-success">Normal Trip</button>
+        <button onclick="runScenario('coldBreach')" class="btn btn-danger">Cold Breach</button>
+        <button onclick="runScenario('tamper')" class="btn btn-warning">Tamper + Deviation</button>
+      </div>
+      <div id="simStatus" class="muted"></div>
+    </div>
+
+    <div id="createPanel" class="panel" style="display:none">
+      <h3>Create Shipment</h3>
+      <form onsubmit="createShipment(event)">
+        <div class="form-row">
+          <input type="text" id="newShipmentId" placeholder="Shipment ID (e.g. SHIP-2026-001)" required>
+          <input type="text" id="newSource" placeholder="Source" required>
+          <input type="text" id="newDest" placeholder="Destination" required>
+        </div>
+        <div class="form-row">
+          <input type="number" id="newTempMin" placeholder="Min Temp (°C)" value="2" step="0.1">
+          <input type="number" id="newTempMax" placeholder="Max Temp (°C)" value="8" step="0.1">
+          <button type="submit" class="btn btn-success">Create</button>
+        </div>
+      </form>
+    </div>
+
+    <div id="shipmentsList"></div>
+    <div id="emptyState" class="empty-state" style="display:none">
+      <p>No shipments yet. Create one or run a simulation to get started.</p>
+    </div>
+  </div>
+
+  <script src="/js/dashboard.js"></script>
+</body>
+</html>

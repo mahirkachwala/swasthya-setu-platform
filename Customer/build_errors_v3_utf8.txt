@@ -1,0 +1,72 @@
+﻿Running Gradle task 'assembleDebug'...                          
+flutter : 
+At line:1 char:1
++ flutter build apk 
+--debug --no-pub > 
+build_errors_v3.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~
+    + CategoryInfo        
+  : NotSpecified: 
+(:String) [], R    
+emoteException
+    + 
+FullyQualifiedErrorId : 
+NativeCommandError
+ 
+FAILURE: Build failed 
+with an exception.
+
+* Where:
+Build file 'D:\AfterMath\i
+mmune\android\app\build.gr
+adle' line: 21
+
+* What went wrong:
+Could not compile build 
+file 'D:\AfterMath\immune\
+android\app\build.gradle'.
+> startup failed:
+  build file 'D:\AfterMath
+\immune\android\app\build.
+gradle': 21: only 
+buildscript {}, 
+pluginManagement {} and 
+other plugins {} script 
+blocks are allowed before 
+plugins {} blocks, no 
+other statements are 
+allowed
+
+  For more information on 
+the plugins {} block, 
+please refer to https://do
+cs.gradle.org/8.5/userguid
+e/plugins.html#sec:plugins
+_block in the Gradle 
+documentation.
+
+   @ line 21, column 1.
+     plugins {
+     ^
+
+  1 error
+
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to get 
+full insights.
+> Get more help at 
+https://help.gradle.org.
+
+BUILD FAILED in 1s
+Running Gradle task 'assembleDebug'...                           2,686ms
+Gradle task assembleDebug 
+failed with exit code 1

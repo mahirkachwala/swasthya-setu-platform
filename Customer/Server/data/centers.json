@@ -1,0 +1,56 @@
+[
+  {
+    "centerId": "CEN-001",
+    "name": "PHC Andheri",
+    "lat": 19.1197,
+    "lng": 72.8464,
+    "address": "SV Road, Andheri West, Mumbai 400058",
+    "openSlots": 24,
+    "vaccinesAvailable": { "Covishield": 120, "Covaxin": 55 }
+  },
+  {
+    "centerId": "CEN-002",
+    "name": "PHC Dadar",
+    "lat": 19.0176,
+    "lng": 72.8562,
+    "address": "Senapati Bapat Marg, Dadar, Mumbai 400028",
+    "openSlots": 16,
+    "vaccinesAvailable": { "Covishield": 60, "Covaxin": 30 }
+  },
+  {
+    "centerId": "CEN-003",
+    "name": "District Hospital Thane",
+    "lat": 19.1860,
+    "lng": 72.9741,
+    "address": "Civil Hospital Road, Thane West 400601",
+    "openSlots": 32,
+    "vaccinesAvailable": { "Covishield": 200, "Covaxin": 80, "Corbevax": 40 }
+  },
+  {
+    "centerId": "CEN-004",
+    "name": "Rural Health Center Palghar",
+    "lat": 19.6940,
+    "lng": 72.7654,
+    "address": "Station Road, Palghar 401404",
+    "openSlots": 10,
+    "vaccinesAvailable": { "Covishield": 45, "Covaxin": 20 }
+  },
+  {
+    "centerId": "CEN-005",
+    "name": "PHC Borivali",
+    "lat": 19.2307,
+    "lng": 72.8567,
+    "address": "LT Road, Borivali West, Mumbai 400092",
+    "openSlots": 20,
+    "vaccinesAvailable": { "Covishield": 90, "Covaxin": 45 }
+  },
+  {
+    "centerId": "CEN-006",
+    "name": "Community Health Center Vasai",
+    "lat": 19.3919,
+    "lng": 72.8397,
+    "address": "Ambadi Road, Vasai West 401202",
+    "openSlots": 14,
+    "vaccinesAvailable": { "Covishield": 70, "Covaxin": 35, "Corbevax": 25 }
+  }
+]

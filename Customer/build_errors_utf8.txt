@@ -1,0 +1,77 @@
+﻿Running Gradle task 'assembleDebug'...                          
+flutter : 
+At line:1 char:1
++ flutter build apk 
+--debug --no-pub > 
+build_errors.txt 2>&1
++ ~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~
+    + CategoryInfo        
+      : NotSpecified: (:  
+  String) [], RemoteExc   
+ eption
+    + FullyQualifiedError 
+   Id : NativeCommandErr  
+  or
+ 
+FAILURE: Build failed 
+with an exception.
+
+* Where:
+Settings file 'D:\AfterMat
+h\immune\android\settings.
+gradle' line: 11
+
+* What went wrong:
+A problem occurred 
+evaluating settings 
+'android'.
+> Could not open dsl 
+generic class cache for 
+script 'D:\AfterMath\flutt
+er\packages\flutter_tools\
+gradle\app_plugin_loader.g
+radle' (C:\Users\Mahir Kac
+hwala\.gradle\caches\7.6\s
+cripts\7qf0rh450hh0t9bvgc3
+jhub2g).
+   > BUG! exception in 
+phase 'semantic analysis' 
+in source unit 
+'_BuildScript_' 
+Unsupported class file 
+major version 65
+
+* Try:
+> Run with --stacktrace 
+option to get the stack 
+trace.
+> Run with --info or 
+--debug option to get 
+more log output.
+> Run with --scan to get 
+full insights.
+
+* Get more help at 
+https://help.gradle.org
+
+BUILD FAILED in 996ms
+Running Gradle task 'assembleDebug'...                           1,741ms
+
+ΓöîΓöÇ Flutter Fix ΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÉ
+Γöé [!] Your project's Gradle version is incompatible with the Java version that Flutter is using   Γöé
+Γöé for Gradle.                                                                                     Γöé
+Γöé                                                                                                 Γöé
+Γöé To fix this issue, first, check the Java version used by Flutter by running `flutter doctor     Γöé
+Γöé --verbose`.                                                                                     Γöé
+Γöé                                                                                                 Γöé
+Γöé Then, update the Gradle version specified in                                                    Γöé
+Γöé D:\AfterMath\immune\android\gradle\wrapper\gradle-wrapper.properties to be compatible with that Γöé
+Γöé Java version. See the link below for more information on compatible Java/Gradle versions:       Γöé
+Γöé https://docs.gradle.org/current/userguide/compatibility.html#java                               Γöé
+Γöé                                                                                                 Γöé
+Γöé                                                                                                 Γöé
+ΓööΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÇΓöÿ
+Gradle task assembleDebug 
+failed with exit code 1

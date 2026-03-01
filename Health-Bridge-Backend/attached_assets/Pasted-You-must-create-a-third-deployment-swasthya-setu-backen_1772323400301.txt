@@ -1,0 +1,114 @@
+You must create a third deployment:
+
+swasthya-setu-backend.replit.app
+
+Both customer and doctor will call THIS backend.
+
+Not each other.
+
+🧠 FINAL ARCHITECTURE
+Customer App
+      ↓
+POST /api/appointments
+      ↓
+Backend
+      ↓
+Doctor App polls GET /api/appointments
+      ↓
+Doctor PATCH status
+      ↓
+Backend updates
+      ↓
+Customer polls GET /api/appointments/:id
+
+No direct app-to-app communication.
+
+🚀 STEP 1 — CREATE BACKEND REPLIT
+
+Create new Node.js Replit project.
+
+Install:
+
+npm install express cors
+🧩 BACKEND CODE (COPY EXACTLY)
+
+Create index.js:
+
+const express = require("express");
+const cors = require("cors");
+
+const app = express();
+
+app.use(cors({
+  origin: [
+    "https://swasthya-setu-customer.replit.app",
+    "https://swasthya-setu-doctor.replit.app"
+  ]
+}));
+
+app.use(express.json());
+
+let appointments = [];
+
+/* =========================
+   CREATE APPOINTMENT
+========================= */
+app.post("/api/appointments", (req, res) => {
+
+  const appointment = {
+    id: Date.now().toString(),
+    name: req.body.name,
+    phone: req.body.phone,
+    center: req.body.center,
+    date: req.body.date,
+    status: "BOOKED",
+    createdAt: new Date()
+  };
+
+  appointments.push(appointment);
+
+  res.json({ success: true, appointment });
+});
+
+/* =========================
+   GET ALL (Doctor)
+========================= */
+app.get("/api/appointments", (req, res) => {
+  res.json({ appointments });
+});
+
+/* =========================
+   GET ONE (Customer)
+========================= */
+app.get("/api/appointments/:id", (req, res) => {
+  const appt = appointments.find(a => a.id === req.params.id);
+  res.json({ appointment: appt });
+});
+
+/* =========================
+   UPDATE STATUS (Doctor)
+========================= */
+app.patch("/api/appointments/:id", (req, res) => {
+
+  const appt = appointments.find(a => a.id === req.params.id);
+
+  if (!appt) {
+    return res.status(404).json({ error: "Not found" });
+  }
+
+  appt.status = req.body.status;
+
+  res.json({ success: true, appointment: appt });
+});
+
+const PORT = process.env.PORT || 5000;
+
+app.listen(PORT, "0.0.0.0", () => {
+  console.log("Backend running on port", PORT);
+});
+
+Deploy it.
+
+Suppose backend URL becomes:
+
+https://swasthya-setu-backend.replit.app

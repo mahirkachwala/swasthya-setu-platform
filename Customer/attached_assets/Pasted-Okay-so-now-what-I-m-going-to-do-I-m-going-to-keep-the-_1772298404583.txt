@@ -1,0 +1,448 @@
+Okay, so now what I'm going to do, I'm going to keep the blockchain testing and the blockchain aspect of it with the actual QR code testing and everything separate because I'm already developing it and I'm integrating it. I don't want to actually integrate it with the web websites and I'm going to give these two building these two websites tasks to my friends. Okay, the first website is the rural person website again. Over here, what back-end functionalities I want. First of all, I want that speech to text, text to speech model slash cloud API, whatever is suitable. So you can use Servom or any pre-trained model for that. Okay. Secondly, I wanted a chatbot type wrapper so that he can easily communicate with multilingual settings option so that he can easily utilize that app. Thirdly, I want Aadhaar verification. So we can use a simulated data set to showcase Aadhaar verification on that rural person app. And fourthly, it should be connected to my doctor app for like it should be connected when I book the appointment, it should directly connect and show that appointment on the doctor app. And fifth, it should also have Google Maps navigation to show me the nearest vaccination centers near me on map on a map type format so that I can choose where to book an appointment. These are the five features I want. Now, on the doctor website, on the doctor website, firstly again, it should be interconnected with the rural person app to identify any appointment that is coming in to post API maybe. Secondly, over here, everything is only going to be on display to show like what are the current vaccines that are available, is the user that has booked his appointment, is he Aadhaar verified or something like that. And besides that, what are the vaccines that are available? Do I need to book any more or order any more vaccines? If I'm placing an order, so which manufacturer I'm placing it from. The vaccines are now left from the manufacturing this and when they pass a particular geofence location, it will show now the vaccines are reached here, vaccines are reached here on a map type format. It will show that path, okay. Like it should just, it will just simulate it. There is no actual blockchain functionality over here. The blockchain will be only shown on a demo format, which I'm doing separately. Okay. Only the appointment receiving section, like the management section of it, which patients are coming in, how many vaccines are there, is the capacity maxing out, which vaccines are coming in now, and on that app, I need a scan QR code function that will then scan the QR code after the vials come in, thus it will then scan the QR code, which I'm working on in the demo, so that it will fix it out. So I want to give my friends complete and clear instructions for this, so they can develop both of these apps, and I'm going to share it with them. The blockchain part of it is completely separate. They should be built in a very clean and usable UI. The rural app should be simple, because it is for underprivileged and maybe less intellectual individuals, and the doctor one should be very detailed and should be like a professional type of UI. Both should be in medical standards and look appropriate for medical personnel.
+
+Below is a copy-paste ready, developer-grade task brief you can send to your two teammates. It is structured so they can build in parallel, with clean module boundaries, clear APIs, and demo-friendly simulation (no blockchain integration required in their scope).
+
+A. System Boundary & High-Level Architecture
+A1) What YOU are building (out of their scope)
+
+Blockchain anchoring + smart contract write logic
+
+QR “changes when new data posted” demo logic
+
+Any on-chain verification
+
+They must treat your blockchain demo as an external service later.
+
+A2) What THEY are building (in scope)
+
+Two web apps + a shared backend:
+
+Rural User App (Citizen Portal)
+
+Multilingual voice-first assistant
+
+Aadhaar (simulated) verification
+
+Appointment booking + map-based center selection
+
+Sends booking to backend → shows on doctor app
+
+Doctor App (Clinic Dashboard)
+
+Appointment management + Aadhaar status
+
+Vaccine stock dashboard + reorder simulation
+
+Shipment tracking simulation on map (geofence checkpoints)
+
+QR scan UI component (can be stubbed/mocked)
+
+Shared Backend API (single service)
+
+Auth (basic)
+
+Aadhaar simulation lookup
+
+Appointment DB
+
+Vaccination center catalog
+
+Shipment simulation + events stream
+
+B. Tech Stack (to keep it hackathon-fast)
+Recommended (fastest to deliver)
+
+Frontend (both apps): Next.js (React) + TailwindCSS
+
+Backend: Node.js (Express)
+
+DB: SQLite (local file) via Prisma OR simple JSON store if ultra-fast
+
+Maps: Google Maps JS SDK (or Mapbox if easier)
+
+Voice: Sarvam AI (preferred) for Indian languages
+
+Alternative fallback: browser Web Speech API (limited Hindi/Marathi quality)
+
+Chat wrapper: LLM call optional
+
+For hackathon: can be rule-based intent engine + templated responses
+
+If LLM: call Sarvam/other model behind /ai/chat endpoint
+
+Goal: Working demo > perfect architecture.
+
+C. Shared Data Contracts (non-negotiable)
+C1) Appointment Object
+{
+  "appointmentId": "APT-000123",
+  "aadhaarId": "XXXX-XXXX-1234",
+  "patientName": "Ravi Patil",
+  "phone": "+91xxxxxxxxxx",
+  "language": "mr",
+  "centerId": "CEN-001",
+  "centerName": "PHC Andheri",
+  "slotTime": "2026-02-28T15:30:00+05:30",
+  "vaccineType": "Covishield",
+  "aadhaarVerified": true,
+  "status": "BOOKED",
+  "createdAt": "..."
+}
+C2) Vaccination Center Object
+{
+  "centerId": "CEN-001",
+  "name": "PHC Andheri",
+  "lat": 19.1197,
+  "lng": 72.8464,
+  "address": "...",
+  "openSlots": 24,
+  "vaccinesAvailable": {
+    "Covishield": 120,
+    "Covaxin": 55
+  }
+}
+C3) Shipment / Vaccine Batch Object (simulation)
+{
+  "shipmentId": "SHIP-00045",
+  "manufacturer": "Serum Institute",
+  "batchNo": "BATCH-2026-009",
+  "vaccineType": "Covishield",
+  "quantity": 500,
+  "origin": { "name": "Pune Plant", "lat": 18.5204, "lng": 73.8567 },
+  "destinationCenterId": "CEN-001",
+  "status": "IN_TRANSIT",
+  "current": { "lat": 19.02, "lng": 72.83, "checkpoint": "Warehouse-2" },
+  "checkpoints": [
+    { "name": "Pune", "lat": 18.5204, "lng": 73.8567, "etaSec": 0 },
+    { "name": "Hub A", "lat": 18.90, "lng": 73.10, "etaSec": 10 },
+    { "name": "Hub B", "lat": 19.05, "lng": 72.90, "etaSec": 20 },
+    { "name": "PHC Andheri", "lat": 19.1197, "lng": 72.8464, "etaSec": 30 }
+  ],
+  "lastUpdateTs": "..."
+}
+D. Backend API Spec (what both apps depend on)
+D1) Aadhaar Simulation
+POST /api/aadhaar/verify
+
+Input:
+
+{ "aadhaarId": "XXXX-XXXX-1234", "name": "Ravi Patil", "dob": "2004-01-05" }
+
+Output:
+
+{ "verified": true, "reason": "MATCH" }
+
+Implementation: a JSON/CSV dataset with 50–200 synthetic records. Verify = match on aadhaarId + name + dob.
+
+D2) Centers (Map)
+GET /api/centers?lat=..&lng=..&radiusKm=..
+
+Output: list of centers + slots + vaccine stock.
+
+D3) Appointment Booking
+POST /api/appointments
+
+Creates appointment.
+
+GET /api/appointments?centerId=CEN-001&date=YYYY-MM-DD
+
+Doctor uses this.
+
+PATCH /api/appointments/:id
+
+Update status: CHECKED_IN | VACCINATED | CANCELLED.
+
+D4) Inventory (Doctor)
+GET /api/inventory?centerId=CEN-001
+POST /api/inventory/reorder
+
+Input:
+
+{ "centerId":"CEN-001", "manufacturer":"Serum Institute", "vaccineType":"Covishield", "quantity":500 }
+
+Output:
+
+{ "shipmentId":"SHIP-00045", "status":"CREATED" }
+D5) Shipment Simulation + Tracking
+GET /api/shipments?centerId=CEN-001
+GET /api/shipments/:shipmentId
+POST /api/sim/start?shipmentId=SHIP-00045
+
+Starts a timer-based simulation: every 2 seconds move to next checkpoint.
+
+GET /api/events/stream (optional)
+
+SSE/WebSocket for live updates; otherwise polling every 2–3s.
+
+D6) QR Scan Hook (stub)
+POST /api/qr/scan
+
+Input:
+
+{ "qrPayload":"SHIP-00045|BATCH-2026-009|sig-demo" }
+
+Output:
+
+{ "ok": true, "shipmentId":"SHIP-00045", "message":"Accepted (demo). Blockchain validation handled separately." }
+E. Rural User App: Exact Deliverables
+E1) UI pages
+
+Home
+
+“Talk / Type” assistant
+
+language selector (English/Hindi/Marathi)
+
+Aadhaar Verification
+
+AadhaarId + Name + DOB
+
+shows verified / not verified
+
+Find Centers
+
+map + list view
+
+“Nearest centers” + vaccine availability
+
+Book Appointment
+
+choose center + time slot + vaccine type
+
+confirm booking
+
+My Appointment
+
+appointment details + QR code (appointment QR, not vial QR)
+
+shows Aadhaar verified badge
+
+E2) Voice + Multilingual logic
+
+UI supports voice input button:
+
+record audio → backend /api/voice/stt (or Sarvam direct) → text
+
+response:
+
+text answer + optionally TTS playback
+
+Suggested intent set (simple)
+
+“Find centers near me”
+
+“Book appointment”
+
+“Check my appointment”
+
+“What documents needed”
+
+“Vaccine info / side effects” (static safe info)
+
+Rule-based intent is acceptable for hackathon speed; LLM optional.
+
+F. Doctor App: Exact Deliverables
+F1) Screens
+
+Dashboard
+
+today appointments count
+
+walk-ins capacity vs slots
+
+vaccine stock summary
+
+alerts: low stock, shipments arriving
+
+Appointments
+
+table: patient, time, aadhaar status, vaccine type, status
+
+actions: check-in / mark vaccinated / cancel
+
+Inventory
+
+stock by vaccine type
+
+reorder form (manufacturer + qty)
+
+Shipment Tracking
+
+map route with checkpoints
+
+list of shipments + status
+
+live position updates (polling ok)
+
+QR Scan
+
+UI component:
+
+“Scan vial QR” (webcam)
+
+if webcam hard: provide “Paste QR text” input as fallback
+
+calls /api/qr/scan
+
+F2) Visual standards
+
+professional clinic UI
+
+minimal clutter, clear colors, badges
+
+emphasis on safety: “verified”, “pending”, “expired shipment”
+
+G. Simulation Logic (for Doctor Tracking)
+G1) What simulation must demonstrate
+
+A shipment “moves” from origin → hubs → destination on a timeline
+
+When it crosses checkpoints, doctor UI updates:
+
+“Reached Hub A”
+
+“Reached Hub B”
+
+“Arrived at PHC”
+
+G2) How to implement quickly
+
+Use shipment checkpoints with etaSec
+
+Backend timer updates current every 2 seconds
+
+Doctor UI polls /api/shipments/:id
+
+No blockchain here. Just deterministic updates.
+
+H. Parallel Work Split (Two Teammates)
+Teammate 1 — Rural App + Voice
+
+Owns:
+
+Rural UI
+
+/api/aadhaar/verify
+
+/api/centers
+
+/api/appointments (POST)
+
+Voice integration endpoints (STT/TTS)
+
+Success condition:
+
+user can speak/type → book appointment → see confirmation
+
+Teammate 2 — Doctor App + Simulation
+
+Owns:
+
+Doctor UI
+
+/api/appointments (GET/PATCH)
+
+/api/inventory
+
+/api/inventory/reorder
+
+/api/shipments
+
+/api/sim/start
+
+/api/qr/scan (stub)
+
+Success condition:
+
+doctor sees incoming appointments + inventory + shipments moving
+
+I. Non-Functional Requirements (Hackathon Critical)
+Must
+
+Works on localhost with minimal setup
+
+Clean UI
+
+No hard dependency on blockchain
+
+API contracts stable
+
+Nice-to-have
+
+WebSocket/SSE live updates
+
+Authentication (simple role-based login)
+
+Offline-ready “lite mode” for rural UI
+
+J. What you should send them (copy/paste message)
+
+Send this exact message to both teammates:
+
+We are building two web apps (Citizen + Doctor) with a shared backend. Blockchain is NOT in your scope. You must implement the APIs and UI modules per spec, using Next.js + Tailwind and Node/Express backend. Citizen app: voice-first multilingual assistant (STT/TTS via Sarvam or fallback), Aadhaar simulation verification, map-based center selection, appointment booking that appears on doctor dashboard. Doctor app: appointment management, inventory + reorder simulation, shipment route simulation on map, and a QR scan UI that calls a stub endpoint. Follow the JSON contracts and endpoints exactly.
+
+K. Next Step: I can generate a repo skeleton for them
+
+If you want maximum speed, tell me:
+
+whether they’ll use Next.js + Express (recommended)
+
+or Firebase (faster for auth + realtime)
+
+and whether you want SSE vs polling for shipment updates
+
+Then I’ll give you:
+
+folder structure
+
+exact API route files
+
+DB schema (Prisma)
+
+minimal UI component templates for both apps
+
+Yes, give me everything, everything about it.
+
+Alright — here’s the complete, end-to-end, build-ready blueprint for your teammates: monorepo structure, full API contracts, database schema, seed data, backend code, both Next.js apps skeleton, maps integration points, STT/TTS + chatbot wrapper stubs, Aadhaar simulation, appointment sync, shipment simulator, QR scan module.
+
+Everything below is designed so two teammates can build in parallel with minimal merging friction.
+
+0) One-line architecture
+
+Monorepo with:
+
+apps/citizen (Rural User UI)
+
+apps/doctor (Doctor Dashboard UI)
+
+services/api (Express backend + SQLite via Prisma)
+
+packages/shared (shared types + constants)
+
+1) Repo structure (copy exactly)
+vaxchain/
+  apps/
+    citizen/
+      src/
+        app/
+          page.tsx
+          layout.tsx
+          globals.css
+          (routes)/
+            onboarding/
+            verify/
+            centers/
+            book/
+            appointment/
+            assistant/
+        components/
+        lib/
+        config/
+      next.config.js
+      package.json
+
+    doctor/
+      src/
+        app/
+          page.tsx
+          layout.tsx

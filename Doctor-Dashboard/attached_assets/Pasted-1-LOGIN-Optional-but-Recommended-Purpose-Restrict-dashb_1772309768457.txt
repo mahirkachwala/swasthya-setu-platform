@@ -1,0 +1,289 @@
+1️⃣ LOGIN (Optional but Recommended)
+Purpose
+
+Restrict dashboard access to clinic staff.
+
+UI
+
+Email
+
+Password
+
+“Login” button
+
+Backend
+
+Can be simple hardcoded login for hackathon:
+
+doctor@clinic.com
+password123
+
+Or basic role-based login later.
+
+2️⃣ MAIN DASHBOARD (Overview Screen)
+
+This is the homepage after login.
+
+Purpose
+
+Give doctor an instant snapshot of:
+
+Today's appointment count
+
+Total vaccines available
+
+Incoming shipments
+
+Capacity utilization
+
+Alerts
+
+UI Layout
+
+Top section: KPI cards
+
+Metric	Meaning
+Today’s Appointments	Total booked today
+Checked-in Patients	Status = CHECKED_IN
+Vaccinated	Status = VACCINATED
+Available Stock	Total vaccine units
+Incoming Shipments	Status = CREATED or IN_TRANSIT
+API Used
+Get today’s appointments
+GET /api/appointments?centerId=CEN-001&date=YYYY-MM-DD
+Get inventory
+GET /api/inventory?centerId=CEN-001
+Get shipments
+GET /api/shipments?centerId=CEN-001
+Behind the Scenes
+
+Doctor dashboard calculates:
+
+Capacity Used = total appointments / openSlots
+Low Stock Alert = any vaccine < 20 units
+Shipment Arriving Alert = shipment.status == ARRIVED
+3️⃣ APPOINTMENTS MANAGEMENT PAGE
+Purpose
+
+This is where the doctor sees incoming patients.
+
+This page must feel like a hospital queue system.
+
+UI Table Columns
+Column	Description
+Appointment ID	APT-XXXXXX
+Patient Name	Name
+Aadhaar Verified	Badge (Green/Red)
+Slot Time	Date + Time
+Vaccine Type	Covishield/Covaxin
+Status	BOOKED / CHECKED_IN / VACCINATED
+Actions	Buttons
+Actions Required
+1. Check-In
+
+PATCH request:
+
+PATCH /api/appointments/APT-XXXX
+{ "status": "CHECKED_IN" }
+2. Mark Vaccinated
+
+PATCH:
+
+{ "status": "VACCINATED" }
+3. Cancel
+
+PATCH:
+
+{ "status": "CANCELLED" }
+Why This Matters
+
+This simulates:
+
+Real-time clinic queue
+
+Dose tracking
+
+Who received vaccine
+
+Who still waiting
+
+4️⃣ INVENTORY MANAGEMENT
+Purpose
+
+Track vaccine stock levels.
+
+Doctor must know:
+
+Which vaccines are available
+
+How many doses left
+
+Whether to reorder
+
+UI Layout
+
+Table format:
+
+Vaccine Type	Quantity	Status
+Covishield	120	OK
+Covaxin	15	Low Stock
+Logic
+
+If quantity < 20 → show red badge “LOW STOCK”
+
+Reorder Section
+
+Doctor selects:
+
+Manufacturer
+
+Vaccine Type
+
+Quantity
+
+POST request:
+
+POST /api/inventory/reorder
+{
+  centerId: "CEN-001",
+  manufacturer: "Serum Institute",
+  vaccineType: "Covishield",
+  quantity: 500
+}
+
+Response:
+
+{
+  shipmentId: "SHIP-12345",
+  status: "CREATED"
+}
+
+This automatically creates a shipment record.
+
+5️⃣ SHIPMENT TRACKING PAGE
+
+This is the most visually impressive part.
+
+Purpose
+
+Simulate vaccine transport from manufacturer to clinic.
+
+UI Sections
+1. Shipment List
+Shipment ID	Vaccine	Qty	Status	Action
+SHIP-12345	Covishield	500	CREATED	Start
+2. Map View
+
+Show origin
+
+Show checkpoints
+
+Show current position marker
+
+Draw polyline path
+
+API Calls
+Fetch shipment list
+GET /api/shipments?centerId=CEN-001
+Fetch shipment detail
+GET /api/shipments/SHIP-12345
+Start simulation
+POST /api/sim/start?shipmentId=SHIP-12345
+What Happens When Simulation Starts
+
+Backend timer:
+
+Every 2 seconds:
+
+Move to next checkpoint
+
+Update currentLat
+
+Update currentLng
+
+Update currentCheckpoint
+
+Doctor UI polls every 2 seconds:
+
+GET /api/shipments/SHIP-12345
+
+When final checkpoint reached:
+status = ARRIVED
+
+When ARRIVED
+
+Dashboard should show:
+
+🟢 Shipment Arrived
+🔔 Inventory ready for scanning
+
+6️⃣ QR SCAN PAGE
+Purpose
+
+Simulate scanning incoming vaccine vials.
+
+Important:
+This does NOT validate blockchain.
+It only sends payload to backend stub.
+
+UI
+
+Option A (fastest):
+Input box:
+
+Paste QR payload here
+
+Example payload:
+
+SHIP-12345|BATCH-2026-009|sig-demo
+
+Button: Scan
+
+API
+POST /api/qr/scan
+{
+  "qrPayload": "SHIP-12345|BATCH-2026-009|sig-demo"
+}
+
+Response:
+
+{
+  ok: true,
+  shipmentId: "SHIP-12345",
+  message: "Accepted (demo). Blockchain validation handled separately."
+}
+Future Ready
+
+Later you connect:
+
+Real QR scanner
+
+Your blockchain verification engine
+
+Right now it’s stubbed.
+
+7️⃣ REAL-TIME LOGIC FLOW (Full Cycle)
+
+Citizen books appointment
+⬇
+Appointment stored in DB
+⬇
+Doctor dashboard shows new entry
+⬇
+Doctor checks-in patient
+⬇
+Marks vaccinated
+⬇
+Inventory reduces (optional future logic)
+⬇
+Doctor reorders stock
+⬇
+Shipment created
+⬇
+Simulation moves shipment
+⬇
+Shipment arrives
+⬇
+Doctor scans QR
+⬇
+Blockchain demo handles validation (your separate system)

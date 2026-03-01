@@ -1,0 +1,97 @@
+Step 2 — Create 2 MongoDB models
+
+Model A: Telemetry
+Fields:
+
+device_id, shipment_id
+
+ts
+
+temp_c, humidity
+
+lat, lng
+
+tamper_lid_open, shock_flag
+
+derived flags: cold_chain_violation, route_violation, tamper_violation
+
+Model B: AuditLog (hash-chained)
+Fields:
+
+ts, event_type, payload_json
+
+prev_hash
+
+hash = SHA256(prev_hash + payload_json + ts)
+
+This gives you “blockchain behavior” (tamper-evident history) without a blockchain dependency, which matches the repo reality (no chain libs).
+
+Step 3 — Build a Synthetic Device Simulator Script (Python or Node)
+
+This script will “act like” your ESP32 + sensors:
+
+What it should simulate (realistic, judge-proof)
+
+Cold chain temperature: stable 4–6°C, then an excursion spike (e.g., 12°C for 5 mins), then recover.
+
+GPS route: a list of lat/lng points interpolated every 2 seconds.
+
+Tamper events: lid_open for 20 seconds, or shock_flag once.
+
+Data packet format (example)
+{
+  "device_id": "VCBOX-01",
+  "shipment_id": "SHIP-2026-001",
+  "ts": "2026-02-28T12:01:05Z",
+  "temp_c": 5.3,
+  "humidity": 61.2,
+  "lat": 19.0760,
+  "lng": 72.8777,
+  "lid_open": false,
+  "shock": 0
+}
+
+Your simulator just POSTs this to:
+
+http://localhost:8000/iot/telemetry
+
+Step 4 — Alert logic (keep it brutally simple)
+
+Rules:
+
+Cold chain violation if temp_c < 2 || temp_c > 8
+
+Tamper if lid_open == true || shock == 1
+
+Geofence violation if distance from route corridor > threshold (you can do a simplified version: “outside bounding box” for hackathon)
+
+Every time a violation happens:
+
+store telemetry
+
+append an audit log entry
+
+4) How to present it in the pitch deck (so it doesn’t feel “fake”)
+
+Use this framing:
+
+“What works today (MVP)”
+
+Booking + Aadhaar-like OTP verification backend exists
+
+Chatbot integration via Dialogflow webhook exists
+
+Cold-chain + GPS + tamper pipeline demonstrated using synthetic telemetry identical to hardware payloads (your added module)
+
+“What becomes hardware later”
+
+ESP32 device posts the exact same JSON payload to /iot/telemetry
+
+DS18B20 / GPS / reed-switch just replace the simulator
+
+This makes your MVP feel like system engineering, not excuses.
+
+5) Important “gotcha” you should fix if you fork this repo
+
+The repo currently includes a hardcoded MongoDB Atlas URI (credentials inside code) in the route file. That’s risky and unprofessional for a public hackathon submission.
+Move it to .env and use process.env.MONGO_URI.
