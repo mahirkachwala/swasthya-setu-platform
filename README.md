@@ -587,13 +587,37 @@ Audio Response
 
 <div align="center">
 
-| Citizen App | Doctor Dashboard | IoT Dashboard |
-|-------------|------------------|---------------|
-| ![Citizen](assets/screenshots/citizen.png) | ![Doctor](assets/screenshots/doctor.png) | ![IoT](assets/screenshots/iot.png) |
+### Citizen App - Home & Records
+<img src="assets/screenshots/citizen-home.png" alt="Citizen Home" width="250"/>
 
-| QR Verification | AI Chatbot | Blockchain Proof |
-|-----------------|------------|------------------|
-| ![QR](assets/screenshots/qr.png) | ![Chat](assets/screenshots/chat.png) | ![Chain](assets/screenshots/chain.png) |
+*Home screen with vaccination records, nearby centers, and ABHA verification status*
+
+### User Profile
+<img src="assets/screenshots/profile.png" alt="Profile" width="250"/>
+
+*User profile with settings, family management, and app preferences*
+
+### ABHA Health ID Creation
+<img src="assets/screenshots/abha-card.png" alt="ABHA Card" width="250"/>
+
+*Aadhaar-based ABHA Health ID generation with verified digital card*
+
+### Multilingual AI Chatbot
+<img src="assets/screenshots/ai-chatbot.png" alt="AI Chatbot" width="250"/>
+
+*Voice-enabled AI assistant supporting Hindi, Marathi, and 10+ Indian languages*
+
+</div>
+
+---
+
+## 🏆 Hackathon
+
+<div align="center">
+
+### 🎯 ACM AfterMath Hackathon 2026
+
+This project was built during the **ACM AfterMath Hackathon 2026**, demonstrating innovative solutions for healthcare challenges in rural India.
 
 </div>
 
@@ -601,12 +625,18 @@ Audio Response
 
 ## 👥 Team
 
-**Team: Bhartiya Java Party** - AfterMath 2026
+<div align="center">
+
+### **Team: Bhartiya Java Party** 🇮🇳
+
+</div>
 
 | Member | Role |
 |--------|------|
-| Mahir Kachwala | Full Stack Developer |
-| Team Members | Contributors |
+| **Mahir Kachwala** | Full Stack Developer & Team Lead |
+| **Arnav Kadhe** | Backend Developer |
+| **Atharv Kanase** | Frontend Developer |
+| **Vedant Hande** | Blockchain & IoT Developer |
 
 ---
 
