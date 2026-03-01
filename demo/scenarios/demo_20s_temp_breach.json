@@ -1,0 +1,37 @@
+{
+  "id": "demo_20s_temp_breach",
+  "name": "20s – Room temp then heat breach (NOT SAFE)",
+  "shipmentId": "VIAL-002",
+  "deviceId": "SIM-CONTROL",
+  "intervalMs": 2000,
+  "durationSec": 20,
+  "tempMin": 20,
+  "tempMax": 28,
+  "route": [
+    { "lat": 19.076, "lng": 72.8777 },
+    { "lat": 19.078, "lng": 72.881 },
+    { "lat": 19.081, "lng": 72.885 },
+    { "lat": 19.083, "lng": 72.888 }
+  ],
+  "tempProfile": [
+    { "tSec": 0, "tempC": 24 },
+    { "tSec": 10, "tempC": 24 },
+    { "tSec": 12, "tempC": 32 },
+    { "tSec": 20, "tempC": 32 }
+  ],
+  "events": [],
+  "geofence": {
+    "type": "BBOX",
+    "minLat": 19.0,
+    "maxLat": 19.2,
+    "minLng": 72.8,
+    "maxLng": 73.0
+  },
+  "timeline": [
+    { "atSec": 0, "label": "Start – shipment leaves warehouse" },
+    { "atSec": 5, "label": "Scan 1 – Entered Transit zone (still SAFE)" },
+    { "atSec": 11, "label": "Scan 2 – Before heat event (SAFE)" },
+    { "atSec": 14, "label": "Scan 3 – After temp breach (NOT SAFE)" },
+    { "atSec": 20, "label": "Scan 4 – At clinic – abnormalities reflected" }
+  ]
+}

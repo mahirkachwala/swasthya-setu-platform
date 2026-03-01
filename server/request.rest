@@ -1,0 +1,4 @@
+ 
+ ### Get All Posts
+ GET http://13.233.99.51:8000/database/getposts
+

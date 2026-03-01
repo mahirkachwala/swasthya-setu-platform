@@ -1,0 +1,726 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cold Chain Demo</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1419; color: #e6edf3; padding: 20px; }
+    .header { margin-bottom: 24px; }
+    .header h1 { margin: 0; color: #58a6ff; font-size: 1.5rem; }
+    .header p { color: #8b949e; margin: 8px 0 0; font-size: 0.95rem; }
+    .section { background: #161b22; border: 1px solid #30363d; border-radius: 10px; padding: 20px; margin-bottom: 20px; }
+    .section h2 { margin: 0 0 16px; font-size: 0.8rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; }
+    .qr-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 24px; }
+    @media (max-width: 800px) { .qr-grid { grid-template-columns: 1fr; } }
+    .qr-card { background: #21262d; border-radius: 10px; padding: 20px; text-align: center; border: 2px solid #30363d; }
+    .qr-card.focus { border-color: #58a6ff; }
+    .qr-card .vial-name { font-weight: 700; font-size: 1.1rem; margin-bottom: 8px; }
+    .qr-card .qr-wrap { width: 180px; height: 180px; margin: 12px auto; background: #fff; padding: 8px; border-radius: 8px; display: flex; align-items: center; justify-content: center; }
+    .qr-card .qr-wrap img, .qr-card .qr-wrap canvas { display: block; max-width: 100%; max-height: 100%; }
+    .qr-card .qr-wrap table { margin: 0 auto; }
+    .qr-card .status { font-size: 0.9rem; margin-top: 8px; }
+    .qr-card .status.ok { color: #3fb950; }
+    .qr-card .status.alert { color: #f85149; }
+    .qr-card .status-- { color: #8b949e; }
+    .qr-card .hint { font-size: 0.8rem; color: #8b949e; margin-top: 6px; }
+    .sim-row { display: flex; flex-wrap: wrap; align-items: center; gap: 16px; margin-bottom: 16px; }
+    .sim-row select { padding: 10px 14px; background: #21262d; border: 1px solid #30363d; border-radius: 8px; color: #e6edf3; font-size: 15px; min-width: 320px; }
+    .btn { padding: 14px 28px; border: none; border-radius: 8px; font-size: 16px; font-weight: 600; cursor: pointer; background: #238636; color: white; }
+    .btn:hover { background: #2ea043; }
+    .btn:disabled { background: #21262d; color: #8b949e; cursor: not-allowed; }
+    .timer { font-size: 2.5rem; font-weight: 700; color: #d29922; margin: 16px 0; font-variant-numeric: tabular-nums; }
+    .timer.done { color: #3fb950; }
+    .scan-prompt { font-size: 1.2rem; font-weight: 700; padding: 14px 24px; border-radius: 8px; margin: 12px 0; text-align: center; }
+    .scan-prompt.before { background: #1a2e1a; color: #3fb950; border: 2px solid #3fb950; }
+    .scan-prompt.after { background: #2d1f1f; color: #f85149; border: 2px solid #f85149; }
+    .scan-prompt.hidden { display: none; }
+    .timeline { list-style: none; padding: 0; margin: 0; }
+    .timeline li { padding: 12px 16px; margin-bottom: 8px; background: #21262d; border-radius: 8px; border-left: 4px solid #58a6ff; font-size: 0.95rem; }
+    .timeline li.anomaly { border-left-color: #f85149; background: #2d1f1f; }
+    .timeline li .at { display: inline-block; width: 48px; font-weight: 700; color: #e6edf3; }
+    .timeline li .scan { color: #3fb950; font-weight: 600; }
+    .log-box { background: #0d1117; border: 1px solid #30363d; border-radius: 8px; padding: 14px; max-height: 180px; overflow-y: auto; font-family: monospace; font-size: 0.8rem; }
+    .log-line { margin-bottom: 3px; }
+    .log-line .level-EVENT { color: #d29922; }
+    .log-line .level-TELEMETRY { color: #58a6ff; }
+    .live-telemetry-card { background: #21262d; border: 1px solid #30363d; border-radius: 8px; padding: 14px; font-size: 0.85rem; text-align: left; }
+    .live-telemetry-card h3 { margin: 0 0 10px; font-size: 0.95rem; color: #58a6ff; }
+    .live-telemetry-card .metrics { color: #e6edf3; margin-bottom: 10px; }
+    .live-telemetry-card .metrics span { display: block; margin: 2px 0; }
+    .live-telemetry-card .status-line { font-weight: 700; margin: 8px 0; }
+    .live-telemetry-card .status-line.ok { color: #3fb950; }
+    .live-telemetry-card .status-line.alert { color: #f85149; }
+    .live-telemetry-card .anomaly-list { margin-top: 10px; padding-top: 10px; border-top: 1px solid #30363d; }
+    .live-telemetry-card .anomaly-list .title { font-size: 0.75rem; color: #8b949e; text-transform: uppercase; margin-bottom: 6px; }
+    .live-telemetry-card .anomaly-item { background: #2d1f1f; border-left: 4px solid #f85149; padding: 8px 10px; margin-bottom: 6px; border-radius: 4px; font-size: 0.8rem; }
+    .live-telemetry-card .anomaly-item .at { color: #8b949e; font-size: 0.75rem; }
+    .live-telemetry-card .no-data { color: #8b949e; font-style: italic; }
+  </style>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/qrcodejs/1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+  <div class="header">
+    <h1>Cold Chain Demo</h1>
+    <p>Swile1, Swile2, Swile3 – Start simulation, watch the timer, scan QR with phone (data only, no link).</p>
+  </div>
+
+  <div class="section">
+    <h2>1. QR codes – data only (scan with phone, no website)</h2>
+    <p style="color:#8b949e;margin-bottom:16px;">Each QR encodes live data only (no link). Scan with your phone – choose <strong>“View text”</strong> or <strong>“Copy”</strong> to see the report. If it offers “Search”, ignore that and open the text.</p>
+    <p style="color:#8b949e;margin-bottom:16px;font-size:0.9rem;"><strong>Does the QR change?</strong> Yes. The QR is regenerated so it always shows the latest report (anomalies and, with real blockchain, the tx hash). After you put fire near the sensor and a tx is sent, the QR will include that anomaly and the tx when you scan.</p>
+    <div class="qr-grid" id="qrGrid">
+      <div class="qr-card" data-vial="VIAL-001">
+        <div class="vial-name">Swile1 (VIAL-001)</div>
+        <div class="qr-wrap" id="wrap-001"></div>
+        <div class="status status--" id="status-001">--</div>
+        <div class="hint">Geofence scenario</div>
+      </div>
+      <div class="qr-card" data-vial="VIAL-002">
+        <div class="vial-name">Swile2 (VIAL-002)</div>
+        <div class="qr-wrap" id="wrap-002"></div>
+        <div class="status status--" id="status-002">--</div>
+        <div class="hint">Pressure scenario</div>
+      </div>
+      <div class="qr-card" data-vial="VIAL-003">
+        <div class="vial-name">Swile3 (VIAL-003)</div>
+        <div class="qr-wrap" id="wrap-003"></div>
+        <div class="status status--" id="status-003">--</div>
+        <div class="hint">Manual (ESP32) – no timer</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>2. Start simulation – timer shows when anomaly is deliberately put</h2>
+    <div class="sim-row">
+      <select id="scenarioSelect"></select>
+      <button class="btn" id="runBtn">Start simulation</button>
+    </div>
+    <div style="margin-top:10px;display:flex;align-items:center;gap:12px;flex-wrap:wrap;">
+      <span style="color:#8b949e;font-size:0.9rem;">Blockchain:</span>
+      <button type="button" class="btn" id="blockchainMockBtn" style="font-size:0.85rem;">Mock (no gas)</button>
+      <button type="button" class="btn" id="blockchainRealBtn" style="font-size:0.85rem;">Real (Sepolia)</button>
+      <span id="blockchainModeStatus" style="color:#7ee787;font-size:0.9rem;">—</span>
+    </div>
+    <div id="realSepoliaBar" style="display:none;margin-top:12px;padding:12px 16px;background:#0d3320;border:2px solid #3fb950;border-radius:8px;color:#7ee787;font-size:0.9rem;">
+      <strong>Real chain active</strong> – Each breach is hashed and anchored (one transaction per event). Configure the server for a real network to see transactions in "Last blockchain transaction" and in your wallet.
+    </div>
+    <div id="runError" style="display:none;margin-top:8px;padding:8px;background:#2d1f1f;color:#f85149;border-radius:6px;font-size:0.9rem;"></div>
+    <p id="openHint" style="display:none;margin-top:8px;color:#d29922;font-size:0.9rem;">Open <a href="http://localhost:5000" style="color:#58a6ff;">http://localhost:5000</a> so Start simulation works (not from file).</p>
+    <div class="timer" id="timer" style="display:none;">0s</div>
+    <div class="scan-prompt hidden" id="scanPrompt"></div>
+    <div id="timelineSection">
+      <p style="margin:8px 0 12px;color:#8b949e;font-weight:600;">Timeline – anomaly at 30s. Scan QR with phone at 10s (before) and 40s (after). Manual test: no timer.</p>
+      <ul class="timeline" id="timelineList"></ul>
+    </div>
+  </div>
+
+  <div class="section">
+    <h2>3. Last blockchain transaction (manual + real chain)</h2>
+    <p style="color:#8b949e;margin-bottom:10px;">Use the <strong>Real (Sepolia)</strong> switch above to test actual blockchain. When you run manual (Swile3) and put fire near the sensor, a real tx is sent (wallet needs Sepolia ETH). This box shows the last tx.</p>
+    <div id="lastTxBox" style="background:#0d1117;border:1px solid #30363d;border-radius:8px;padding:12px;font-family:monospace;font-size:0.85rem;min-height:48px;color:#8b949e;">No on-chain tx yet. Run manual scenario with real blockchain.</div>
+  </div>
+
+  <div class="section">
+    <h2>4. Live telemetry & anomalies (same data as in QR)</h2>
+    <p style="color:#8b949e;margin-bottom:12px;">Current metrics and anomaly list for each vial. QR encodes this same report. Updates every second. <strong>If you see "No telemetry yet"</strong>: click "Reset demo data" below, then run a simulation (choose scenario, click Start simulation). Data appears in a few seconds.</p>
+    <div style="margin-bottom:12px;">
+      <button type="button" class="btn" id="resetDemoBtn" style="background:#6e7681;">Reset demo data</button>
+      <span id="resetStatus" style="margin-left:12px;color:#8b949e;font-size:0.9rem;"></span>
+    </div>
+    <div id="liveTelemetryGrid" class="qr-grid" style="align-items:start;"></div>
+  </div>
+
+  <div class="section">
+    <h2>5. Live log</h2>
+    <div class="log-box" id="logBox"></div>
+  </div>
+
+  <script>
+    // Use same-origin when served from demo-control (5000); otherwise call localhost:5000 (needs CORS)
+    var API = (window.location.origin === 'http://localhost:5000' || window.location.origin === 'http://127.0.0.1:5000') ? '' : 'http://localhost:5000';
+    if (window.location.protocol === 'file:') {
+      document.getElementById('openHint').style.display = 'block';
+    }
+    let config = { backendUrl: 'http://localhost:8000', doctorDisplayUrl: window.location.origin };
+    let vialIds = ['VIAL-001', 'VIAL-002', 'VIAL-003'];
+    const displayNames = { 'VIAL-001': 'Swile1', 'VIAL-002': 'Swile2', 'VIAL-003': 'Swile3' };
+    const breachTypes = ['COLD_CHAIN_BREACH','TAMPER_LID_OPEN','TAMPER_SHOCK','PRESSURE_ANOMALY','ROUTE_DEVIATION'];
+
+    function safeDateStr(d) {
+      try {
+        if (!d) return '--';
+        var t = new Date(d);
+        if (isNaN(t.getTime())) return '--';
+        return t.getFullYear() + '-' + String(t.getMonth() + 1).padStart(2, '0') + '-' + String(t.getDate()).padStart(2, '0') + ' ' + String(t.getHours()).padStart(2, '0') + ':' + String(t.getMinutes()).padStart(2, '0') + ':' + String(t.getSeconds()).padStart(2, '0');
+      } catch (e) { return '--'; }
+    }
+    function sanitizeForQR(s) {
+      return String(s).replace(/[\u0000-\u001F\u007F-\u009F\u202F\u00A0]/g, ' ').replace(/\r\n/g, '\n').replace(/\r/g, '\n').replace(/\n{3,}/g, '\n\n').trim();
+    }
+
+    function getAnomalyLabel(e) {
+      var ev = e.evidence || {};
+      var label = '', detail = '';
+      if (e.eventType === 'ROUTE_DEVIATION') {
+        label = 'Past geofence (route deviation)';
+        if (ev.lat != null && ev.lng != null) detail = 'At coordinates ' + ev.lat.toFixed(4) + ', ' + ev.lng.toFixed(4);
+      } else if (e.eventType === 'PRESSURE_ANOMALY') {
+        label = 'Pressure out of range';
+        if (ev.pressurePa != null) detail = ev.pressurePa + ' hPa';
+        if (ev.min != null || ev.max != null) detail += (detail ? ' ' : '') + '(limit ' + (ev.min != null ? ev.min : '?') + '–' + (ev.max != null ? ev.max : '?') + ')';
+      } else if (e.eventType === 'COLD_CHAIN_BREACH') {
+        label = 'Temperature breach';
+        if (ev.tempC != null) detail = ev.tempC + '°C';
+        if (ev.minTemp != null || ev.maxTemp != null) detail += (detail ? ' ' : '') + '(limit ' + (ev.minTemp != null ? ev.minTemp : '?') + '–' + (ev.maxTemp != null ? ev.maxTemp : '?') + '°C)';
+      } else if (e.eventType === 'TAMPER_LID_OPEN') { label = 'Lid opened (tamper)'; }
+      else if (e.eventType === 'TAMPER_SHOCK') { label = 'Shock detected (tamper)'; }
+      else { label = e.eventType; }
+      return { label: label, detail: detail, evidence: ev };
+    }
+
+    function formatMetricsAtAnomaly(ev) {
+      var parts = [];
+      if (ev.tempC != null) parts.push('Temp ' + ev.tempC + '°C');
+      if (ev.humidity != null) parts.push('Hum ' + ev.humidity + '%');
+      if (ev.pressurePa != null) parts.push('Pressure ' + ev.pressurePa + ' hPa');
+      if (ev.lat != null && ev.lng != null) parts.push(ev.lat.toFixed(4) + ', ' + ev.lng.toFixed(4));
+      return parts.length ? parts.join(', ') : '';
+    }
+
+    function renderLiveTelemetry(vialDataList) {
+      var grid = document.getElementById('liveTelemetryGrid');
+      if (!grid) return;
+      grid.innerHTML = vialIds.map(function(id) {
+        var data = vialDataList.find(function(d) { return d && d.vialId === id; });
+        var name = displayNames[id] || id;
+        if (data && data.error) {
+          return '<div class="live-telemetry-card"><h3>' + name + '</h3><div class="no-data" style="color:#f85149;">' + data.error + '</div></div>';
+        }
+        if (!data || (!data.latest && (!data.history || !data.history.length))) {
+          return '<div class="live-telemetry-card"><h3>' + name + '</h3><div class="no-data">No telemetry yet. Click "Reset demo data", then run a simulation (choose scenario, click Start). Data appears in a few seconds.</div></div>';
+        }
+        var latest = data.latest || {};
+        var isPlaceholder = (id === 'VIAL-003' && (latest.deviceId === 'MANUAL-SETUP' || (latest.tempC === 22 && latest.pressurePa === 1013)));
+        var temp = latest.tempC != null ? latest.tempC + '°C' : '--';
+        var hum = latest.humidity != null ? latest.humidity + '%' : '--';
+        var press = latest.pressurePa != null ? latest.pressurePa + ' hPa' : '--';
+        var lat = latest.lat != null ? latest.lat.toFixed(4) : '--';
+        var lng = latest.lng != null ? latest.lng.toFixed(4) : '--';
+        var status = data.usable ? 'OK – SAFE TO USE' : 'BREACH – NOT SAFE';
+        var liveAt = latest.ts ? new Date(latest.ts).toLocaleString() : '';
+        var anomalies = (data.events || []).filter(function(e) { return breachTypes.includes(e.eventType); });
+        var anomalyHtml = '';
+        if (anomalies.length) {
+          anomalyHtml = '<div class="anomaly-list"><div class="title">Anomalies detected (' + anomalies.length + ')</div>' + anomalies.map(function(e, idx) {
+            var d = getAnomalyLabel(e);
+            var atStr = e.tsStart ? new Date(e.tsStart).toLocaleString() : '';
+            var metricsAt = formatMetricsAtAnomaly(d.evidence);
+            return '<div class="anomaly-item">' +
+              '<div><strong>#' + (idx + 1) + ' ' + d.label + '</strong>' + (d.detail ? ' – ' + d.detail : '') + '</div>' +
+              (atStr ? '<div class="at">At ' + atStr + '</div>' : '') +
+              (metricsAt ? '<div class="at">Metrics at anomaly: ' + metricsAt + '</div>' : '') +
+              (e.txHash && e.network && e.network !== 'mock' ? '<div class="at">Blockchain: ' + e.txHash + '</div>' : '') +
+              '</div>';
+          }).join('') + '</div>';
+        } else {
+          anomalyHtml = '<div class="anomaly-list"><div class="title">Anomalies</div><div class="no-data">None</div></div>';
+        }
+        var placeholderBanner = isPlaceholder ? '<div class="placeholder-banner" style="background:#1c2d1c;border:1px solid #3fb950;border-radius:6px;padding:8px 10px;margin-bottom:8px;font-size:0.85rem;color:#7ee787;">' +
+          'Waiting for ESP32. The 22°C above is a placeholder. (1) ESP32 and PC on same WiFi. (2) backendUrl in ESP32 code = http://YOUR_PC_IP:8000 (ipconfig). (3) One-time: Windows Firewall → Inbound Rules → New Rule → Port 8000 TCP → Allow. (4) Re-upload ESP32. Check: open <a href="http://localhost:8000/api/last-telemetry/VIAL-003" target="_blank" rel="noopener" style="color:#58a6ff;">localhost:8000/api/last-telemetry/VIAL-003</a> in browser – if you see "esp32Reached":true, real data will show here.</div>' : '';
+        return '<div class="live-telemetry-card">' +
+          '<h3>' + name + ' (' + data.vialId + ')</h3>' +
+          placeholderBanner +
+          '<div class="metrics" style="margin-bottom:4px;">' +
+          '<span style="font-size:0.75rem;color:#8b949e;">' + (isPlaceholder ? 'Placeholder – ' : '') + 'Live from sensor' + (liveAt ? ' at ' + liveAt : '') + '</span>' +
+          '</div>' +
+          '<div class="metrics">' +
+          '<span>Temperature: ' + temp + '</span>' +
+          '<span>Humidity: ' + hum + '</span>' +
+          '<span>Pressure: ' + press + '</span>' +
+          '<span>Lat: ' + lat + ', Lng: ' + lng + '</span>' +
+          '</div>' +
+          '<div class="status-line ' + (data.usable ? 'ok' : 'alert') + '">' + status + '</div>' +
+          anomalyHtml +
+          '</div>';
+      }).join('');
+    }
+
+    function buildQRPayload(data) {
+      if (!data || data.error) {
+        return 'COLD CHAIN VIAL REPORT\n\n' + (data && data.vialId ? data.vialId + '\n' : '') + (data && data.error ? data.error : 'No data. Start Server (port 8000) and run a simulation, then scan again.');
+      }
+      const name = displayNames[data.vialId] || data.vialId;
+      const hasData = data.latest || (data.history && data.history.length);
+      if (!hasData) {
+        return 'COLD CHAIN VIAL REPORT\n\nVial: ' + name + ' (' + data.vialId + ')\n\nNo telemetry yet.\nStart simulation for this vial (select scenario, click Start simulation), wait for it to run, then scan again.';
+      }
+      let timeSince = 'Not started';
+      const departedAt = data.departedAt ? new Date(data.departedAt).getTime() : null;
+      if (departedAt) {
+        const sec = Math.floor((Date.now() - departedAt) / 1000);
+        const m = Math.floor(sec / 60);
+        const s = sec % 60;
+        timeSince = m + ' min ' + s + ' sec';
+      }
+      const latest = data.latest || {};
+      const temp = latest.tempC != null ? latest.tempC + '°C' : '--';
+      const hum = latest.humidity != null ? latest.humidity + '%' : '--';
+      const press = latest.pressurePa != null ? latest.pressurePa + ' hPa' : '--';
+      const status = data.usable ? 'ALL OK - SAFE TO USE' : 'BREACH - NOT SAFE';
+      const anomalies = (data.events || []).filter(e => breachTypes.includes(e.eventType)).slice(0, 20);
+      var lines = [
+        'COLD CHAIN VIAL REPORT',
+        'Updated: ' + safeDateStr(new Date()),
+        'Vial: ' + name + ' (' + data.vialId + ')',
+        'Time since dispatch: ' + timeSince,
+        'Status: ' + status,
+        ''
+      ];
+      if (latest.tempC != null || latest.humidity != null || latest.pressurePa != null) {
+        var liveStr = 'Live from sensor:';
+        if (latest.tempC != null) liveStr += ' ' + latest.tempC + ' C';
+        if (latest.humidity != null) liveStr += ' ' + latest.humidity + '% humidity';
+        if (latest.pressurePa != null) liveStr += ' ' + latest.pressurePa + ' hPa';
+        lines.push(liveStr);
+        if (latest.ts) lines.push('(at ' + safeDateStr(latest.ts) + ')');
+        lines.push('');
+      }
+      if (anomalies.length === 0) {
+        lines.push('No anomalies. Safe to use.');
+      } else {
+        var sorted = anomalies.slice().sort(function(a, b) { return new Date(a.tsStart || 0) - new Date(b.tsStart || 0); });
+        var firstAt = sorted[0].tsStart ? new Date(sorted[0].tsStart) : null;
+        var firstAtStr = firstAt ? safeDateStr(firstAt) : '';
+        lines.push('BREACH DETECTED AT: ' + firstAtStr);
+        lines.push('');
+        if (departedAt && firstAt) lines.push('From dispatch to ' + safeDateStr(firstAt) + ': All OK.');
+        lines.push('ANOMALIES (not viable to use):');
+        sorted.slice(0, 10).forEach(function(e, idx) {
+          var dt = e.tsStart ? new Date(e.tsStart) : null;
+          var timeStr = dt ? safeDateStr(dt) : '--';
+          var d = getAnomalyLabel(e);
+          var metric = (d.detail || formatMetricsAtAnomaly(d.evidence) || d.label || '').replace(/°/g, 'deg ');
+          var line = '#' + (idx + 1) + ' At ' + timeStr + ' - ' + d.label + ': ' + metric;
+          if (e.txHash && e.network && e.network !== 'mock') line += ' Tx:' + e.txHash;
+          lines.push(line);
+        });
+        if (sorted.length > 10) lines.push('... and ' + (sorted.length - 10) + ' more');
+      }
+      var out = lines.join('\n');
+      out = sanitizeForQR(out);
+      if (out.length > 650) {
+        var at = out.lastIndexOf('\n', 640);
+        if (at === -1) at = 640;
+        out = out.substring(0, at) + '\n...';
+      }
+      return out;
+    }
+
+    function asciiOnly(str) {
+      return String(str).replace(/[^\x20-\x7E\n\r]/g, ' ');
+    }
+    var QR_FIXED_LEN = 360;
+    function drawQRInto(wrapId, text) {
+      var wrap = document.getElementById(wrapId);
+      if (!wrap) return;
+      var s = (text != null && text !== '') ? String(text) : '';
+      s = sanitizeForQR(s);
+      if (!s) s = 'COLD CHAIN VIAL REPORT Display only. No data. Run simulation.';
+      s = asciiOnly(s);
+      if (s.length > QR_FIXED_LEN) {
+        var cut = s.lastIndexOf('\n', QR_FIXED_LEN - 4);
+        if (cut < 0) cut = QR_FIXED_LEN - 4;
+        s = s.substring(0, cut) + '\n...';
+      }
+      while (s.length < QR_FIXED_LEN) s += ' ';
+      s = s.substring(0, QR_FIXED_LEN);
+      var fresh = document.createElement('div');
+      fresh.className = 'qr-inner';
+      wrap.innerHTML = '';
+      wrap.appendChild(fresh);
+      if (typeof QRCode !== 'undefined') {
+        try {
+          new QRCode(fresh, { text: s, width: 200, height: 200 });
+        } catch (err) {
+          fresh.style.fontSize = '14px';
+          fresh.style.padding = '12px';
+          fresh.style.color = '#161b22';
+          fresh.textContent = s.indexOf('BREACH') !== -1 ? 'BREACH' : 'OK';
+        }
+      } else {
+        fresh.textContent = 'QR library loading…';
+      }
+    }
+
+    async function loadConfig() {
+      try {
+        const r = await fetch(API + '/api/config');
+        if (r.ok) config = await r.json();
+      } catch (e) {}
+    }
+
+    function backendBase() {
+      return (config && config.backendUrl ? config.backendUrl : 'http://localhost:8000').replace(/\/$/, '');
+    }
+
+    async function fetchBlockchainMode() {
+      try {
+        const r = await fetch(backendBase() + '/api/blockchain-mode', { cache: 'no-store' });
+        if (r.ok) return await r.json();
+      } catch (e) {}
+      return { useMock: true };
+    }
+
+    async function setBlockchainMode(useMock) {
+      try {
+        const r = await fetch(backendBase() + '/api/blockchain-mode', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ useMock: useMock })
+        });
+        if (r.ok) await updateBlockchainModeUI();
+      } catch (e) {
+        if (document.getElementById('blockchainModeStatus')) document.getElementById('blockchainModeStatus').textContent = 'Failed to set';
+      }
+    }
+
+    async function updateBlockchainModeUI() {
+      const d = await fetchBlockchainMode();
+      const mockBtn = document.getElementById('blockchainMockBtn');
+      const realBtn = document.getElementById('blockchainRealBtn');
+      const statusEl = document.getElementById('blockchainModeStatus');
+      const realBar = document.getElementById('realSepoliaBar');
+      if (!mockBtn || !realBtn || !statusEl) return;
+      const useMock = d.useMock !== false;
+      mockBtn.style.background = useMock ? '#238636' : '';
+      mockBtn.style.color = useMock ? '#fff' : '';
+      realBtn.style.background = !useMock ? '#238636' : '';
+      realBtn.style.color = !useMock ? '#fff' : '';
+      statusEl.textContent = useMock ? 'Mock (no gas)' : 'Real Sepolia';
+      if (realBar) realBar.style.display = useMock ? 'none' : 'block';
+    }
+
+    async function loadVials() {
+      try {
+        const r = await fetch(API + '/api/vials');
+        if (r.ok) { const d = await r.json(); vialIds = d.vials || vialIds; }
+      } catch (e) {}
+    }
+
+    async function fetchVialData(id) {
+      var base = (config && config.backendUrl) ? config.backendUrl : 'http://localhost:8000';
+      var url = base.replace(/\/$/, '') + '/api/vial/' + encodeURIComponent(id) + '?_=' + Date.now() + '&r=' + Math.random().toString(36).slice(2);
+      try {
+        var r = await fetch(url, { cache: 'no-store', mode: 'cors', headers: { 'Pragma': 'no-cache', 'Cache-Control': 'no-cache' } });
+        if (r.ok) return await r.json();
+        return { vialId: id, error: 'Backend returned ' + r.status };
+      } catch (e) {
+        return { vialId: id, error: 'Cannot reach Server (port 8000). Start it and refresh.' };
+      }
+    }
+
+    async function fetchVialStatus(id) {
+      try {
+        const r = await fetch(config.backendUrl + '/iot/shipment/' + encodeURIComponent(id) + '/latest');
+        const d = await r.json();
+        const status = d.shipment?.status || '--';
+        return { status };
+      } catch (e) { return { status: '--' }; }
+    }
+
+    function shortId(id) { return (id || '').replace('VIAL-', ''); }
+    async function renderQRCards() {
+      var vialDataList = [];
+      for (const id of vialIds) {
+        const data = await fetchVialData(id);
+        vialDataList.push(data || null);
+        var qrText = data ? buildQRPayload(data) : 'COLD CHAIN VIAL REPORT\n\nNo data for ' + id + '.\nStart Server (port 8000), click Reset demo data, then run a simulation.';
+        drawQRInto('wrap-' + shortId(id), qrText);
+        const statusRes = await fetchVialStatus(id);
+        const el = document.getElementById('status-' + shortId(id));
+        if (el) {
+          var status = statusRes.status;
+          if (status !== 'ALERT' && status !== 'ACTIVE' && data && !data.error) {
+            status = (data.usable === false || ((data.events || []).some(function(e) { return breachTypes.indexOf(e.eventType) !== -1; }))) ? 'ALERT' : 'ACTIVE';
+          }
+          el.textContent = status === 'ALERT' ? 'BREACH' : status === 'ACTIVE' ? 'OK' : status;
+          el.className = 'status ' + (status === 'ALERT' ? 'alert' : status === 'ACTIVE' ? 'ok' : 'status--');
+        }
+      }
+      renderLiveTelemetry(vialDataList);
+    }
+
+    function highlightCurrentVial(shipmentId) {
+      document.querySelectorAll('.qr-card').forEach(c => {
+        c.classList.toggle('focus', c.dataset.vial === shipmentId);
+      });
+    }
+
+    async function loadScenarios() {
+      const sel = document.getElementById('scenarioSelect');
+      try {
+        const r = await fetch(API + '/api/scenarios');
+        const d = await r.json();
+        const list = d.scenarios || [];
+        sel.innerHTML = '<option value="">-- Select scenario --</option>';
+        list.forEach(s => {
+          const opt = document.createElement('option');
+          opt.value = s.id;
+          opt.textContent = s.name + (s.durationSec ? ' (' + s.durationSec + 's)' : ' (no timer)');
+          sel.appendChild(opt);
+        });
+        if (list.length) {
+          var defaultId = list.find(function(s) { return s.id === 'demo_geofence'; }) ? 'demo_geofence' : list[0].id;
+          sel.value = defaultId;
+          loadScenarioDetail(defaultId);
+        }
+      } catch (e) {
+        sel.innerHTML = '<option value="">Failed to load</option>';
+      }
+    }
+    function clearRunState() {
+      var timerEl = document.getElementById('timer');
+      var scanPrompt = document.getElementById('scanPrompt');
+      var runBtn = document.getElementById('runBtn');
+      if (timerEl) { timerEl.style.display = 'block'; timerEl.textContent = 'Select a scenario first'; timerEl.classList.remove('done'); }
+      if (scanPrompt) { scanPrompt.className = 'scan-prompt hidden'; scanPrompt.textContent = ''; }
+      if (runBtn) runBtn.disabled = false;
+    }
+
+    async function loadScenarioDetail(id) {
+      const timelineList = document.getElementById('timelineList');
+      if (!id) { timelineList.innerHTML = ''; return; }
+      try {
+        const r = await fetch(API + '/api/scenarios/' + encodeURIComponent(id));
+        const s = await r.json();
+        const timeline = s.timeline || [];
+        timelineList.innerHTML = timeline.map(t => {
+          const isAnomaly = (t.label || '').toUpperCase().includes('ANOMALY');
+          const isScan = (t.label || '').toUpperCase().includes('SCAN');
+          return '<li class="' + (isAnomaly ? 'anomaly' : '') + '"><span class="at">' + t.atSec + 's</span> ' + (isScan ? '<span class="scan">' + t.label + '</span>' : t.label) + '</li>';
+        }).join('') || '<li>No timeline</li>';
+        highlightCurrentVial(s.shipmentId);
+      } catch (e) {
+        timelineList.innerHTML = '<li>Failed to load</li>';
+      }
+    }
+
+    document.getElementById('scenarioSelect').addEventListener('change', (e) => loadScenarioDetail(e.target.value));
+
+    document.getElementById('runBtn').addEventListener('click', async () => {
+      const scenarioId = (document.getElementById('scenarioSelect').value || '').trim();
+      if (!scenarioId) {
+        const timerEl = document.getElementById('timer');
+        timerEl.style.display = 'block';
+        timerEl.textContent = 'Select a scenario first';
+        timerEl.classList.remove('done');
+        return;
+      }
+      const runBtn = document.getElementById('runBtn');
+      const timerEl = document.getElementById('timer');
+      const scanPrompt = document.getElementById('scanPrompt');
+      const runErrorEl = document.getElementById('runError');
+      function showRunError(msg) {
+        if (runErrorEl) { runErrorEl.textContent = msg; runErrorEl.style.display = 'block'; }
+      }
+      function clearRunError() {
+        if (runErrorEl) { runErrorEl.textContent = ''; runErrorEl.style.display = 'none'; }
+      }
+      runBtn.disabled = true;
+      clearRunError();
+      timerEl.style.display = 'block';
+      timerEl.textContent = 'Starting…';
+      timerEl.classList.remove('done');
+      try {
+        var runUrl = (API || window.location.origin).replace(/\/$/, '') + '/api/run';
+        var runHeaders = { 'Content-Type': 'application/json' };
+        if (scenarioId === 'demo_manual') runHeaders['X-Confirm-Manual'] = '1';
+        const r = await fetch(runUrl, {
+          method: 'POST',
+          headers: runHeaders,
+          body: JSON.stringify({ scenarioId, backendUrl: config.backendUrl }),
+        });
+        const data = await r.json().catch(() => ({}));
+        if (!r.ok) {
+          var errMsg = (data.error || r.statusText || 'Could not start') + (data.id ? ' (id: ' + data.id + ')' : '');
+          timerEl.textContent = 'Failed: ' + errMsg;
+          timerEl.classList.remove('done');
+          timerEl.title = 'Start Demo Control from the demo-control folder. Ensure Server (8000) is running.';
+          showRunError(errMsg + '. Start demo-control: cd demo-control && node server.js');
+          runBtn.disabled = false;
+          return;
+        }
+        if (!data.started) {
+          timerEl.textContent = 'Could not start: ' + (data.error || 'unknown');
+          timerEl.classList.remove('done');
+          showRunError('Server said started=false. Start demo-control (port 5000) and try again.');
+          runBtn.disabled = false;
+          return;
+        }
+        clearRunError();
+        highlightCurrentVial(data.shipmentId);
+        const totalSec = Number(data.durationSec) || 0;
+        const isManual = (scenarioId === 'demo_manual') || (data.shipmentId === 'VIAL-003' && totalSec === 0);
+        if (totalSec === 0 || isManual) {
+          timerEl.style.display = 'block';
+          timerEl.textContent = 'Manual mode active – no timer';
+          timerEl.classList.add('done');
+          timerEl.title = '';
+          scanPrompt.className = 'scan-prompt before';
+          scanPrompt.classList.remove('hidden');
+          scanPrompt.style.display = '';
+          scanPrompt.textContent = 'ESP32 sends data. Put fire near sensor – with real blockchain (USE_MOCK_CHAIN=false) a tx is sent automatically. See "Last blockchain transaction" below and your wallet. Scan QR to see the report with the tx.';
+          runBtn.disabled = false;
+          try { timerEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' }); } catch (e) {}
+          return;
+        }
+        runBtn.disabled = true;
+        let left = totalSec;
+        timerEl.style.display = 'block';
+        timerEl.classList.remove('done');
+        timerEl.textContent = left + 's';
+        const scanBeforeStart = 8, scanBeforeEnd = 28, scanAfterStart = 35, scanAfterEnd = totalSec - 5;
+        function updateScanPrompt() {
+          const elapsed = totalSec - left;
+          scanPrompt.classList.remove('hidden', 'before', 'after');
+          if (elapsed >= scanBeforeStart && elapsed <= scanBeforeEnd) {
+            scanPrompt.textContent = 'SCAN QR WITH PHONE – before anomaly (should show OK, time since departure, metrics)';
+            scanPrompt.className = 'scan-prompt before';
+          } else if (elapsed >= scanAfterStart && elapsed <= scanAfterEnd) {
+            scanPrompt.textContent = 'ANOMALY RECORDED. SCAN QR WITH PHONE – after anomaly (should show NOT SAFE, anomaly type and time)';
+            scanPrompt.className = 'scan-prompt after';
+          } else {
+            scanPrompt.className = 'scan-prompt hidden';
+          }
+        }
+        const iv = setInterval(() => {
+          left--;
+          timerEl.textContent = left + 's';
+          updateScanPrompt();
+          if (left <= 0) {
+            clearInterval(iv);
+            timerEl.textContent = 'Done';
+            timerEl.classList.add('done');
+            scanPrompt.className = 'scan-prompt hidden';
+            runBtn.disabled = false;
+          }
+        }, 1000);
+        updateScanPrompt();
+      } catch (e) {
+        runBtn.disabled = false;
+        timerEl.style.display = 'block';
+        timerEl.classList.remove('done');
+        var errMsg = (e.message || 'Request failed');
+        timerEl.textContent = 'Error: ' + errMsg;
+        timerEl.title = 'After restart: start Demo Control (port 5000) and Server (port 8000), then open http://localhost:5000';
+        showRunError('Error: ' + errMsg + '. After restart run: 1) Server: cd Server && node index.js  2) Demo: cd demo-control && node server.js  3) Open http://localhost:5000');
+      }
+    });
+
+    function renderLog(log) {
+      const box = document.getElementById('logBox');
+      box.innerHTML = (log || []).map(entry => {
+        var line = '<div class="log-line"><span class="level-' + (entry.level || '') + '">[' + (entry.level || '') + ']</span> ' + (entry.message || '');
+        if (entry.evidence && typeof entry.evidence === 'object' && Object.keys(entry.evidence).length) {
+          var ev = entry.evidence;
+          var parts = [];
+          if (ev.tempC != null) parts.push(ev.tempC + '°C');
+          if (ev.pressurePa != null) parts.push(ev.pressurePa + ' hPa');
+          if (ev.lat != null && ev.lng != null) parts.push(ev.lat.toFixed(2) + ',' + ev.lng.toFixed(2));
+          if (parts.length) line += ' <span style="color:#8b949e;">(' + parts.join(' ') + ')</span>';
+        }
+        if (entry.txHash) {
+          var txLink = entry.explorerUrl || (entry.network === 'sepolia' ? 'https://sepolia.etherscan.io/tx/' + entry.txHash : null);
+          if (entry.network === 'mock') line += ' <span style="color:#8b949e;">' + entry.txHash.substring(0,14) + '...</span> <span style="color:#8b949e;">(mock – not a real tx)</span>';
+          else if (txLink) line += ' <a href="' + txLink + '" target="_blank" rel="noopener" style="color:#58a6ff;">' + entry.txHash.substring(0,10) + '...</a> <span style="color:#7ee787;">(on-chain)</span>';
+          else line += ' <span style="color:#d29922;">' + entry.txHash.substring(0,14) + '...</span> <span style="color:#d29922;">(local chain)</span>';
+        }
+        return line + '</div>';
+      }).join('');
+      box.scrollTop = box.scrollHeight;
+      var lastBlockchain = (log || []).slice().reverse().find(function(e) { return e.level === 'BLOCKCHAIN' && e.txHash && e.network && e.network !== 'mock'; });
+      var txBox = document.getElementById('lastTxBox');
+      if (txBox) {
+        function fmtEvidence(ev) {
+          if (!ev || typeof ev !== 'object') return '';
+          var parts = [];
+          if (ev.tempC != null) parts.push('Temp: ' + ev.tempC + '°C');
+          if (ev.pressurePa != null) parts.push('Pressure: ' + ev.pressurePa + ' hPa');
+          if (ev.lat != null && ev.lng != null) parts.push('Location: ' + ev.lat.toFixed(4) + ', ' + ev.lng.toFixed(4));
+          return parts.length ? parts.join(' | ') : '';
+        }
+        var timeLine = (lastBlockchain && (lastBlockchain.timestampISO || lastBlockchain.ts)) ? ('<br>At: <strong>' + (lastBlockchain.timestampISO || lastBlockchain.ts) + '</strong>') : '';
+        var valuesLine = (lastBlockchain && lastBlockchain.evidence) ? ('<br>Values at anomaly: ' + fmtEvidence(lastBlockchain.evidence)) : '';
+        var explorerLink = lastBlockchain && (lastBlockchain.explorerUrl || (lastBlockchain.network === 'sepolia' ? 'https://sepolia.etherscan.io/tx/' + lastBlockchain.txHash : null));
+        if (lastBlockchain && (lastBlockchain.network === 'sepolia' || lastBlockchain.network === 'linea' || explorerLink)) {
+          var txDisplay = explorerLink ? ('<a href="' + explorerLink + '" target="_blank" rel="noopener" style="color:#58a6ff;">' + lastBlockchain.txHash + '</a>') : ('<strong style="color:#d29922;">' + lastBlockchain.txHash + '</strong>');
+          var chainLabel = lastBlockchain.network === 'sepolia' ? 'Sepolia' : lastBlockchain.network === 'linea' ? 'Linea' : 'on-chain';
+          txBox.innerHTML = 'Vial: <strong>' + (lastBlockchain.shipmentId || '') + '</strong> | Event: <strong>' + (lastBlockchain.eventType || '') + '</strong>' + timeLine + (valuesLine ? valuesLine : '') + '<br>Tx: ' + txDisplay + '<br>Block: ' + (lastBlockchain.blockNumber || '') + ' <span style="color:#7ee787;">(' + chainLabel + ' – hashed & anchored)</span>';
+          txBox.style.color = '#e6edf3';
+        } else if (lastBlockchain && lastBlockchain.network === 'localhost') {
+          txBox.innerHTML = 'Vial: <strong>' + (lastBlockchain.shipmentId || '') + '</strong> | Event: <strong>' + (lastBlockchain.eventType || '') + '</strong>' + timeLine + (valuesLine ? valuesLine : '') + '<br>Tx: <strong style="color:#d29922;">' + lastBlockchain.txHash + '</strong><br>Block: ' + (lastBlockchain.blockNumber || '') + ' <span style="color:#d29922;">(Local chain – check MetaMask Activity; gas was deducted)</span>';
+          txBox.style.color = '#e6edf3';
+        } else {
+          txBox.innerHTML = 'No on-chain tx yet. The demo runs in mock mode by default. Run a scenario and trigger a breach to see events in the log.';
+          txBox.style.color = '#8b949e';
+        }
+      }
+    }
+
+    async function pollLog() {
+      try {
+        const r = await fetch(config.backendUrl + '/api/log?limit=80');
+        const d = await r.json();
+        renderLog(d.log || []);
+      } catch (e) {}
+    }
+
+    document.getElementById('resetDemoBtn').addEventListener('click', async function() {
+      var btn = this;
+      var statusEl = document.getElementById('resetStatus');
+      btn.disabled = true;
+      statusEl.textContent = 'Resetting…';
+      var base = (config && config.backendUrl) ? config.backendUrl : 'http://localhost:8000';
+      try {
+        var r = await fetch(base.replace(/\/$/, '') + '/api/demo-reset', { method: 'POST', headers: { 'Content-Type': 'application/json' } });
+        var d = await r.json().catch(function() { return {}; });
+        if (d.ok) {
+          statusEl.textContent = 'Reset done. Run a simulation to see data and QR update.';
+          statusEl.style.color = '#3fb950';
+          clearRunState();
+          await loadScenarios();
+          renderQRCards();
+        } else {
+          statusEl.textContent = d.error || 'Reset failed';
+          statusEl.style.color = '#f85149';
+        }
+      } catch (e) {
+        statusEl.textContent = 'Cannot reach Server (port 8000).';
+        statusEl.style.color = '#f85149';
+      }
+      btn.disabled = false;
+    });
+
+    var mockBtn = document.getElementById('blockchainMockBtn');
+    var realBtn = document.getElementById('blockchainRealBtn');
+    if (mockBtn) mockBtn.addEventListener('click', () => setBlockchainMode(true));
+    if (realBtn) realBtn.addEventListener('click', () => setBlockchainMode(false));
+
+    async function init() {
+      clearRunState();
+      await loadConfig();
+      await loadVials();
+      await updateBlockchainModeUI();
+      renderQRCards();
+      await loadScenarios();
+      pollLog();
+      setInterval(pollLog, 2500);
+      setInterval(renderQRCards, 400);
+    }
+    init();
+  </script>
+</body>
+</html>

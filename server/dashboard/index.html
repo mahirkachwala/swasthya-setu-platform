@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cold Chain – Monitoring Dashboard</title>
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1419; color: #e6edf3; }
+    .header { background: #161b22; padding: 12px 20px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #30363d; }
+    .header h1 { margin: 0; font-size: 1.25rem; color: #58a6ff; }
+    .shipment-select { padding: 8px 12px; background: #21262d; border: 1px solid #30363d; border-radius: 6px; color: #e6edf3; font-size: 14px; min-width: 200px; }
+    .main { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: auto 1fr 1fr; gap: 16px; padding: 16px; max-height: calc(100vh - 52px); }
+    @media (max-width: 900px) { .main { grid-template-columns: 1fr; } }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 8px; padding: 16px; overflow: hidden; }
+    .card h2 { margin: 0 0 12px; font-size: 0.9rem; color: #8b949e; text-transform: uppercase; letter-spacing: 0.05em; }
+    .map-container { height: 280px; border-radius: 6px; overflow: hidden; }
+    #map { height: 100%; width: 100%; }
+    .stats { display: flex; gap: 12px; flex-wrap: wrap; }
+    .stat { background: #21262d; padding: 12px 16px; border-radius: 6px; min-width: 120px; }
+    .stat-label { font-size: 0.75rem; color: #8b949e; }
+    .stat-value { font-size: 1.25rem; font-weight: 600; }
+    .stat-value.ok { color: #3fb950; }
+    .stat-value.alert { color: #f85149; }
+    .stat-value.warn { color: #d29922; }
+    .chart-container { height: 200px; position: relative; }
+    .events-list { max-height: 220px; overflow-y: auto; }
+    .event { padding: 10px 12px; margin-bottom: 8px; background: #21262d; border-radius: 6px; border-left: 4px solid #30363d; font-size: 0.85rem; }
+    .event.breach { border-left-color: #f85149; }
+    .event.tamper { border-left-color: #d29922; }
+    .event.route { border-left-color: #58a6ff; }
+    .event-type { font-weight: 600; color: #8b949e; }
+    .audit-chain { max-height: 220px; overflow-y: auto; font-family: monospace; font-size: 0.75rem; }
+    .audit-entry { padding: 8px 10px; margin-bottom: 6px; background: #21262d; border-radius: 4px; word-break: break-all; }
+    .audit-hash { color: #58a6ff; }
+    .empty { color: #8b949e; padding: 20px; text-align: center; }
+    .refresh-btn { padding: 8px 16px; background: #238636; border: none; border-radius: 6px; color: white; cursor: pointer; font-size: 14px; }
+    .refresh-btn:hover { background: #2ea043; }
+    .live-badge { display: inline-block; width: 8px; height: 8px; background: #3fb950; border-radius: 50%; animation: pulse 1.5s infinite; margin-right: 6px; }
+    @keyframes pulse { 50% { opacity: 0.5; } }
+  </style>
+</head>
+<body>
+  <header class="header">
+    <h1>Cold Chain – Monitoring Dashboard</h1>
+    <div>
+      <select class="shipment-select" id="shipmentSelect">
+        <option value="">-- Select shipment --</option>
+      </select>
+      <button class="refresh-btn" id="refreshBtn">Refresh</button>
+      <button class="refresh-btn" id="testBtn" style="background:#6e7681;margin-left:8px;">Test packet</button>
+      <button class="refresh-btn" id="violationBtn" style="background:#da3633;margin-left:4px;">Simulate breach</button>
+    </div>
+  </header>
+
+  <main class="main">
+    <div class="card" style="grid-column: 1 / -1;">
+      <h2><span class="live-badge"></span> Live Status</h2>
+      <div class="stats" id="stats">
+        <div class="stat"><span class="stat-label">Temperature</span><div class="stat-value" id="temp">--</div></div>
+        <div class="stat"><span class="stat-label">Humidity</span><div class="stat-value" id="humidity">--</div></div>
+        <div class="stat"><span class="stat-label">GPS</span><div class="stat-value" id="gps">--</div></div>
+        <div class="stat"><span class="stat-label">Lid</span><div class="stat-value" id="lid">--</div></div>
+        <div class="stat"><span class="stat-label">Shock</span><div class="stat-value" id="shock">--</div></div>
+        <div class="stat"><span class="stat-label">Last Updated</span><div class="stat-value" id="lastTs">--</div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Geofencing – Batch Location</h2>
+      <div class="map-container">
+        <div id="map"></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Temperature History</h2>
+      <div class="chart-container">
+        <canvas id="tempChart"></canvas>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Alerts & Events</h2>
+      <div class="events-list" id="eventsList">
+        <div class="empty">Select a shipment</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <h2>Audit Chain (Tamper-Evident)</h2>
+      <div class="audit-chain" id="auditChain">
+        <div class="empty">Select a shipment</div>
+      </div>
+    </div>
+
+    <div class="card" style="grid-column: 1 / -1;">
+      <h2>QR Scan – Vial Data (as when doctor scans vial on arrival)</h2>
+      <div style="display:flex;gap:8px;margin-bottom:12px;">
+        <input type="text" id="vialIdInput" placeholder="Enter vial ID (e.g. VIAL-005)" style="flex:1;padding:8px 12px;background:#21262d;border:1px solid #30363d;border-radius:6px;color:#e6edf3;font-size:14px;" />
+        <button class="refresh-btn" id="scanVialBtn">Scan / View</button>
+      </div>
+      <div id="vialScanResult" class="empty">Enter vial ID and click Scan to see blockchain data.</div>
+    </div>
+
+    <div class="card" style="grid-column: 1 / -1;">
+      <h2>Appointments (from Rural User App – synced via blockchain)</h2>
+      <div class="events-list" id="appointmentsList">
+        <div class="empty">Loading...</div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    const API = ''; // same origin
+    let map, marker, tempChart, routeLine;
+
+    function initMap() {
+      map = L.map('map').setView([19.0760, 72.8777], 12);
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', { attribution: '© OpenStreetMap' }).addTo(map);
+    }
+
+    function initChart() {
+      const ctx = document.getElementById('tempChart').getContext('2d');
+      tempChart = new Chart(ctx, {
+        type: 'line',
+        data: { labels: [], datasets: [{ label: 'Temp (°C)', data: [], borderColor: '#58a6ff', fill: false, tension: 0.3 }] },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: { min: 0, max: 15, grid: { color: '#30363d' }, ticks: { color: '#8b949e' } },
+            x: { grid: { color: '#30363d' }, ticks: { color: '#8b949e', maxTicksLimit: 8 } }
+          },
+          plugins: { legend: { display: false } }
+        }
+      });
+    }
+
+    async function fetchShipments() {
+      let data = { shipments: [] };
+      try {
+        const res = await fetch(API + '/iot/shipments');
+        data = await res.json();
+      } catch (e) { console.warn('API unavailable:', e); }
+      const sel = document.getElementById('shipmentSelect');
+      sel.innerHTML = '<option value="">-- Select shipment --</option>';
+      if (!data.shipments?.length) {
+        const opt = document.createElement('option');
+        opt.disabled = true;
+        opt.textContent = 'No shipments yet – run simulator first';
+        sel.appendChild(opt);
+      }
+      (data.shipments || []).forEach(s => {
+        const opt = document.createElement('option');
+        opt.value = s.shipmentId;
+        opt.textContent = `${s.shipmentId} (${s.status || 'ACTIVE'})`;
+        sel.appendChild(opt);
+      });
+    }
+
+    async function loadShipment(id) {
+      if (!id) return;
+      const [latestRes, historyRes, auditRes] = await Promise.all([
+        fetch(API + `/iot/shipment/${id}/latest`),
+        fetch(API + `/iot/shipment/${id}/history?limit=100`),
+        fetch(API + `/iot/shipment/${id}/audit`)
+      ]);
+
+      const latest = await latestRes.json();
+      const history = await historyRes.json();
+      const audit = await auditRes.json();
+
+      // Stats
+      const t = latest.latest;
+      const tempEl = document.getElementById('temp');
+      tempEl.textContent = t ? `${t.tempC.toFixed(1)}°C` : '--';
+      tempEl.className = 'stat-value ' + (t && (t.tempC < 2 || t.tempC > 8) ? 'alert' : 'ok');
+
+      document.getElementById('humidity').textContent = t?.humidity != null ? `${t.humidity.toFixed(0)}%` : '--';
+      document.getElementById('gps').textContent = t?.lat != null ? `${t.lat.toFixed(4)}, ${t.lng.toFixed(4)}` : '--';
+      document.getElementById('lid').textContent = t?.lidOpen ? 'OPEN' : 'Closed';
+      document.getElementById('lid').className = 'stat-value ' + (t?.lidOpen ? 'alert' : 'ok');
+      document.getElementById('shock').textContent = t?.shock ? 'Yes' : 'No';
+      document.getElementById('shock').className = 'stat-value ' + (t?.shock ? 'alert' : 'ok');
+      document.getElementById('lastTs').textContent = t?.ts ? new Date(t.ts).toLocaleString() : '--';
+
+      // Map
+      if (t?.lat != null && t?.lng != null) {
+        if (marker) marker.setLatLng([t.lat, t.lng]);
+        else marker = L.marker([t.lat, t.lng]).addTo(map);
+        map.setView([t.lat, t.lng], 14);
+      }
+      if (history.history?.length > 1) {
+        const pts = history.history.filter(h => h.lat != null).map(h => [h.lat, h.lng]);
+        if (routeLine) map.removeLayer(routeLine);
+        if (pts.length > 1) {
+          routeLine = L.polyline(pts, { color: '#58a6ff', weight: 3 }).addTo(map);
+          map.fitBounds(routeLine.getBounds(), { padding: [20, 20] });
+        }
+      }
+
+      // Chart
+      const hist = history.history || [];
+      tempChart.data.labels = hist.map(h => h.ts ? new Date(h.ts).toLocaleTimeString() : '');
+      tempChart.data.datasets[0].data = hist.map(h => h.tempC);
+      tempChart.update();
+
+      // Events
+      const eventsEl = document.getElementById('eventsList');
+      const evs = latest.recentEvents || [];
+      if (evs.length === 0) eventsEl.innerHTML = '<div class="empty">No events yet</div>';
+      else {
+        eventsEl.innerHTML = evs.map(e => {
+          const cls = e.eventType?.includes('COLD') ? 'breach' : e.eventType?.includes('TAMPER') ? 'tamper' : 'route';
+          return `<div class="event ${cls}"><span class="event-type">${e.eventType}</span><br>${e.tsStart ? new Date(e.tsStart).toLocaleString() : ''} ${e.txHash ? '• tx: ' + e.txHash.slice(0, 18) + '...' : ''}</div>`;
+        }).join('');
+      }
+
+      // Audit chain
+      const auditEl = document.getElementById('auditChain');
+      const chain = audit.chain || [];
+      if (chain.length === 0) auditEl.innerHTML = '<div class="empty">No audit entries</div>';
+      else {
+        auditEl.innerHTML = chain.map(a => `
+          <div class="audit-entry">
+            <div><span class="audit-hash">${a.hash?.slice(0, 16)}...</span></div>
+            <div>${a.eventType || ''} @ ${a.ts ? new Date(a.ts).toLocaleString() : ''}</div>
+          </div>
+        `).join('');
+      }
+    }
+
+    document.getElementById('shipmentSelect').addEventListener('change', e => loadShipment(e.target.value));
+    document.getElementById('refreshBtn').addEventListener('click', () => {
+      const id = document.getElementById('shipmentSelect').value;
+      if (id) loadShipment(id);
+      else fetchShipments();
+    });
+
+    async function sendPacket(overrides) {
+      const base = {
+        shipmentId: 'SHIP-TEST-' + Date.now().toString(36),
+        deviceId: 'VCBOX-01',
+        ts: new Date().toISOString(),
+        tempC: 5 + (Math.random() * 2),
+        humidity: 60 + Math.random() * 10,
+        lat: 19.076 + (Math.random() - 0.5) * 0.01,
+        lng: 72.877 + (Math.random() - 0.5) * 0.01,
+        lidOpen: false,
+        shock: 0,
+        batteryV: 3.9
+      };
+      const pkt = { ...base, ...overrides };
+      const res = await fetch(API + '/iot/telemetry', { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(pkt) });
+      await res.json();
+      await fetchShipments();
+      document.getElementById('shipmentSelect').value = pkt.shipmentId;
+      loadShipment(pkt.shipmentId);
+    }
+
+    document.getElementById('testBtn').addEventListener('click', async () => {
+      try { await sendPacket(); alert('Normal packet sent.'); } catch (e) { alert('Error: ' + e.message); }
+    });
+
+    document.getElementById('violationBtn').addEventListener('click', async () => {
+      try {
+        await sendPacket({ tempC: 14, lidOpen: true });
+        alert('Breach packet sent (temp 14°C, lid open). Check Alerts & Audit.');
+      } catch (e) { alert('Error: ' + e.message); }
+    });
+
+    initMap();
+    initChart();
+    fetchShipments().then(() => {
+      const first = document.getElementById('shipmentSelect').options[1]?.value;
+      if (first) { document.getElementById('shipmentSelect').value = first; loadShipment(first); }
+    });
+
+    async function loadAppointments() {
+      try {
+        const res = await fetch(API + '/api/appointments?limit=20');
+        const data = await res.json();
+        const el = document.getElementById('appointmentsList');
+        const apts = data.appointments || [];
+        if (apts.length === 0) el.innerHTML = '<div class="empty">No appointments yet. Book from rural user app.</div>';
+        else {
+          el.innerHTML = apts.map(a => `
+            <div class="event">
+              <span class="event-type">${a.centerName || a.centerId}</span> – ${a.slot || 'TBD'}<br>
+              <small>Aadhaar: ${a.aadhaarMasked || a.aadhaarHash || '--'} • ${a.createdAt ? new Date(a.createdAt).toLocaleString() : ''} ${a.txHash ? '• tx: ' + String(a.txHash).slice(0, 18) + '...' : ''}</small>
+            </div>
+          `).join('');
+        }
+      } catch (e) { document.getElementById('appointmentsList').innerHTML = '<div class="empty">Failed to load</div>'; }
+    }
+
+    async function loadVialScan(id) {
+      if (!id) return;
+      try {
+        const res = await fetch(API + '/api/vial/' + encodeURIComponent(id));
+        const data = await res.json();
+        const el = document.getElementById('vialScanResult');
+        const evs = data.events || [];
+        const usable = data.usable !== false;
+        let html = `<div class="event-type">${data.vialId}</div>`;
+        if (usable) html += `<div class="stat-value ok">✓ VIAL USABLE</div>`;
+        else html += `<div class="stat-value alert" style="font-size:1.1rem;padding:8px;">⚠ VIAL NOT USABLE – Breach recorded on blockchain</div>`;
+        html += `<div>Latest: ${data.latest?.tempC != null ? data.latest.tempC.toFixed(1) + '°C' : '--'} @ ${data.latest?.lat?.toFixed(4)}, ${data.latest?.lng?.toFixed(4)}</div>`;
+        html += '<div style="margin-top:12px;"><strong>Events (blockchain):</strong></div>';
+        (evs.slice(0, 10)).forEach(e => {
+          html += `<div class="audit-entry">${e.eventType} @ ${e.tsStart ? new Date(e.tsStart).toLocaleString() : ''} ${e.txHash ? 'tx: ' + String(e.txHash).slice(0, 20) + '...' : ''}</div>`;
+        });
+        el.innerHTML = html;
+      } catch (e) { document.getElementById('vialScanResult').innerHTML = '<div class="empty">Failed: ' + e.message + '</div>'; }
+    }
+
+    document.getElementById('scanVialBtn').addEventListener('click', () => {
+      const id = document.getElementById('vialIdInput').value.trim();
+      if (id) loadVialScan(id);
+    });
+
+    loadAppointments();
+    setInterval(loadAppointments, 10000);
+
+    setInterval(() => {
+      const id = document.getElementById('shipmentSelect').value;
+      if (id) loadShipment(id);
+    }, 5000);
+  </script>
+</body>
+</html>

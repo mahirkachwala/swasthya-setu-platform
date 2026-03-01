@@ -452,36 +452,70 @@ HUGGINGFACE_API_KEY=your_huggingface_key
 
 ## ⛓️ Blockchain Integration
 
-### VialLedger Smart Contract
+### VialLedger Smart Contract - Complete Source Code
 
-The `VialLedger.sol` contract provides immutable storage for violation events:
+The `VialLedger.sol` contract provides immutable storage for violation events on Ethereum:
 
 ```solidity
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.19;
+
 contract VialLedger {
     struct ViolationRecord {
-        bytes32 eventHash;      // SHA256 hash of event data
-        string eventType;       // COLD_CHAIN_BREACH, TAMPER_LID_OPEN, etc.
-        uint256 timestamp;      // Event timestamp
-        uint256 blockTs;        // Block timestamp
+        bytes32 eventHash;
+        string eventType;
+        uint256 timestamp;
+        uint256 blockTs;
     }
 
-    // Record a violation event
+    mapping(string => ViolationRecord[]) private shipmentViolations;
+
+    event ViolationRecorded(
+        string indexed shipmentId,
+        bytes32 eventHash,
+        string eventType,
+        uint256 timestamp
+    );
+
     function recordViolation(
         string calldata shipmentId,
         bytes32 eventHash,
         string calldata eventType,
         uint256 timestamp
-    ) external;
+    ) external {
+        shipmentViolations[shipmentId].push(ViolationRecord({
+            eventHash: eventHash,
+            eventType: eventType,
+            timestamp: timestamp,
+            blockTs: block.timestamp
+        }));
 
-    // Get violation count for a shipment
-    function getViolationCount(string calldata shipmentId) 
-        external view returns (uint256);
+        emit ViolationRecorded(shipmentId, eventHash, eventType, timestamp);
+    }
 
-    // Get specific violation details
-    function getViolation(string calldata shipmentId, uint256 index) 
-        external view returns (bytes32, string memory, uint256, uint256);
+    function getViolationCount(string calldata shipmentId) external view returns (uint256) {
+        return shipmentViolations[shipmentId].length;
+    }
+
+    function getViolation(string calldata shipmentId, uint256 index) external view returns (
+        bytes32 eventHash,
+        string memory eventType,
+        uint256 timestamp,
+        uint256 blockTs
+    ) {
+        ViolationRecord storage v = shipmentViolations[shipmentId][index];
+        return (v.eventHash, v.eventType, v.timestamp, v.blockTs);
+    }
 }
 ```
+
+### Smart Contract Functions
+
+| Function | Purpose |
+|----------|---------|
+| `recordViolation()` | Records a new violation event with hash, type, and timestamp |
+| `getViolationCount()` | Returns total number of violations for a shipment |
+| `getViolation()` | Retrieves specific violation details by index |
 
 ### Event Types
 
@@ -502,11 +536,28 @@ contract VialLedger {
 5. Detailed event history shown to user
 ```
 
+### Deploying the Smart Contract
+
+```bash
+# Navigate to blockchain directory
+cd Customer/blockchain
+
+# Install dependencies
+npm install
+
+# Compile contract
+npx hardhat compile
+
+# Deploy to Sepolia testnet
+npx hardhat run scripts/deploy.js --network sepolia
+```
+
 ---
 
 ## 🗣️ AI & Voice Pipeline
 
 ### Complete Multilingual Flow
+
 
 ```
 User Speech (Hindi/Marathi/etc.)

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Cold Chain – Vial Verification</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; font-family: 'Segoe UI', system-ui, sans-serif; background: #0f1419; color: #e6edf3; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 20px; }
+    .card { background: #161b22; border: 1px solid #30363d; border-radius: 12px; padding: 32px; max-width: 480px; width: 100%; text-align: center; }
+    .banner { font-size: 2rem; font-weight: 700; padding: 16px; border-radius: 8px; margin-bottom: 24px; }
+    .banner.safe { background: #238636; color: white; }
+    .banner.unsafe { background: #da3633; color: white; }
+    .vial-id { font-size: 1rem; color: #8b949e; margin-bottom: 16px; }
+    .stat { display: flex; justify-content: space-between; padding: 8px 0; border-bottom: 1px solid #30363d; font-size: 0.9rem; }
+    .stat-label { color: #8b949e; }
+    .events { text-align: left; margin-top: 20px; max-height: 200px; overflow-y: auto; }
+    .event { padding: 8px 12px; margin-bottom: 6px; background: #21262d; border-radius: 6px; border-left: 4px solid #f85149; font-size: 0.85rem; }
+    .event-type { font-weight: 600; color: #f85149; }
+    .empty-events { color: #8b949e; font-size: 0.9rem; }
+    .audit { margin-top: 16px; font-family: monospace; font-size: 0.75rem; color: #58a6ff; word-break: break-all; }
+    .loading { color: #8b949e; }
+  </style>
+</head>
+<body>
+  <div class="card" id="card">
+    <div class="loading" id="loading">Loading vial data...</div>
+    <div id="content" style="display:none;">
+      <div class="vial-id" id="vialId">--</div>
+      <div class="banner" id="banner">--</div>
+      <div class="stat"><span class="stat-label">Last temp</span><span id="temp">--</span></div>
+      <div class="stat"><span class="stat-label">Location</span><span id="location">--</span></div>
+      <div class="stat"><span class="stat-label">Last updated</span><span id="lastTs">--</span></div>
+      <div id="eventsSection">
+        <div style="font-weight:600;margin:12px 0 8px;color:#8b949e;">Events</div>
+        <div id="events" class="events"></div>
+      </div>
+      <div class="audit" id="audit"></div>
+    </div>
+  </div>
+  <script>
+    (function() {
+      const path = window.location.pathname;
+      const m = path.match(/\/track\/([^/]+)/);
+      const vialId = m ? decodeURIComponent(m[1]) : null;
+      if (!vialId) {
+        document.getElementById('loading').textContent = 'Invalid URL. Use /track/VIAL-DEMO-001';
+        return;
+      }
+      const api = window.location.origin;
+      fetch(api + '/api/vial/' + encodeURIComponent(vialId))
+        .then(r => r.json())
+        .then(data => {
+          document.getElementById('loading').style.display = 'none';
+          document.getElementById('content').style.display = 'block';
+          document.getElementById('vialId').textContent = data.vialId;
+          const banner = document.getElementById('banner');
+          banner.textContent = data.usable ? 'SAFE TO USE' : 'NOT SAFE';
+          banner.className = 'banner ' + (data.usable ? 'safe' : 'unsafe');
+          const latest = data.latest || {};
+          document.getElementById('temp').textContent = (latest.tempC != null ? latest.tempC + '°C' : '--');
+          document.getElementById('location').textContent = (latest.lat != null && latest.lng != null) ? latest.lat.toFixed(4) + ', ' + latest.lng.toFixed(4) : '--';
+          document.getElementById('lastTs').textContent = latest.ts ? new Date(latest.ts).toLocaleString() : '--';
+          const eventsEl = document.getElementById('events');
+          const breachTypes = ['COLD_CHAIN_BREACH','TAMPER_LID_OPEN','TAMPER_SHOCK','PRESSURE_ANOMALY','ROUTE_DEVIATION'];
+          const breachEvents = (data.events || []).filter(e => breachTypes.includes(e.eventType));
+          if (breachEvents.length) {
+            eventsEl.innerHTML = breachEvents.map(e => '<div class="event"><span class="event-type">' + e.eventType + '</span><br>' + (e.evidence ? JSON.stringify(e.evidence) : '') + '</div>').join('');
+          } else {
+            eventsEl.innerHTML = '<div class="empty-events">No violations recorded.</div>';
+          }
+          const chain = data.audit || [];
+          document.getElementById('audit').textContent = chain.length ? 'Audit: ' + chain[chain.length-1]?.hash?.substring(0,32) + '...' : '';
+        })
+        .catch(e => {
+          document.getElementById('loading').textContent = 'Failed: ' + e.message;
+        });
+    })();
+  </script>
+</body>
+</html>
