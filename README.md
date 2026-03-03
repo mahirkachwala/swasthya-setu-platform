@@ -1,212 +1,460 @@
-# Swasthya Setu
+# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
 
-A vaccine cold chain integrity and rural healthcare platform with IoT telemetry, blockchain-anchored audit logs, and multilingual AI assistance.
+<div align="center">
 
----
+![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)
+![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
-## Table of Contents
+**A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India**
 
-- [Problem](#problem)
-- [Solution](#solution)
-- [System Architecture](#system-architecture)
-- [Data Flow](#data-flow)
-- [Tech Stack](#tech-stack)
-- [Installation](#installation)
-- [API Overview](#api-overview)
-- [Blockchain Integration](#blockchain-integration)
-- [Screenshots](#screenshots)
-- [Contributors](#contributors)
-- [License](#license)
+[Features](#-features) • [Architecture](#-system-architecture) • [Installation](#-installation) • [Demo](#-demo-data) • [API Reference](#-api-reference) • [Contributing](#-contributing)
+
+</div>
 
 ---
 
-## Problem
+## 📋 Table of Contents
 
-Vaccine distribution in India faces significant operational challenges:
-
-- **Cold chain failures** lead to vaccine wastage when temperature excursions go undetected
-- **Lack of real-time visibility** into shipment conditions during transit
-- **No verifiable audit trail** for end consumers to confirm vaccine integrity
-- **Language barriers** prevent rural users from accessing healthcare applications effectively
+- [Overview](#-overview)
+- [Problem Statement](#-problem-statement)
+- [Solution](#-our-solution)
+- [Features](#-features)
+- [System Architecture](#-system-architecture)
+- [Tech Stack](#-tech-stack)
+- [Project Structure](#-project-structure)
+- [Installation](#-installation)
+- [Environment Variables](#-environment-variables)
+- [API Reference](#-api-reference)
+- [Blockchain Integration](#-blockchain-integration)
+- [AI & Voice Pipeline](#-ai--voice-pipeline)
+- [Demo Data](#-demo-data)
+- [Screenshots](#-screenshots)
+- [Team](#-team)
+- [License](#-license)
 
 ---
 
-## Solution
+## 🎯 Overview
+
+**Swasthya Setu** (Health Bridge) is an end-to-end vaccine cold chain management and rural healthcare platform that combines:
+
+- 🌡️ **Real-time IoT Monitoring** - Temperature, GPS, and tamper detection for vaccine shipments
+- 🔗 **Blockchain Verification** - Immutable audit trail using Ethereum smart contracts
+- 🗣️ **Multilingual AI Assistant** - Voice-enabled chatbot supporting 10+ Indian languages
+- 📱 **Mobile-First Design** - Flutter app for citizens, React dashboard for healthcare workers
+- 🏥 **Rural Healthcare Focus** - ABHA/Aadhaar integration for inclusive healthcare access
+
+---
+
+## ❗ Problem Statement
+
+India's vaccine distribution faces critical challenges:
+
+1. **Cold Chain Failures** - 25% of vaccines are wasted due to temperature excursions
+2. **Lack of Transparency** - No real-time visibility into vaccine shipment status
+3. **Language Barriers** - Rural populations struggle with English-only healthcare apps
+4. **Trust Deficit** - Citizens cannot verify if vaccines were stored properly
+5. **Paper-Based Tracking** - Manual processes lead to delays and errors
+
+---
+
+## 💡 Our Solution
 
 Swasthya Setu addresses these challenges through:
 
-1. **IoT-based monitoring** - ESP32 devices with temperature sensors stream telemetry data in real-time
-2. **Automated violation detection** - Backend processes telemetry and flags temperature breaches, tampering, and route deviations
-3. **Blockchain anchoring** - Critical violation events are hashed and recorded on Ethereum for immutable audit trails
-4. **Multilingual AI assistant** - Voice-enabled chatbot supporting 10+ Indian languages via Sarvam AI and Google Gemini
+### 🌡️ IoT-Based Cold Chain Monitoring
+- Real-time temperature monitoring (2-8°C compliant)
+- GPS tracking for shipment routes
+- Tamper detection (lid open, shock sensors)
+- Automated alerts for violations
+
+### 🔗 Blockchain-Anchored Verification
+- Every violation event is hashed and recorded on Ethereum
+- QR code scanning reveals complete shipment history
+- Immutable proof of vaccine integrity
+- SAFE/UNSAFE verdict for end consumers
+
+### 🗣️ Multilingual AI Assistant
+- Voice-enabled chatbot using Sarvam AI
+- Supports Hindi, Marathi, Tamil, Telugu, Bengali, and more
+- Natural language appointment booking
+- Health queries and vaccine information
+
+### 📱 Integrated Healthcare Ecosystem
+- Citizen app for booking and verification
+- Doctor dashboard for queue management
+- Real-time sync between all platforms
+- ABHA/Aadhaar-based identity verification
 
 ---
 
-## System Architecture
+## ✨ Features
+
+### For Citizens (Customer App)
+| Feature | Description |
+|---------|-------------|
+| 🆔 **Aadhaar Verification** | KYC with automatic ABHA card generation |
+| 📍 **Center Finder** | Interactive map with vaccination centers |
+| 📅 **Appointment Booking** | Voice or text-based booking |
+| 💬 **AI Chatbot** | Multilingual health assistant |
+| 📊 **Health Records** | Vaccine history, vitals, insights |
+| 🔐 **Secret Vault** | PIN-protected document storage |
+| 👨‍👩‍👧 **Family Management** | Book for family members |
+| 📜 **QR Verification** | Scan vial QR for authenticity |
+
+### For Doctors (Dashboard)
+| Feature | Description |
+|---------|-------------|
+| 📋 **Queue Management** | Real-time patient queue |
+| 💉 **Inventory Control** | Stock levels, reorder alerts |
+| 🚚 **Shipment Tracking** | Live shipment status |
+| 📱 **QR Scanning** | Vial verification before administration |
+| 📈 **Analytics** | KPIs, vaccination stats |
+| 👨‍⚕️ **Multi-Doctor Support** | Switch between doctor profiles |
+
+### For IoT Dashboard
+| Feature | Description |
+|---------|-------------|
+| 🌡️ **Live Telemetry** | Temperature, humidity, GPS |
+| ⚠️ **Alert System** | Cold chain, tamper, geofence alerts |
+| 📊 **Charts** | Historical temperature graphs |
+| 🔗 **Blockchain Proof** | On-chain event verification |
+| 🎮 **Simulation** | 3 demo scenarios for testing |
+
+---
+
+## 🏗️ System Architecture
 
 ```
 ┌─────────────────────────────────────────────────────────────────────────────┐
-│                              SWASTHYA SETU                                  │
+│                              SWASTHYA SETU ECOSYSTEM                        │
 ├─────────────────────────────────────────────────────────────────────────────┤
 │                                                                             │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────────────────────┐ │
-│   │  ESP32 + DHT │───▶│   Backend    │───▶│  MongoDB                     │ │
-│   │  (IoT Device)│    │  (Node.js)   │    │  - Telemetry collection      │ │
-│   └──────────────┘    └──────┬───────┘    │  - Violation events          │ │
-│                              │            │  - User data                 │ │
-│                              │            └──────────────────────────────┘ │
-│                              │                                             │
-│                              ▼                                             │
-│                    ┌──────────────────┐                                    │
-│                    │  Ethereum        │                                    │
-│                    │  (Sepolia)       │                                    │
-│                    │  - VialLedger    │                                    │
-│                    │    contract      │                                    │
-│                    └──────────────────┘                                    │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐                   │
+│  │   Citizen   │     │   Doctor    │     │    IoT      │                   │
+│  │  Flutter App│     │  Dashboard  │     │  Dashboard  │                   │
+│  │  (Mobile)   │     │   (React)   │     │   (Web)     │                   │
+│  └──────┬──────┘     └──────┬──────┘     └──────┬──────┘                   │
+│         │                   │                   │                           │
+│         └───────────────────┼───────────────────┘                           │
+│                             │                                               │
+│                             ▼                                               │
+│              ┌──────────────────────────────┐                               │
+│              │     Node.js Backend API      │                               │
+│              │      (Express.js:5000)       │                               │
+│              ├──────────────────────────────┤                               │
+│              │  Routes:                     │                               │
+│              │  • /api/* - Shared API       │                               │
+│              │  • /iot/* - Telemetry        │                               │
+│              │  • /chain/* - Blockchain     │                               │
+│              │  • /ai/* - AI/Chat           │                               │
+│              └──────────────┬───────────────┘                               │
+│                             │                                               │
+│         ┌───────────────────┼───────────────────┐                           │
+│         │                   │                   │                           │
+│         ▼                   ▼                   ▼                           │
+│  ┌─────────────┐     ┌─────────────┐     ┌─────────────┐                   │
+│  │  MongoDB    │     │  Ethereum   │     │  Sarvam AI  │                   │
+│  │  Database   │     │  Blockchain │     │  + Gemini   │                   │
+│  └─────────────┘     └─────────────┘     └─────────────┘                   │
 │                                                                             │
-│   ┌──────────────┐    ┌──────────────┐    ┌──────────────────────────────┐ │
-│   │ Flutter App  │◀──▶│   Backend    │◀──▶│  React Dashboard             │ │
-│   │ (Citizens)   │    │   REST API   │    │  (Healthcare Workers)        │ │
-│   └──────────────┘    └──────────────┘    └──────────────────────────────┘ │
-│                                                                             │
-│   ┌─────────────────────────────────────────────────────────────────────┐  │
-│   │  AI Pipeline: Sarvam STT → Gemini LLM → Sarvam TTS                  │  │
-│   │  Languages: Hindi, Marathi, Tamil, Telugu, Bengali, Gujarati, etc.  │  │
-│   └─────────────────────────────────────────────────────────────────────┘  │
+│  ┌─────────────────────────────────────────────────────────────────────────┤
+│  │                        SERVICES                                         │
+│  ├─────────────────────────────────────────────────────────────────────────┤
+│  │  • Rule Engine - Cold chain, tamper, geofence violation detection       │
+│  │  • Audit Chain - SHA256 hash chain for tamper-evident logs              │
+│  │  • Blockchain Service - Ethereum event anchoring via VialLedger         │
+│  │  • Simulator - 3 IoT demo scenarios                                     │
+│  │  • Sarvam Service - STT/TTS/Translation for 10+ languages               │
+│  └─────────────────────────────────────────────────────────────────────────┘
 │                                                                             │
 └─────────────────────────────────────────────────────────────────────────────┘
 ```
 
----
-
-## Data Flow
-
-### Telemetry Ingestion
+### Data Flow
 
 ```
-ESP32 Device → POST /iot/telemetry → Backend validates → MongoDB insert
-                                          ↓
-                              If violation detected:
-                                          ↓
-                              Hash event → Record on Ethereum
-```
-
-### Verification Request
-
-```
-User scans QR → GET /chain/verify/:shipmentId → Query Ethereum
-                                                      ↓
-                                          Return SAFE/UNSAFE verdict
-                                          with violation history
-```
-
-### AI Chatbot
-
-```
-Voice input → Sarvam STT → Translate to English → Gemini LLM
-                                                       ↓
-                              Translate response → Sarvam TTS → Voice output
+IoT Sensors → Telemetry API → Rule Engine → Violation Detection
+                                    ↓
+                            Event Creation
+                                    ↓
+                    ┌───────────────┼───────────────┐
+                    ↓               ↓               ↓
+              MongoDB          Audit Chain     Blockchain
+              (Store)          (Hash Chain)    (Immutable)
+                                    ↓
+                            QR Verification
+                                    ↓
+                            SAFE/UNSAFE Verdict
 ```
 
 ---
 
-## Tech Stack
+## 🛠️ Tech Stack
 
-| Layer | Technology |
-|-------|------------|
-| Mobile App | Flutter 3.7+, Dart |
-| Backend | Node.js 20, Express.js |
-| Database | MongoDB |
-| Blockchain | Ethereum (Sepolia), Solidity, Hardhat |
-| AI/ML | Google Gemini 2.5 Flash, Sarvam AI |
-| Dashboard | React, Vite, TailwindCSS |
-| Maps | Mappls SDK |
-| IoT | ESP32, DHT22 sensor |
+### Frontend
+| Technology | Purpose |
+|------------|---------|
+| **Flutter** | Cross-platform mobile app (Customer) |
+| **React + Vite** | Doctor Dashboard & Admin Panel |
+| **TailwindCSS** | Styling framework |
+| **shadcn/ui** | UI component library |
+| **Mappls SDK** | Interactive maps for India |
+
+### Backend
+| Technology | Purpose |
+|------------|---------|
+| **Node.js 20** | Runtime environment |
+| **Express.js** | REST API framework |
+| **MongoDB** | Primary database |
+| **Mongoose** | ODM for MongoDB |
+
+### Blockchain
+| Technology | Purpose |
+|------------|---------|
+| **Ethereum** | Smart contract platform |
+| **Solidity** | Smart contract language |
+| **Hardhat** | Development framework |
+| **ethers.js** | Ethereum library |
+
+### AI & Voice
+| Technology | Purpose |
+|------------|---------|
+| **Sarvam AI** | STT (Saarika v2), TTS (Bulbul v2), Translation (Mayura v1) |
+| **Google Gemini** | LLM for contextual responses |
+| **AI4Bharat** | IndicWav2Vec, IndicTrans2 (fallback) |
+
+### DevOps
+| Technology | Purpose |
+|------------|---------|
+| **Replit** | Cloud development & deployment |
+| **Supabase** | Realtime database sync |
+| **Firebase** | Push notifications |
 
 ---
 
-## Installation
+## 📁 Project Structure
+
+```
+Swasthya Setu/
+├── Customer/                    # Main application (Flutter + Backend)
+│   ├── lib/                     # Flutter mobile app source
+│   │   ├── main.dart            # App entry point
+│   │   ├── homePage.dart        # Home screen
+│   │   ├── login_new.dart       # Authentication
+│   │   ├── Qrpage.dart          # QR scanner
+│   │   ├── quiz.dart            # Health quizzes
+│   │   ├── screens/             # Screen components
+│   │   ├── models/              # Data models
+│   │   └── services/            # API services
+│   │
+│   ├── Server/                  # Node.js Backend
+│   │   ├── index.js             # Express server entry
+│   │   ├── Routes/              # API route handlers
+│   │   │   ├── api.js           # Shared API routes
+│   │   │   ├── iot.js           # IoT telemetry routes
+│   │   │   ├── chain.js         # Blockchain routes
+│   │   │   └── ai.js            # AI/Chat routes
+│   │   ├── services/            # Business logic
+│   │   │   ├── ruleEngine.js    # Violation detection
+│   │   │   ├── auditChain.js    # Hash chain audit
+│   │   │   ├── blockchain.js    # Ethereum integration
+│   │   │   ├── sarvam.js        # Sarvam AI service
+│   │   │   └── simulator.js     # IoT simulation
+│   │   ├── models/              # Mongoose schemas
+│   │   ├── data/                # Seed data (Aadhaar, centers)
+│   │   └── public/              # Frontend static files
+│   │       ├── citizen.html     # Citizen portal
+│   │       ├── doctor-app.html  # Doctor dashboard
+│   │       ├── dashboard.html   # IoT dashboard
+│   │       └── tracking.html    # Shipment verification
+│   │
+│   ├── blockchain/              # Smart contracts
+│   │   ├── contracts/
+│   │   │   └── VialLedger.sol   # Main smart contract
+│   │   ├── scripts/             # Deployment scripts
+│   │   └── hardhat.config.js    # Hardhat configuration
+│   │
+│   ├── android/                 # Android platform files
+│   ├── ios/                     # iOS platform files
+│   └── assets/                  # Images, icons, ABI
+│
+├── Doctor-Dashboard/            # React Doctor Dashboard
+│   ├── client/                  # Frontend (React + Vite)
+│   │   └── src/
+│   │       ├── pages/           # Page components
+│   │       ├── components/      # UI components
+│   │       └── contexts/        # React contexts
+│   ├── server/                  # Backend API
+│   │   ├── routes.ts            # API routes
+│   │   └── storage.ts           # Data storage
+│   └── shared/                  # Shared types/schemas
+│
+└── Health-Bridge-Backend/       # Central Backend Service
+    ├── server/                  # Express API
+    ├── client/                  # Admin dashboard
+    └── shared/                  # Shared schemas
+```
+
+---
+
+## 🚀 Installation
 
 ### Prerequisites
 
 - Node.js 20+
-- Flutter 3.7+
+- Flutter 3.7+ (for mobile app)
 - MongoDB (local or Atlas)
 - MetaMask wallet (for blockchain features)
 
-### Backend
+### Backend Setup
 
 ```bash
+# Clone the repository
+git clone https://github.com/AfterMath-2026/AfterMath_Bhartiya-Java-Party_Humanity.git
+cd AfterMath_Bhartiya-Java-Party_Humanity
+
+# Navigate to Customer Server
 cd Customer/Server
+
+# Install dependencies
 npm install
+
+# Create environment file
 cp .env.example .env
-# Configure environment variables
+# Edit .env with your credentials
+
+# Start the server
 node index.js
 ```
 
-### Flutter App
+### Flutter App Setup
 
 ```bash
+# Navigate to Customer directory
 cd Customer
+
+# Get Flutter dependencies
 flutter pub get
+
+# Run on Android/iOS
 flutter run
 ```
 
-### Dashboard
+### Doctor Dashboard Setup
 
 ```bash
+# Navigate to Doctor Dashboard
 cd Doctor-Dashboard
+
+# Install dependencies
 npm install
+
+# Start development server
 npm run dev
 ```
 
-### Blockchain (Optional)
+### Blockchain Setup (Optional)
 
 ```bash
+# Navigate to blockchain directory
 cd Customer/blockchain
+
+# Install Hardhat dependencies
 npm install
+
+# Compile smart contracts
 npx hardhat compile
+
+# Deploy to Sepolia testnet
 npx hardhat run scripts/deploy.js --network sepolia
 ```
 
 ---
 
-## API Overview
+## 🔐 Environment Variables
 
-### Telemetry
+Create a `.env` file in `Customer/Server/` with:
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/iot/telemetry` | POST | Submit device telemetry |
-| `/vial/:shipmentId` | GET | Get shipment status |
+```env
+# Database
+MONGODB_URI=mongodb+srv://username:password@cluster.mongodb.net/swasthya-setu
 
-### Blockchain
+# Blockchain (Ethereum Sepolia)
+ETHEREUM_RPC_URL=https://eth-sepolia.g.alchemy.com/v2/YOUR_API_KEY
+WALLET_PRIVATE_KEY=your_wallet_private_key
+VIAL_LEDGER_ADDRESS=0x_deployed_contract_address
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/chain/verify/:shipmentId` | GET | Verify shipment on-chain |
+# Sarvam AI (STT/TTS/Translation)
+SARVAM_API_KEY=your_sarvam_api_key
 
-### Chatbot
+# Maps
+MAPPLS_KEY=your_mappls_api_key
 
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/chatbot/voice` | POST | Process voice input |
-| `/chatbot/text` | POST | Process text input |
+# AI (Auto-configured on Replit)
+AI_INTEGRATIONS_GEMINI_API_KEY=your_gemini_key
 
-### Appointments
-
-| Endpoint | Method | Description |
-|----------|--------|-------------|
-| `/appointments` | GET | List user appointments |
-| `/appointments` | POST | Book new appointment |
+# Fallback AI
+HUGGINGFACE_API_KEY=your_huggingface_key
+```
 
 ---
 
-## Blockchain Integration
+## 📡 API Reference
 
-### Smart Contract: VialLedger
+### Shared API (`/api`)
 
-The `VialLedger.sol` contract stores violation records immutably on Ethereum.
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/aadhaar/verify` | POST | Verify Aadhaar and generate ABHA |
+| `/api/aadhaar/lookup/:id` | GET | Auto-fetch Aadhaar details |
+| `/api/centers` | GET | List vaccination centers |
+| `/api/appointments` | POST | Book appointment |
+| `/api/appointments` | GET | Query appointments |
+| `/api/appointments/:id` | PATCH | Update status |
+| `/api/inventory` | GET | Get vaccine stock |
+| `/api/inventory/reorder` | POST | Reorder vaccines |
+| `/api/shipments` | GET | List shipments |
+| `/api/qr/scan` | POST | Verify QR payload |
+| `/api/ai/chat` | POST | Multilingual chatbot |
+| `/api/voice/stt` | POST | Speech to text |
+| `/api/voice/tts` | POST | Text to speech |
+
+### IoT Pipeline (`/iot`)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/iot/telemetry` | POST | Ingest sensor data |
+| `/iot/shipment/:id/latest` | GET | Current shipment state |
+| `/iot/shipment/:id/history` | GET | Telemetry history |
+| `/iot/shipments` | GET | All IoT shipments |
+
+### Blockchain (`/chain`)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/chain/record` | POST | Write event to Ethereum |
+| `/chain/status` | GET | Connection status |
+| `/chain/verify/:shipmentId` | GET | Get on-chain events |
+
+### Simulation (`/simulator`)
+
+| Endpoint | Method | Description |
+|----------|--------|-------------|
+| `/api/sim/start` | POST | Start simulation scenario |
+| `/api/sim/stop` | POST | Stop simulation |
+
+---
+
+## ⛓️ Blockchain Integration
+
+### VialLedger Smart Contract - Complete Source Code
+
+The `VialLedger.sol` contract provides immutable storage for violation events on Ethereum:
 
 ```solidity
 // SPDX-License-Identifier: MIT
@@ -261,53 +509,207 @@ contract VialLedger {
 }
 ```
 
-### Contract Functions
+### Smart Contract Functions
 
-| Function | Description |
-|----------|-------------|
-| `recordViolation()` | Stores a violation event hash with metadata |
-| `getViolationCount()` | Returns total violations for a shipment |
-| `getViolation()` | Retrieves violation details by index |
+| Function | Purpose |
+|----------|---------|
+| `recordViolation()` | Records a new violation event with hash, type, and timestamp |
+| `getViolationCount()` | Returns total number of violations for a shipment |
+| `getViolation()` | Retrieves specific violation details by index |
 
 ### Event Types
 
-| Event | Trigger |
-|-------|---------|
-| `COLD_CHAIN_BREACH` | Temperature outside 2-8°C range |
-| `TAMPER_LID_OPEN` | Container lid opened during transit |
-| `TAMPER_SHOCK` | Physical shock detected |
-| `ROUTE_DEVIATION` | GPS location outside permitted geofence |
+| Event | Severity | Trigger |
+|-------|----------|---------|
+| `COLD_CHAIN_BREACH` | HIGH | Temperature outside 2-8°C |
+| `TAMPER_LID_OPEN` | CRITICAL | Container lid opened |
+| `TAMPER_SHOCK` | CRITICAL | Physical shock detected |
+| `ROUTE_DEVIATION` | MEDIUM | GPS outside geofence |
 
-### How It Works
+### Verification Flow
 
-1. IoT device streams telemetry to backend
-2. Backend detects violation (e.g., temperature > 8°C)
-3. Violation event is hashed: `keccak256(shipmentId + eventType + timestamp)`
-4. Hash is recorded on Ethereum via `recordViolation()`
-5. When user scans QR code, backend queries contract for all violations
-6. Returns `SAFE` (zero violations) or `UNSAFE` (violations found) with details
+```
+1. Citizen scans QR code on vaccine vial
+2. App sends shipmentId to /chain/verify/:shipmentId
+3. Backend queries Ethereum for all events
+4. Returns SAFE (no violations) or UNSAFE (violations found)
+5. Detailed event history shown to user
+```
 
----
+### Deploying the Smart Contract
 
-## Screenshots
+```bash
+# Navigate to blockchain directory
+cd Customer/blockchain
 
-*Screenshots to be added.*
+# Install dependencies
+npm install
 
----
+# Compile contract
+npx hardhat compile
 
-## Contributors
-
-| Name | Contributions |
-|------|---------------|
-| Mahir Kachwala | Backend, frontend integration, AI pipeline |
-| Arnav Kadhe | Smart contract development, blockchain integration |
-
----
-
-## License
-
-MIT License. See [LICENSE](LICENSE) for details.
+# Deploy to Sepolia testnet
+npx hardhat run scripts/deploy.js --network sepolia
+```
 
 ---
 
-*Built during ACM AfterMath Hackathon 2026.*
+## 🗣️ AI & Voice Pipeline
+
+### Complete Multilingual Flow
+
+
+```
+User Speech (Hindi/Marathi/etc.)
+        ↓
+Sarvam STT (saarika:v2)
+        ↓
+Detect Language
+        ↓
+Translate to English (mayura:v1)
+        ↓
+Gemini 2.5 Flash (contextual response)
+        ↓
+Translate to User Language (mayura:v1)
+        ↓
+Sarvam TTS (bulbul:v2, voice: anushka)
+        ↓
+Audio Response
+```
+
+### Supported Languages
+
+| Code | Language |
+|------|----------|
+| en | English |
+| hi | Hindi |
+| mr | Marathi |
+| ta | Tamil |
+| te | Telugu |
+| bn | Bengali |
+| gu | Gujarati |
+| kn | Kannada |
+| ml | Malayalam |
+| pa | Punjabi |
+
+### Chatbot Intents
+
+| Intent | Action |
+|--------|--------|
+| `BOOK_APPOINTMENT` | Book vaccination slot |
+| `CHECK_STATUS` | Check appointment status |
+| `FIND_CENTER` | Find nearby centers |
+| `VACCINE_INFO` | Information about vaccines |
+| `CANCEL_APPOINTMENT` | Cancel existing booking |
+| `HELP` | General assistance |
+
+---
+
+## 🎮 Demo Data
+
+### Test Credentials
+
+| Type | Value | Details |
+|------|-------|---------|
+| **Aadhaar** | `9999-1111-2222` | Ravi Patil, DOB: 2004-01-05 |
+| **Customer Login** | Aadhaar: `123456789012` | Password: `pass123` |
+| **Default Shipment** | `SHIP-00045` | Serum Institute, Covishield |
+
+### Demo Scenarios
+
+| Scenario | Description |
+|----------|-------------|
+| **Normal** | Shipment with no violations |
+| **Cold Breach** | Temperature exceeds 8°C |
+| **Tamper + Deviation** | Lid opened + route deviation |
+
+### Vaccination Centers
+
+- PHC Andheri (CEN-001)
+- PHC Bandra (CEN-002)
+- PHC Goregaon (CEN-003)
+- PHC Mulund (CEN-004)
+- PHC Powai (CEN-005)
+- PHC Vikhroli (CEN-006)
+
+---
+
+## 📸 Screenshots
+
+<div align="center">
+
+### Citizen App - Home & Records
+<img src="assets/screenshots/citizen-home.png" alt="Citizen Home" width="250"/>
+
+*Home screen with vaccination records, nearby centers, and ABHA verification status*
+
+### User Profile
+<img src="assets/screenshots/profile.png" alt="Profile" width="250"/>
+
+*User profile with settings, family management, and app preferences*
+
+### ABHA Health ID Creation
+<img src="assets/screenshots/abha-card.png" alt="ABHA Card" width="250"/>
+
+*Aadhaar-based ABHA Health ID generation with verified digital card*
+
+### Multilingual AI Chatbot
+<img src="assets/screenshots/ai-chatbot.png" alt="AI Chatbot" width="250"/>
+
+*Voice-enabled AI assistant supporting Hindi, Marathi, and 10+ Indian languages*
+
+</div>
+
+---
+
+## 🏆 Hackathon
+
+<div align="center">
+
+### 🎯 ACM AfterMath Hackathon 2026
+
+This project was built during the **ACM AfterMath Hackathon 2026**, demonstrating innovative solutions for healthcare challenges in rural India.
+
+</div>
+
+---
+
+## 👥 Team
+
+<div align="center">
+
+### **Team: Bhartiya Java Party** 🇮🇳
+
+</div>
+
+| Member | Role |
+|--------|------|
+| **Mahir Kachwala** | Full Stack Developer & Team Lead |
+| **Arnav Kadhe** | Backend Developer |
+| **Atharv Kanase** | Frontend Developer |
+| **Vedant Hande** | Blockchain & IoT Developer |
+
+---
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+---
+
+## 🙏 Acknowledgments
+
+- **Sarvam AI** - For multilingual STT/TTS/Translation APIs
+- **AI4Bharat** - For IndicWav2Vec and IndicTrans2 models
+- **Replit** - For cloud development environment
+- **Mappls** - For India-centric mapping solution
+
+---
+
+<div align="center">
+
+**Made with ❤️ for Rural India**
+
+[⬆ Back to Top](#-swasthya-setu---blockchain-secured-vaccine-cold-chain--rural-healthcare-platform)
+
+</div>
