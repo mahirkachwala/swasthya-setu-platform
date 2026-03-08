@@ -95,16 +95,42 @@ India's vaccine distribution faces critical challenges:
 
 ## 📸 App Screenshots
 
-### 🏠 Home & Appointment Booking
+### 🏠 Home & Dashboard
 
-The home screen provides quick access to all features, while the booking flow allows citizens to select a center, date, and time slot with a confirmation QR code.
+The home screen provides a personalized health dashboard with quick actions for vaccine booking, health tracking, ABHA access, and an AI chatbot. Citizens can view their profile, upcoming appointments, and recommended health actions.
 
 <div align="center">
 <table>
 <tr>
-<td align="center"><img src="home.jpg" width="220"/><br/><b>Home Screen</b><br/><i>Health dashboard with quick actions</i></td>
+<td align="center"><img src="27092.jpg" width="220"/><br/><b>Home Screen</b><br/><i>Dashboard with ABHA profile & booking</i></td>
+<td align="center"><img src="27093.jpg" width="220"/><br/><b>Health Trackers</b><br/><i>Vitals, records & eligibility check</i></td>
+<td align="center"><img src="home.jpg" width="220"/><br/><b>Quick Actions</b><br/><i>Vaccine booking & health tracking</i></td>
+</tr>
+</table>
+</div>
+
+### 📅 Appointment Booking
+
+Citizens can book vaccination appointments by selecting a center, date, and time slot. After booking, a confirmation screen with a QR code is generated for easy check-in.
+
+<div align="center">
+<table>
+<tr>
 <td align="center"><img src="manual-appointment.jpg" width="220"/><br/><b>Book Appointment</b><br/><i>Select center, date & time slot</i></td>
 <td align="center"><img src="apppointent-booked.jpg" width="220"/><br/><b>Booking Confirmed</b><br/><i>Appointment details & QR code</i></td>
+<td align="center"><img src="27094.jpg" width="220"/><br/><b>Vaccine Eligibility</b><br/><i>Check eligibility based on health profile</i></td>
+</tr>
+</table>
+</div>
+
+### 📍 Vaccination Centers — Map View
+
+An interactive map powered by Leaflet/OSM shows nearby vaccination centers with real-time slot availability, vaccine stock (Covishield, Covaxin), and one-tap navigation.
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><img src="27095.jpg" width="280"/><br/><b>Nearby Centers</b><br/><i>Map with slot & stock availability</i></td>
 </tr>
 </table>
 </div>
@@ -123,16 +149,30 @@ The AI chatbot understands natural language in 10+ Indian languages. Users can t
 </table>
 </div>
 
-### 🆔 ABHA & Family Management
+### 🆔 ABHA — Digital Health ID
 
-Citizens can generate their ABHA digital health ID via Aadhaar verification and manage vaccination bookings for their entire family from a single account.
+Citizens can create their ABHA health ID by verifying their Aadhaar number. The ABHA card includes a QR code, ABDM verification status, and data sharing consent settings with linked healthcare facilities.
+
+<div align="center">
+<table>
+<tr>
+<td align="center"><img src="27096.jpg" width="220"/><br/><b>Create ABHA</b><br/><i>Aadhaar verification & card generation</i></td>
+<td align="center"><img src="27097.jpg" width="220"/><br/><b>ABHA Settings</b><br/><i>Health card & data sharing consents</i></td>
+<td align="center"><img src="27098.jpg" width="220"/><br/><b>Linked Facilities</b><br/><i>Healthcare facilities & account actions</i></td>
+</tr>
+</table>
+</div>
+
+### 👨‍👩‍👧 Family Management & Help
+
+Manage vaccination bookings for the entire family from a single account. The Help & Feedback section includes FAQs on common queries and a built-in feedback form with ratings.
 
 <div align="center">
 <table>
 <tr>
 <td align="center"><img src="abha.jpg" width="220"/><br/><b>ABHA Card</b><br/><i>Digital health ID with QR code</i></td>
 <td align="center"><img src="family.jpg" width="220"/><br/><b>Family Members</b><br/><i>Manage & book for family</i></td>
-<td align="center"><img src="help.jpg" width="220"/><br/><b>Help & Support</b><br/><i>In-app guidance & FAQs</i></td>
+<td align="center"><img src="help.jpg" width="220"/><br/><b>Help & Feedback</b><br/><i>FAQs, support & feedback form</i></td>
 </tr>
 </table>
 </div>
