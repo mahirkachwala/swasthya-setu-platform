@@ -124,13 +124,9 @@ India's vaccine distribution faces critical challenges:
 
 ## 🏗️ Architecture Diagram
 
-<div align="center">
-
-<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/architecture-diagram.png">
+<p align="center">
 <img src="architecture-diagram.png" width="900"/>
-</a>
-
-</div>
+</p>
 ### Architecture Overview
 
 The **Swasthya Setu platform** follows a modular multi-layer architecture designed for scalable and transparent healthcare infrastructure.
