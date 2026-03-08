@@ -102,9 +102,9 @@ The home screen provides a personalized health dashboard with quick actions for 
 <div align="center">
 <table>
 <tr>
+<td align="center"><img src="home.jpg" width="220"/><br/><b>Quick Actions</b><br/><i>Welcome Screen and Language Selection</i></td>
 <td align="center"><img src="27092.jpg" width="220"/><br/><b>Home Screen</b><br/><i>Dashboard with ABHA profile & booking</i></td>
 <td align="center"><img src="27093.jpg" width="220"/><br/><b>Health Trackers</b><br/><i>Vitals, records & eligibility check</i></td>
-<td align="center"><img src="home.jpg" width="220"/><br/><b>Quick Actions</b><br/><i>Vaccine booking & health tracking</i></td>
 </tr>
 </table>
 </div>
@@ -481,7 +481,7 @@ PHC Andheri · PHC Bandra · CHC Dadar · UHC Kurla · PHC Goregaon · PHC Mulun
 | **Mahir Kachwala** | Frontend Developer |
 | **Arindam Dwivedi** | Backend Developer |
 | **Rohan Suri** | IoT & Hardware Developer |
-| **Rohan Kanse** | Full Stack Developer |
+| **Atharv Kanse** | Full Stack Developer |
 
 </div>
 
