@@ -482,10 +482,9 @@ PHC Andheri · PHC Bandra · CHC Dadar · UHC Kurla · PHC Goregaon · PHC Mulun
 | **Arindam Dwivedi** | Backend Developer |
 | **Rohan Suri** | IoT & Hardware Developer |
 | **Atharv Kanse** | Full Stack Developer |
+| **Siddharth Kamath** | AI & Data Integration Developer |
 
 </div>
-
----
 
 ## 📄 License
 
