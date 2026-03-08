@@ -1,130 +1,262 @@
-# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
+# 🏥 Swasthya Setu# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
 
 
 
-<div align="center"><div align="center">
+### Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
 
 
 
-![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)
-
-![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-
-![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-
-![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)
-
-![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
-
-![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+<div align="center"><div align="center"><div align="center">
 
 
 
-**A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India****A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India**
+![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+
+![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)
+
+![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+
+![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
 
 
 
-[Features](#-features) • [Architecture](#-architecture-diagram) • [Screenshots](#-app-screenshots) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
+*A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India*![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
 
+
+</div>![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)
+
+
+
+---![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+
+
+
+## 🎯 What is Swasthya Setu?![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+
+
+
+**Swasthya Setu** (Health Bridge) solves critical vaccine distribution challenges in India:
+
+
+
+| Problem | Our Solution |**A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India****A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India**
+
+|---------|--------------|
+
+| 25% vaccines wasted due to cold chain failures | 🌡️ Real-time IoT temperature monitoring with ESP32 sensors |
+
+| No transparency in shipment tracking | 🔗 Blockchain-verified audit trail on Ethereum |
+
+| Language barriers for rural citizens | 🗣️ AI chatbot supporting 10+ Indian languages |[Features](#-features) • [Architecture](#-architecture-diagram) • [Screenshots](#-app-screenshots) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
+
+| Citizens can't verify vaccine authenticity | 📱 QR scan shows blockchain-verified SAFE/UNSAFE status |
+
+
+
+---
 
 </div></div>
 
-
-
-------
+## 🏗️ System Architecture
 
 
 
-## 📋 Table of Contents## 📋 Table of Contents
+<div align="center">
+
+<img src="architechture-diagram.png" width="800" alt="System Architecture"/>------
+
+</div>
 
 
+
+**How it works:**
+
+- **Citizens** use Flutter app to book appointments, chat with AI, verify vaccines via QR## 📋 Table of Contents## 📋 Table of Contents
+
+- **Doctors** use React dashboard to manage queues, inventory, and shipments
+
+- **IoT Sensors** (ESP32) monitor temperature/GPS and record violations on blockchain
+
+- **Backend** (Node.js + MongoDB) handles all API requests and data sync
 
 - [Overview](#-overview)- [Overview](#-overview)
 
+---
+
 - [Problem Statement](#-problem-statement)- [Problem Statement](#-problem-statement)
+
+## 📸 App Screenshots
 
 - [Solution](#-our-solution)- [Solution](#-our-solution)
 
+### 🏠 Home & Booking
+
 - [Features](#-features)- [Features](#-features)
 
-- [Architecture](#-architecture-diagram)- [Tech Stack](#-tech-stack)
+<div align="center">
 
-- [Tech Stack](#-tech-stack)- [Installation](#-installation)
+<table>- [Architecture](#-architecture-diagram)- [Tech Stack](#-tech-stack)
 
-- [Project Structure](#-project-structure)- [Environment Variables](#-environment-variables)
+<tr>
 
-- [App Screenshots](#-app-screenshots)- [API Reference](#-api-reference)
+<td align="center"><img src="home.jpg" width="200"/><br/><b>Home Screen</b><br/><i>Health dashboard with quick actions</i></td>- [Tech Stack](#-tech-stack)- [Installation](#-installation)
+
+<td align="center"><img src="manual-appointment.jpg" width="200"/><br/><b>Book Appointment</b><br/><i>Select center, date & time slot</i></td>
+
+<td align="center"><img src="apppointent-booked.jpg" width="200"/><br/><b>Booking Confirmed</b><br/><i>Appointment details & QR code</i></td>- [Project Structure](#-project-structure)- [Environment Variables](#-environment-variables)
+
+</tr>
+
+</table>- [App Screenshots](#-app-screenshots)- [API Reference](#-api-reference)
+
+</div>
 
 - [Installation](#-installation)- [App Screenshots](#-app-screenshots)
 
+### 💬 AI Chatbot (Multilingual Voice Assistant)
+
 - [Environment Variables](#-environment-variables)- [Demo Data](#-demo-data)
 
-- [API Reference](#-api-reference)- [Team](#-team)
+<div align="center">
 
-- [Demo Data](#-demo-data)- [License](#-license)
+<table>- [API Reference](#-api-reference)- [Team](#-team)
 
-- [Team](#-team)
+<tr>
 
-- [License](#-license)---
+<td align="center"><img src="chat1.jpg" width="200"/><br/><b>Chat Interface</b><br/><i>Natural language health queries</i></td>- [Demo Data](#-demo-data)- [License](#-license)
+
+<td align="center"><img src="chat2.jpg" width="200"/><br/><b>Voice Input</b><br/><i>Speak in your language</i></td>
+
+<td align="center"><img src="chat3.jpg" width="200"/><br/><b>AI Response</b><br/><i>Get answers in 10+ Indian languages</i></td>- [Team](#-team)
+
+</tr>
+
+</table>- [License](#-license)---
+
+</div>
 
 
+
+### 🆔 ABHA & Family Management
 
 ---## 🎯 Overview
 
+<div align="center">
 
+<table>
 
-## 🎯 Overview**Swasthya Setu** (Health Bridge) is an end-to-end vaccine cold chain management and rural healthcare platform that combines:
+<tr>
 
+<td align="center"><img src="abha.jpg" width="200"/><br/><b>ABHA Card</b><br/><i>Digital health ID with QR</i></td>## 🎯 Overview**Swasthya Setu** (Health Bridge) is an end-to-end vaccine cold chain management and rural healthcare platform that combines:
 
+<td align="center"><img src="family.jpg" width="200"/><br/><b>Family Members</b><br/><i>Manage & book for family</i></td>
 
-**Swasthya Setu** (Health Bridge) is an end-to-end vaccine cold chain management and rural healthcare platform that combines:- 🌡️ **Real-time IoT Monitoring** - Temperature, GPS, and tamper detection for vaccine shipments
+<td align="center"><img src="help.jpg" width="200"/><br/><b>Help & Support</b><br/><i>In-app guidance</i></td>
+
+</tr>
+
+</table>**Swasthya Setu** (Health Bridge) is an end-to-end vaccine cold chain management and rural healthcare platform that combines:- 🌡️ **Real-time IoT Monitoring** - Temperature, GPS, and tamper detection for vaccine shipments
+
+</div>
 
 - 🔗 **Blockchain Verification** - Immutable audit trail using Ethereum smart contracts
 
+### 🔐 Secret Vault
+
 | Component | Description |- 🗣️ **Multilingual AI Assistant** - Voice-enabled chatbot supporting 10+ Indian languages
 
-|-----------|-------------|- 📱 **Mobile-First Design** - Flutter app for citizens, React dashboard for healthcare workers
+<div align="center">
 
-| 🌡️ **Real-time IoT Monitoring** | Temperature, GPS, and tamper detection for vaccine shipments using ESP32 sensors |- 🏥 **Rural Healthcare Focus** - ABHA/Aadhaar integration for inclusive healthcare access
+<table>|-----------|-------------|- 📱 **Mobile-First Design** - Flutter app for citizens, React dashboard for healthcare workers
 
-| 🔗 **Blockchain Verification** | Immutable audit trail using Ethereum smart contracts for complete transparency |
+<tr>
 
-| 🗣️ **Multilingual AI Assistant** | Voice-enabled chatbot supporting 10+ Indian languages via Sarvam AI |**Three Main Modules:**
+<td align="center"><img src="vault.jpg" width="200"/><br/><b>Vault Entry</b><br/><i>PIN-protected secure storage</i></td>| 🌡️ **Real-time IoT Monitoring** | Temperature, GPS, and tamper detection for vaccine shipments using ESP32 sensors |- 🏥 **Rural Healthcare Focus** - ABHA/Aadhaar integration for inclusive healthcare access
 
-| 📱 **Mobile-First Design** | Flutter app for citizens, React dashboard for healthcare workers |- **Doctor Dashboard** - Real-time vaccination center management
+<td align="center"><img src="vault-inside.jpg" width="200"/><br/><b>Vault Contents</b><br/><i>Store sensitive health documents</i></td>
 
-| 🏥 **Rural Healthcare Focus** | ABHA/Aadhaar integration for inclusive healthcare access across India |- **Blockchain Module** - Cold-chain and traceability with IoT/ESP32 integration
+</tr>| 🔗 **Blockchain Verification** | Immutable audit trail using Ethereum smart contracts for complete transparency |
 
-- **Rural App** - Citizen-facing mobile application with backend APIs
+</table>
 
----
+</div>| 🗣️ **Multilingual AI Assistant** | Voice-enabled chatbot supporting 10+ Indian languages via Sarvam AI |**Three Main Modules:**
 
----
 
-## ❗ Problem Statement
 
-## ❗ Problem Statement
+---| 📱 **Mobile-First Design** | Flutter app for citizens, React dashboard for healthcare workers |- **Doctor Dashboard** - Real-time vaccination center management
 
-India's vaccine distribution faces critical challenges:
 
-India's vaccine distribution faces critical challenges:
 
-| Challenge | Impact |
+## ✨ Key Features| 🏥 **Rural Healthcare Focus** | ABHA/Aadhaar integration for inclusive healthcare access across India |- **Blockchain Module** - Cold-chain and traceability with IoT/ESP32 integration
 
-|-----------|--------|| Challenge | Impact |
 
-| **Cold Chain Failures** | 25% of vaccines wasted due to temperature excursions ||-----------|--------|
 
-| **Lack of Transparency** | No real-time visibility into shipment status || **Cold Chain Failures** | 25% of vaccines wasted due to temperature excursions |
+### 📱 For Citizens (Mobile App)- **Rural App** - Citizen-facing mobile application with backend APIs
 
-| **Language Barriers** | Rural populations struggle with English-only apps || **Lack of Transparency** | No real-time visibility into shipment status |
+- **Aadhaar Verification** → Auto-generate ABHA health ID
 
-| **Trust Deficit** | Citizens cannot verify vaccine storage conditions || **Language Barriers** | Rural populations struggle with English-only apps |
+- **Appointment Booking** → Voice or text in regional languages---
 
-| **Paper-Based Tracking** | Manual processes lead to delays and errors || **Trust Deficit** | Citizens cannot verify vaccine storage conditions |
+- **AI Chatbot** → Multilingual health assistant (Sarvam AI)
 
-| **Paper-Based Tracking** | Manual processes lead to delays and errors |
+- **QR Verification** → Scan vial to check blockchain status---
+
+- **Secret Vault** → PIN-protected document storage
+
+- **Family Management** → Book for family members## ❗ Problem Statement
+
+
+
+### 🏥 For Doctors (Dashboard)## ❗ Problem Statement
+
+- **Queue Management** → BOOKED → CHECKED_IN → VACCINATED flow
+
+- **Inventory Control** → Stock levels, low-stock alerts, reorderIndia's vaccine distribution faces critical challenges:
+
+- **Shipment Tracking** → Live status with violation alerts
+
+- **QR Scanner** → Verify vial before administrationIndia's vaccine distribution faces critical challenges:
+
+
+
+### 🌡️ IoT & Blockchain| Challenge | Impact |
+
+- **Temperature Monitoring** → 2-8°C range with breach alerts
+
+- **GPS Tracking** → Geofence violation detection|-----------|--------|| Challenge | Impact |
+
+- **Tamper Detection** → Lid open alerts
+
+- **On-Chain Records** → Every violation hashed on Ethereum| **Cold Chain Failures** | 25% of vaccines wasted due to temperature excursions ||-----------|--------|
+
+
+
+---| **Lack of Transparency** | No real-time visibility into shipment status || **Cold Chain Failures** | 25% of vaccines wasted due to temperature excursions |
+
+
+
+## 🛠️ Tech Stack| **Language Barriers** | Rural populations struggle with English-only apps || **Lack of Transparency** | No real-time visibility into shipment status |
+
+
+
+| Layer | Technology || **Trust Deficit** | Citizens cannot verify vaccine storage conditions || **Language Barriers** | Rural populations struggle with English-only apps |
+
+|-------|------------|
+
+| Mobile App | Flutter, Dart || **Paper-Based Tracking** | Manual processes lead to delays and errors || **Trust Deficit** | Citizens cannot verify vaccine storage conditions |
+
+| Web Dashboard | React, TypeScript, TailwindCSS |
+
+| Backend | Node.js, Express, MongoDB || **Paper-Based Tracking** | Manual processes lead to delays and errors |
+
+| Blockchain | Ethereum, Solidity, Hardhat |
+
+| AI/Voice | Sarvam AI, Google Gemini |---
+
+| IoT | ESP32, DHT22, GPS Module |
 
 ---
 
@@ -132,19 +264,35 @@ India's vaccine distribution faces critical challenges:
 
 ## 💡 Our Solution
 
+## 📁 Project Structure
+
 ## 💡 Our Solution
 
-| Solution | Description |
+```
 
-|----------|-------------|| Solution | Description |
+swasthya-setu-platform/| Solution | Description |
 
-| 🌡️ **IoT Cold Chain** | Real-time temperature monitoring (2-8°C), GPS tracking, tamper detection, automated alerts ||----------|-------------|
+├── Customer/           # 📱 Flutter Mobile App
 
-| 🔗 **Blockchain Verification** | Every violation hashed on Ethereum, QR code reveals history, SAFE/UNSAFE verdict || 🌡️ **IoT Cold Chain** | Real-time temperature monitoring (2-8°C), GPS tracking, tamper detection, automated alerts |
+│   ├── lib/            # Dart source code|----------|-------------|| Solution | Description |
 
-| 🗣️ **Multilingual AI** | Voice chatbot via Sarvam AI, supports 10+ Indian languages, natural language booking || 🔗 **Blockchain Verification** | Every violation hashed on Ethereum, QR code reveals history, SAFE/UNSAFE verdict |
+│   └── blockchain/     # Smart contract integration
 
-| 📱 **Integrated Ecosystem** | Citizen app + Doctor dashboard + Real-time sync + ABHA/Aadhaar verification || 🗣️ **Multilingual AI** | Voice chatbot via Sarvam AI, supports 10+ Indian languages, natural language booking |
+├── Doctor-Dashboard/   # 🏥 React Web Dashboard| 🌡️ **IoT Cold Chain** | Real-time temperature monitoring (2-8°C), GPS tracking, tamper detection, automated alerts ||----------|-------------|
+
+│   ├── client/         # Frontend
+
+│   └── server/         # Backend API| 🔗 **Blockchain Verification** | Every violation hashed on Ethereum, QR code reveals history, SAFE/UNSAFE verdict || 🌡️ **IoT Cold Chain** | Real-time temperature monitoring (2-8°C), GPS tracking, tamper detection, automated alerts |
+
+├── server/             # 🌡️ IoT & Blockchain Server
+
+│   ├── Routes/         # API endpoints| 🗣️ **Multilingual AI** | Voice chatbot via Sarvam AI, supports 10+ Indian languages, natural language booking || 🔗 **Blockchain Verification** | Every violation hashed on Ethereum, QR code reveals history, SAFE/UNSAFE verdict |
+
+│   └── models/         # MongoDB schemas
+
+└── demo/               # 🎮 Test scenarios| 📱 **Integrated Ecosystem** | Citizen app + Doctor dashboard + Real-time sync + ABHA/Aadhaar verification || 🗣️ **Multilingual AI** | Voice chatbot via Sarvam AI, supports 10+ Indian languages, natural language booking |
+
+```
 
 | 📱 **Integrated Ecosystem** | Citizen app + Doctor dashboard + Real-time sync + ABHA/Aadhaar verification |
 
@@ -152,51 +300,103 @@ India's vaccine distribution faces critical challenges:
 
 ---
 
-## ✨ Features
+## 🚀 Quick Start
+
+---
+
+```bash
+
+# Clone repository## ✨ Features
+
+git clone https://github.com/mahirkachwala/swasthya-setu-platform.git
 
 ## ✨ Features
 
-### For Citizens (Mobile App)
+# Doctor Dashboard
 
-### For Citizens (Mobile App)
+cd Doctor-Dashboard && npm install && npm run dev### For Citizens (Mobile App)
+
+
+
+# Backend Server  ### For Citizens (Mobile App)
+
+cd server && npm install && npm start
 
 | Feature | Description || Feature | Description |
 
-|---------|-------------||---------|-------------|
+# Mobile App
+
+cd Customer && flutter pub get && flutter run|---------|-------------||---------|-------------|
+
+```
 
 | 🆔 **Aadhaar Verification** | KYC with automatic ABHA card generation for unified health identity || 🆔 **Aadhaar Verification** | KYC with automatic ABHA card generation |
 
+---
+
 | 📍 **Center Finder** | Interactive map with vaccination centers using Mappls SDK || 📍 **Center Finder** | Interactive map with vaccination centers |
+
+## 🎮 Demo Credentials
 
 | 📅 **Appointment Booking** | Voice or text-based booking in regional languages || 📅 **Appointment Booking** | Voice or text-based booking |
 
-| 💬 **AI Chatbot** | Multilingual health assistant for queries and guidance || 💬 **AI Chatbot** | Multilingual health assistant |
+| Type | Value |
 
-| 📊 **Health Records** | View vaccine history, vitals, and health insights || 📊 **Health Records** | Vaccine history, vitals, insights |
+|------|-------|| 💬 **AI Chatbot** | Multilingual health assistant for queries and guidance || 💬 **AI Chatbot** | Multilingual health assistant |
+
+| Aadhaar | `9999-1111-2222` |
+
+| Password | `pass123` || 📊 **Health Records** | View vaccine history, vitals, and health insights || 📊 **Health Records** | Vaccine history, vitals, insights |
+
+| Test Shipment | `SHIP-00045` |
 
 | 🔐 **Secret Vault** | PIN-protected storage for sensitive health documents || 🔐 **Secret Vault** | PIN-protected document storage |
 
+---
+
 | 👨‍👩‍👧 **Family Management** | Book and manage appointments for family members || 👨‍👩‍👧 **Family Management** | Book for family members |
+
+## 👥 Team
 
 | 📜 **QR Verification** | Scan vial QR to verify vaccine authenticity via blockchain || 📜 **QR Verification** | Scan vial QR for authenticity |
 
+| Member | Role |
 
+|--------|------|
 
-### For Doctors (Dashboard)### For Doctors (Dashboard)
+| **Mahir Kachwala** | Full Stack Developer & Team Lead |
+
+| **Arnav Kadhe** | Blockchain & IoT Developer |### For Doctors (Dashboard)### For Doctors (Dashboard)
+
+| **Atharv Kanase** | Frontend Developer |
 
 | Feature | Description |
 
+---
+
 | Feature | Description ||---------|-------------|
+
+## 📄 License
 
 |---------|-------------|| 📋 **Queue Management** | Real-time patient queue (BOOKED → CHECKED_IN → VACCINATED → DISPOSED) |
 
+MIT License - see [LICENSE](LICENSE) for details.
+
 | 📋 **Queue Management** | Real-time patient queue tracking (BOOKED → CHECKED_IN → VACCINATED → DISPOSED) || 💉 **Inventory Control** | Stock levels, batch tracking, low-stock alerts, one-click reorder |
+
+---
 
 | 💉 **Inventory Control** | Stock levels, batch tracking, low-stock alerts, one-click reorder || 🚚 **Shipment Tracking** | Live status with multi-checkpoint timeline |
 
+<div align="center">
+
 | 🚚 **Shipment Tracking** | Live status with multi-checkpoint timeline and alerts || 📱 **QR Scanning** | Vial verification before administration |
 
+**Made with ❤️ for Rural India**
+
 | 📱 **QR Scanning** | Vial verification before administration || 📈 **Analytics** | KPI cards, capacity gauge, real-time alerts |
+
+</div>
 
 | 📈 **Analytics** | KPI cards, capacity gauge, real-time alerts dashboard || 👥 **Patient Registry** | Aggregated view with Aadhaar/ABHA status |
 
