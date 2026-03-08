@@ -120,6 +120,40 @@ India's vaccine distribution faces critical challenges:
 | **Maps** | Mappls SDK (India-centric) |
 
 ---
+---
+
+## 🏗️ Architecture Diagram
+
+<div align="center">
+
+### System Architecture
+![System Architecture](image_url)
+
+### Backend Architecture
+![Backend Architecture](image_url)
+
+### Blockchain & IoT Integration
+![Blockchain IoT Architecture](image_url)
+
+### Application Data Flow
+![Data Flow Architecture](image_url)
+
+</div>
+
+### Architecture Overview
+
+The **Swasthya Setu platform** follows a modular multi-layer architecture designed for scalable and transparent healthcare infrastructure.
+
+| Layer | Components | Role |
+|------|-------------|------|
+| **Citizen Layer** | Flutter Mobile App | Allows citizens to register, book appointments, access health records, and interact with AI chatbot |
+| **Doctor Layer** | React Dashboard | Enables healthcare workers to manage queues, inventory, shipments, and vaccination records |
+| **Backend Layer** | Node.js, Express, MongoDB | Handles API requests, authentication, and system data management |
+| **Blockchain Layer** | Ethereum Smart Contracts | Stores immutable records of cold-chain violations and shipment traceability |
+| **IoT Layer** | ESP32 Sensors, Telemetry Server | Collects temperature, GPS, and tamper data from vaccine shipments |
+| **AI Layer** | Sarvam AI, Gemini | Provides multilingual chatbot and voice assistance |
+
+---
 
 ## 🚀 Installation
 
