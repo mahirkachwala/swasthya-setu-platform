@@ -126,7 +126,7 @@ India's vaccine distribution faces critical challenges:
 
 <div align="center">
 
-![System Architecture](assets/architecture diagram.png)
+[![System Architecture](assets/architecture diagram.png)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/architechture-diagram.png)
 
 </div>
 
@@ -247,33 +247,31 @@ Each backend folder includes a `.env.example`. Copy to `.env` and configure:
 
 ### Citizen App
 
-| Home Screen | Profile | ABHA Card |
-|-------------|---------|-----------|
-| ![Home](image_url) | ![Profile](image_url) | ![ABHA](image_url) |
+| Home | Main Home | Navigation |
+|-----|-----|-----|
+| [![Home](home.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/home.jpg) | [![Main Home](main-home.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/main-home.jpg) | [![Navigation](navigation-center.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/navigation-center.jpg) |
 
-### AI Chatbot & Voice
+| ABHA Card | ABHA Setup | Insurance |
+|-----|-----|-----|
+| [![ABHA Card](abha-card.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-card.jpg) | [![ABHA Setup](abha-setting.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-setting.jpg) | [![Insurance](insurance.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/insurance.jpg) |
 
-| Chatbot | Voice Assistant |
-|---------|-----------------|
-| ![Chatbot](image_url) | ![Voice](image_url) |
+| Appointment | Manual Appointment | Family |
+|-----|-----|-----|
+| [![Appointment](appointment-booked.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/appointment-booked.jpg) | [![Manual](manual-appointment.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/manual-appointment.jpg) | [![Family](family.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/family.jpg) |
 
-### Doctor Dashboard
+| Chatbot 1 | Chatbot 2 | Chatbot 3 |
+|-----|-----|-----|
+| [![Chat1](chat1.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat1.jpg) | [![Chat2](chat2.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat2.jpg) | [![Chat3](chat3.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat3.jpg) |
 
-| Dashboard | Appointments | Inventory |
-|-----------|--------------|-----------|
-| ![Dashboard](image_url) | ![Appointments](image_url) | ![Inventory](image_url) |
+| Vault | Vault Inside | Vitals |
+|-----|-----|-----|
+| [![Vault](vault.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault.jpg) | [![Vault Inside](vault-inside.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault-inside.jpg) | [![Vitals](vitals.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vitals.jpg) |
 
-### Shipment Tracking
+| Help |
+|-----|
+| [![Help](help.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/help.jpg) |
 
-| Shipments | QR Scanner |
-|-----------|------------|
-| ![Shipments](image_url) | ![QR](image_url) |
-
-### IoT Dashboard
-
-| Live Telemetry | Alerts |
-|----------------|--------|
-| ![Telemetry](image_url) | ![Alerts](image_url) |
+</div>
 
 </div>
 
