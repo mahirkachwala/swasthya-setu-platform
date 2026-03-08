@@ -247,31 +247,132 @@ Each backend folder includes a `.env.example`. Copy to `.env` and configure:
 
 ### Citizen App
 
-| Home | Main Home | Navigation |
-|-----|-----|-----|
-| [![Home](home.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/home.jpg) | [![Main Home](main-home.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/main-home.jpg) | [![Navigation](navigation-center.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/navigation-center.jpg) |
+<table>
+<tr>
+<td align="center">
+<b>Home</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/home.jpg">
+<img src="home.jpg" width="250">
+</a>
+</td>
 
-| ABHA Card | ABHA Setup | Insurance |
-|-----|-----|-----|
-| [![ABHA Card](abha-card.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-card.jpg) | [![ABHA Setup](abha-setting.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-setting.jpg) | [![Insurance](insurance.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/insurance.jpg) |
+<td align="center">
+<b>Main Home</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/main-home.jpg">
+<img src="main-home.jpg" width="250">
+</a>
+</td>
 
-| Appointment | Manual Appointment | Family |
-|-----|-----|-----|
-| [![Appointment](appointment-booked.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/appointment-booked.jpg) | [![Manual](manual-appointment.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/manual-appointment.jpg) | [![Family](family.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/family.jpg) |
+<td align="center">
+<b>Navigation</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/navigation-center.jpg">
+<img src="navigation-center.jpg" width="250">
+</a>
+</td>
+</tr>
 
-| Chatbot 1 | Chatbot 2 | Chatbot 3 |
-|-----|-----|-----|
-| [![Chat1](chat1.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat1.jpg) | [![Chat2](chat2.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat2.jpg) | [![Chat3](chat3.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat3.jpg) |
+<tr>
+<td align="center">
+<b>ABHA Card</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-card.jpg">
+<img src="abha-card.jpg" width="250">
+</a>
+</td>
 
-| Vault | Vault Inside | Vitals |
-|-----|-----|-----|
-| [![Vault](vault.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault.jpg) | [![Vault Inside](vault-inside.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault-inside.jpg) | [![Vitals](vitals.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vitals.jpg) |
+<td align="center">
+<b>ABHA Setup</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/abha-setting.jpg">
+<img src="abha-setting.jpg" width="250">
+</a>
+</td>
 
-| Help |
-|-----|
-| [![Help](help.jpg)](https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/help.jpg) |
+<td align="center">
+<b>Insurance</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/insurance.jpg">
+<img src="insurance.jpg" width="250">
+</a>
+</td>
+</tr>
 
-</div>
+<tr>
+<td align="center">
+<b>Appointment</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/appointment-booked.jpg">
+<img src="appointment-booked.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Manual Appointment</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/manual-appointment.jpg">
+<img src="manual-appointment.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Family</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/family.jpg">
+<img src="family.jpg" width="250">
+</a>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<b>Chatbot 1</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat1.jpg">
+<img src="chat1.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Chatbot 2</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat2.jpg">
+<img src="chat2.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Chatbot 3</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/chat3.jpg">
+<img src="chat3.jpg" width="250">
+</a>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<b>Vault</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault.jpg">
+<img src="vault.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Vault Inside</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vault-inside.jpg">
+<img src="vault-inside.jpg" width="250">
+</a>
+</td>
+
+<td align="center">
+<b>Vitals</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/vitals.jpg">
+<img src="vitals.jpg" width="250">
+</a>
+</td>
+</tr>
+
+<tr>
+<td align="center">
+<b>Help & Feedback</b><br>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/help.jpg">
+<img src="help.jpg" width="250">
+</a>
+</td>
+</tr>
+
+</table>
 
 </div>
 
