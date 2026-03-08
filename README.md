@@ -1,150 +1,298 @@
-# 🏥 Swasthya Setu# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
+# 🏥 Swasthya Setu# 🏥 Swasthya Setu# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform# 🏥 Swasthya Setu - Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
 
 
 
-### Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
+**Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform**
 
 
 
-<div align="center"><div align="center"><div align="center">
+![Flutter](https://img.shields.io/badge/Flutter-02569B?style=flat&logo=flutter&logoColor=white)### Blockchain-Secured Vaccine Cold Chain & Rural Healthcare Platform
+
+![Node.js](https://img.shields.io/badge/Node.js-339933?style=flat&logo=nodedotjs&logoColor=white)
+
+![React](https://img.shields.io/badge/React-61DAFB?style=flat&logo=react&logoColor=black)
+
+![Ethereum](https://img.shields.io/badge/Ethereum-3C3C3D?style=flat&logo=ethereum&logoColor=white)
+
+![MongoDB](https://img.shields.io/badge/MongoDB-47A248?style=flat&logo=mongodb&logoColor=white)<div align="center"><div align="center"><div align="center">
 
 
 
-![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
-
-![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
-
-![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)
-
-![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
-
-![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+> A healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India.
 
 
+
+---![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+
+
+
+## 📌 Problem & Solution![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
+
+
+
+| Problem | Solution |![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)![Swasthya Setu](https://img.shields.io/badge/Swasthya%20Setu-Healthcare%20Platform-6C63FF?style=for-the-badge&logo=health&logoColor=white)
+
+|---------|----------|
+
+| 25% vaccines wasted due to cold chain failures | 🌡️ Real-time IoT temperature monitoring (ESP32) |![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+
+| No transparency in shipment tracking | 🔗 Blockchain audit trail on Ethereum |
+
+| Language barriers for rural citizens | 🗣️ AI chatbot in 10+ Indian languages |![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)![Flutter](https://img.shields.io/badge/Flutter-3.7+-02569B?style=for-the-badge&logo=flutter&logoColor=white)
+
+| Can't verify vaccine authenticity | 📱 QR scan → blockchain verified status |
+
+
+
+---
 
 *A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India*![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)![Node.js](https://img.shields.io/badge/Node.js-20+-339933?style=for-the-badge&logo=nodedotjs&logoColor=white)
 
+## 🏗️ Architecture
 
+
+
+![Architecture](architechture-diagram.png)
 
 </div>![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)![React](https://img.shields.io/badge/React-18+-61DAFB?style=for-the-badge&logo=react&logoColor=black)
 
+| Layer | Technology | Purpose |
+
+|-------|------------|---------|
+
+| Mobile App | Flutter | Citizen booking, AI chat, QR verification |
+
+| Web Dashboard | React | Doctor queue, inventory, shipments |---![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+
+| Backend | Node.js + MongoDB | API, authentication, data sync |
+
+| Blockchain | Ethereum + Solidity | Immutable violation records |
+
+| IoT | ESP32 + Sensors | Temperature, GPS, tamper detection |
+
+| AI | Sarvam AI + Gemini | Multilingual voice assistant |## 🎯 What is Swasthya Setu?![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
 
----![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
+
+---
 
 
 
-## 🎯 What is Swasthya Setu?![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
+## 📱 Screenshots**Swasthya Setu** (Health Bridge) solves critical vaccine distribution challenges in India:
 
 
 
-**Swasthya Setu** (Health Bridge) solves critical vaccine distribution challenges in India:
+### Home & Booking
 
 
 
-| Problem | Our Solution |**A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India****A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India**
+| Home | Book Appointment | Confirmed || Problem | Our Solution |**A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India****A comprehensive healthcare ecosystem ensuring vaccine integrity through IoT monitoring, blockchain verification, and AI-powered multilingual assistance for rural India**
 
-|---------|--------------|
+|:----:|:----------------:|:---------:|
+
+| ![](home.jpg) | ![](manual-appointment.jpg) | ![](apppointent-booked.jpg) ||---------|--------------|
+
+| Dashboard with quick actions | Select center, date & slot | Booking details with QR |
 
 | 25% vaccines wasted due to cold chain failures | 🌡️ Real-time IoT temperature monitoring with ESP32 sensors |
 
+### AI Chatbot
+
 | No transparency in shipment tracking | 🔗 Blockchain-verified audit trail on Ethereum |
 
-| Language barriers for rural citizens | 🗣️ AI chatbot supporting 10+ Indian languages |[Features](#-features) • [Architecture](#-architecture-diagram) • [Screenshots](#-app-screenshots) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
+| Chat | Voice Input | Response |
 
-| Citizens can't verify vaccine authenticity | 📱 QR scan shows blockchain-verified SAFE/UNSAFE status |
+|:----:|:-----------:|:--------:|| Language barriers for rural citizens | 🗣️ AI chatbot supporting 10+ Indian languages |[Features](#-features) • [Architecture](#-architecture-diagram) • [Screenshots](#-app-screenshots) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)[Features](#-features) • [Tech Stack](#-tech-stack) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
+
+| ![](chat1.jpg) | ![](chat2.jpg) | ![](chat3.jpg) |
+
+| Natural language queries | Speak in your language | Answers in 10+ languages || Citizens can't verify vaccine authenticity | 📱 QR scan shows blockchain-verified SAFE/UNSAFE status |
 
 
 
----
+### ABHA & Family
 
-</div></div>
+
+
+| ABHA Card | Family | Help |---
+
+|:---------:|:------:|:----:|
+
+| ![](abha.jpg) | ![](family.jpg) | ![](help.jpg) |</div></div>
+
+| Digital health ID | Manage family members | In-app support |
 
 ## 🏗️ System Architecture
 
-
-
-<div align="center">
-
-<img src="architechture-diagram.png" width="800" alt="System Architecture"/>------
-
-</div>
+### Secret Vault
 
 
 
-**How it works:**
+| Vault Entry | Vault Contents |
 
-- **Citizens** use Flutter app to book appointments, chat with AI, verify vaccines via QR## 📋 Table of Contents## 📋 Table of Contents
+|:-----------:|:--------------:|<div align="center">
 
-- **Doctors** use React dashboard to manage queues, inventory, and shipments
+| ![](vault.jpg) | ![](vault-inside.jpg) |
 
-- **IoT Sensors** (ESP32) monitor temperature/GPS and record violations on blockchain
+| PIN-protected access | Secure document storage |<img src="architechture-diagram.png" width="800" alt="System Architecture"/>------
 
-- **Backend** (Node.js + MongoDB) handles all API requests and data sync
 
-- [Overview](#-overview)- [Overview](#-overview)
 
----
+---</div>
 
-- [Problem Statement](#-problem-statement)- [Problem Statement](#-problem-statement)
 
-## 📸 App Screenshots
 
-- [Solution](#-our-solution)- [Solution](#-our-solution)
+## ✨ Features
 
-### 🏠 Home & Booking
 
-- [Features](#-features)- [Features](#-features)
 
-<div align="center">
+### Citizens (Mobile App)**How it works:**
 
-<table>- [Architecture](#-architecture-diagram)- [Tech Stack](#-tech-stack)
+- 🆔 Aadhaar verification → ABHA card generation
 
-<tr>
+- 📅 Voice/text appointment booking- **Citizens** use Flutter app to book appointments, chat with AI, verify vaccines via QR## 📋 Table of Contents## 📋 Table of Contents
 
-<td align="center"><img src="home.jpg" width="200"/><br/><b>Home Screen</b><br/><i>Health dashboard with quick actions</i></td>- [Tech Stack](#-tech-stack)- [Installation](#-installation)
+- 💬 Multilingual AI health assistant
+
+- 📜 QR scan for vaccine verification- **Doctors** use React dashboard to manage queues, inventory, and shipments
+
+- 🔐 PIN-protected document vault
+
+- 👨‍👩‍👧 Family member management- **IoT Sensors** (ESP32) monitor temperature/GPS and record violations on blockchain
+
+
+
+### Doctors (Dashboard)- **Backend** (Node.js + MongoDB) handles all API requests and data sync
+
+- 📋 Queue: BOOKED → CHECKED_IN → VACCINATED
+
+- 💉 Inventory with low-stock alerts- [Overview](#-overview)- [Overview](#-overview)
+
+- 🚚 Live shipment tracking
+
+- 📱 QR vial scanner---
+
+
+
+### IoT & Blockchain- [Problem Statement](#-problem-statement)- [Problem Statement](#-problem-statement)
+
+- 🌡️ Temperature monitoring (2-8°C)
+
+- 📍 GPS tracking & geofence alerts## 📸 App Screenshots
+
+- 🔓 Tamper detection
+
+- ⛓️ On-chain violation records- [Solution](#-our-solution)- [Solution](#-our-solution)
+
+
+
+---### 🏠 Home & Booking
+
+
+
+## 📁 Structure- [Features](#-features)- [Features](#-features)
+
+
+
+```<div align="center">
+
+swasthya-setu-platform/
+
+├── Customer/              # Flutter mobile app<table>- [Architecture](#-architecture-diagram)- [Tech Stack](#-tech-stack)
+
+├── Doctor-Dashboard/      # React web dashboard
+
+├── Health-Bridge-Backend/ # Central API server<tr>
+
+├── server/                # IoT & blockchain server
+
+└── demo/                  # Test scenarios<td align="center"><img src="home.jpg" width="200"/><br/><b>Home Screen</b><br/><i>Health dashboard with quick actions</i></td>- [Tech Stack](#-tech-stack)- [Installation](#-installation)
+
+```
 
 <td align="center"><img src="manual-appointment.jpg" width="200"/><br/><b>Book Appointment</b><br/><i>Select center, date & time slot</i></td>
 
+---
+
 <td align="center"><img src="apppointent-booked.jpg" width="200"/><br/><b>Booking Confirmed</b><br/><i>Appointment details & QR code</i></td>- [Project Structure](#-project-structure)- [Environment Variables](#-environment-variables)
+
+## 🚀 Quick Start
 
 </tr>
 
-</table>- [App Screenshots](#-app-screenshots)- [API Reference](#-api-reference)
+```bash
+
+# Clone</table>- [App Screenshots](#-app-screenshots)- [API Reference](#-api-reference)
+
+git clone https://github.com/mahirkachwala/swasthya-setu-platform.git
 
 </div>
 
-- [Installation](#-installation)- [App Screenshots](#-app-screenshots)
+# Dashboard
 
-### 💬 AI Chatbot (Multilingual Voice Assistant)
+cd Doctor-Dashboard && npm install && npm run dev- [Installation](#-installation)- [App Screenshots](#-app-screenshots)
+
+
+
+# Server### 💬 AI Chatbot (Multilingual Voice Assistant)
+
+cd server && npm install && npm start
 
 - [Environment Variables](#-environment-variables)- [Demo Data](#-demo-data)
 
-<div align="center">
+# Mobile
+
+cd Customer && flutter pub get && flutter run<div align="center">
+
+```
 
 <table>- [API Reference](#-api-reference)- [Team](#-team)
 
+---
+
 <tr>
+
+## 🔑 Test Credentials
 
 <td align="center"><img src="chat1.jpg" width="200"/><br/><b>Chat Interface</b><br/><i>Natural language health queries</i></td>- [Demo Data](#-demo-data)- [License](#-license)
 
-<td align="center"><img src="chat2.jpg" width="200"/><br/><b>Voice Input</b><br/><i>Speak in your language</i></td>
+| Field | Value |
 
-<td align="center"><img src="chat3.jpg" width="200"/><br/><b>AI Response</b><br/><i>Get answers in 10+ Indian languages</i></td>- [Team](#-team)
+|-------|-------|<td align="center"><img src="chat2.jpg" width="200"/><br/><b>Voice Input</b><br/><i>Speak in your language</i></td>
+
+| Aadhaar | `9999-1111-2222` |
+
+| Password | `pass123` |<td align="center"><img src="chat3.jpg" width="200"/><br/><b>AI Response</b><br/><i>Get answers in 10+ Indian languages</i></td>- [Team](#-team)
+
+| Shipment | `SHIP-00045` |
 
 </tr>
 
+---
+
 </table>- [License](#-license)---
+
+## 👥 Team
 
 </div>
 
+| Name | Role |
 
+|------|------|
 
-### 🆔 ABHA & Family Management
+| Mahir Kachwala | Full Stack Lead |
+
+| Arnav Kadhe | Blockchain & IoT |### 🆔 ABHA & Family Management
+
+| Atharv Kanase | Frontend |
 
 ---## 🎯 Overview
 
+---
+
 <div align="center">
+
+**Made with ❤️ for Rural India**
 
 <table>
 
