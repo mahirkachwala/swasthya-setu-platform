@@ -125,7 +125,9 @@ India's vaccine distribution faces critical challenges:
 ## 🏗️ Architecture Diagram
 
 <p align="center">
-<img src="architecture-diagram.png" width="900"/>
+<a href="https://github.com/mahirkachwala/swasthya-setu-platform/blob/main/architecture-diagram.png">
+<img src="https://raw.githubusercontent.com/mahirkachwala/swasthya-setu-platform/main/architecture-diagram.png" width="900"/>
+</a>
 </p>
 ### Architecture Overview
 
