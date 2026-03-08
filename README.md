@@ -126,17 +126,7 @@ India's vaccine distribution faces critical challenges:
 
 <div align="center">
 
-### System Architecture
-![System Architecture](image_url)
-
-### Backend Architecture
-![Backend Architecture](image_url)
-
-### Blockchain & IoT Integration
-![Blockchain IoT Architecture](image_url)
-
-### Application Data Flow
-![Data Flow Architecture](image_url)
+![System Architecture](assets/architecture diagram.png)
 
 </div>
 
