@@ -14,7 +14,7 @@
 ![Ethereum](https://img.shields.io/badge/Ethereum-Blockchain-3C3C3D?style=for-the-badge&logo=ethereum&logoColor=white)
 ![MongoDB](https://img.shields.io/badge/MongoDB-Database-47A248?style=for-the-badge&logo=mongodb&logoColor=white)
 
-[Features](#-features) • [Architecture](#-system-architecture) • [Screenshots](#-app-screenshots) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
+[Features](#-features) • [Screenshots](#-app-screenshots) • [Architecture](#-system-architecture) • [Installation](#-installation) • [API Reference](#-api-reference) • [Team](#-team)
 
 </div>
 
@@ -90,85 +90,6 @@ India's vaccine distribution faces critical challenges:
 | 🌡️ **Live Telemetry** | Real-time temperature, humidity, GPS monitoring |
 | ⚠️ **Alert System** | Automated cold chain, tamper, and geofence breach alerts |
 | 🔗 **Blockchain Proof** | On-chain event verification for immutable audit trail |
-
----
-
-## 🏗️ System Architecture
-
-<div align="center">
-
-The platform follows a modular multi-layer architecture designed for scalable and transparent healthcare infrastructure.
-
-<img src="architechture-diagram.png" width="900" alt="System Architecture Diagram"/>
-
-</div>
-
-| Layer | Components | Role |
-|-------|------------|------|
-| **Citizen Layer** | Flutter Mobile App | Citizens register, book appointments, access health records, and interact with AI chatbot |
-| **Doctor Layer** | React Dashboard | Healthcare workers manage queues, inventory, shipments, and vaccination records |
-| **Backend Layer** | Node.js, Express, MongoDB | Handles API requests, authentication, and system data management |
-| **Blockchain Layer** | Ethereum Smart Contracts | Stores immutable records of cold-chain violations and shipment traceability |
-| **IoT Layer** | ESP32 Sensors, Telemetry Server | Collects temperature, GPS, and tamper data from vaccine shipments |
-| **AI Layer** | Sarvam AI, Google Gemini | Provides multilingual chatbot and voice assistance |
-
----
-
-## 🛠️ Tech Stack
-
-| Layer | Technologies |
-|-------|--------------|
-| **Frontend (Mobile)** | Flutter, Dart |
-| **Frontend (Web)** | React 18, TypeScript, Vite, TailwindCSS, shadcn/ui |
-| **Backend** | Node.js 20, Express, MongoDB, Mongoose, JWT |
-| **Blockchain** | Ethereum, Solidity, Hardhat, ethers.js |
-| **AI & Voice** | Sarvam AI (STT/TTS), Google Gemini, AI4Bharat |
-| **Maps** | Mappls SDK (India-centric) |
-| **IoT** | ESP32, DHT22 Temperature Sensor, GPS Neo-6M Module |
-
----
-
-## 📁 Project Structure
-
-```
-swasthya-setu-platform/
-│
-├── Customer/                    # 📱 Flutter Mobile App (Citizen-facing)
-│   ├── lib/                     # Dart source code
-│   │   ├── main.dart            # App entry point
-│   │   ├── screens/             # UI screens (home, chat, booking, etc.)
-│   │   ├── services/            # API and blockchain services
-│   │   └── widgets/             # Reusable UI components
-│   ├── android/                 # Android configuration
-│   ├── ios/                     # iOS configuration
-│   ├── assets/                  # Images, icons, fonts
-│   └── blockchain/              # Smart contract integration (Hardhat)
-│
-├── Doctor-Dashboard/            # 🏥 React Web Dashboard (Healthcare workers)
-│   ├── client/                  # React frontend with shadcn/ui
-│   │   ├── src/pages/           # Dashboard pages (queue, inventory, etc.)
-│   │   └── src/components/      # Reusable React components
-│   ├── server/                  # Express backend API
-│   └── shared/                  # Shared TypeScript types and schemas
-│
-├── Health-Bridge-Backend/       # 🔧 Central Backend API
-│   ├── server/                  # Express API with routes
-│   └── shared/                  # Shared validation schemas (Zod)
-│
-├── server/                      # 🌡️ IoT & Blockchain Backend
-│   ├── index.js                 # Server entry point
-│   ├── Routes/                  # API route handlers
-│   │   ├── telemetry.js         # IoT sensor data ingestion
-│   │   └── blockchain.js        # Ethereum transaction handlers
-│   ├── models/                  # MongoDB schemas
-│   └── services/                # Business logic (alerts, verification)
-│
-├── demo/                        # 🎮 Demo scenarios for testing
-│   ├── server.js                # Demo server
-│   └── scenarios/               # Test scenarios (normal, breach, tamper)
-│
-└── images/                      # 📸 Screenshots & documentation images
-```
 
 ---
 
@@ -298,6 +219,81 @@ Each vaccine vial has a unique QR code that links to its full cold chain history
 </div>
 
 ---
+
+## 🏗️ System Architecture
+
+The platform follows a modular multi-layer architecture designed for scalable and transparent healthcare infrastructure.
+
+| Layer | Components | Role |
+|-------|------------|------|
+| **Citizen Layer** | Flutter Mobile App | Citizens register, book appointments, access health records, and interact with AI chatbot |
+| **Doctor Layer** | React Dashboard | Healthcare workers manage queues, inventory, shipments, and vaccination records |
+| **Backend Layer** | Node.js, Express, MongoDB | Handles API requests, authentication, and system data management |
+| **Blockchain Layer** | Ethereum Smart Contracts | Stores immutable records of cold-chain violations and shipment traceability |
+| **IoT Layer** | ESP32 Sensors, Telemetry Server | Collects temperature, GPS, and tamper data from vaccine shipments |
+| **AI Layer** | Sarvam AI, Google Gemini | Provides multilingual chatbot and voice assistance |
+
+---
+
+## 🛠️ Tech Stack
+
+| Layer | Technologies |
+|-------|--------------|
+| **Frontend (Mobile)** | Flutter, Dart |
+| **Frontend (Web)** | React 18, TypeScript, Vite, TailwindCSS, shadcn/ui |
+| **Backend** | Node.js 20, Express, MongoDB, Mongoose, JWT |
+| **Blockchain** | Ethereum, Solidity, Hardhat, ethers.js |
+| **AI & Voice** | Sarvam AI (STT/TTS), Google Gemini, AI4Bharat |
+| **Maps** | Mappls SDK (India-centric) |
+| **IoT** | ESP32, DHT22 Temperature Sensor, GPS Neo-6M Module |
+
+---
+
+## 📁 Project Structure
+
+```
+swasthya-setu-platform/
+│
+├── Customer/                    # 📱 Flutter Mobile App (Citizen-facing)
+│   ├── lib/                     # Dart source code
+│   │   ├── main.dart            # App entry point
+│   │   ├── screens/             # UI screens (home, chat, booking, etc.)
+│   │   ├── services/            # API and blockchain services
+│   │   └── widgets/             # Reusable UI components
+│   ├── android/                 # Android configuration
+│   ├── ios/                     # iOS configuration
+│   ├── assets/                  # Images, icons, fonts
+│   └── blockchain/              # Smart contract integration (Hardhat)
+│
+├── Doctor-Dashboard/            # 🏥 React Web Dashboard (Healthcare workers)
+│   ├── client/                  # React frontend with shadcn/ui
+│   │   ├── src/pages/           # Dashboard pages (queue, inventory, etc.)
+│   │   └── src/components/      # Reusable React components
+│   ├── server/                  # Express backend API
+│   └── shared/                  # Shared TypeScript types and schemas
+│
+├── Health-Bridge-Backend/       # 🔧 Central Backend API
+│   ├── server/                  # Express API with routes
+│   └── shared/                  # Shared validation schemas (Zod)
+│
+├── server/                      # 🌡️ IoT & Blockchain Backend
+│   ├── index.js                 # Server entry point
+│   ├── Routes/                  # API route handlers
+│   │   ├── telemetry.js         # IoT sensor data ingestion
+│   │   └── blockchain.js        # Ethereum transaction handlers
+│   ├── models/                  # MongoDB schemas
+│   └── services/                # Business logic (alerts, verification)
+│
+├── demo/                        # 🎮 Demo scenarios for testing
+│   ├── server.js                # Demo server
+│   └── scenarios/               # Test scenarios (normal, breach, tamper)
+│
+└── images/                      # 📸 Screenshots & documentation images
+```
+
+---
+
+
 
 ## 🚀 Installation
 
@@ -441,9 +437,11 @@ PHC Andheri · PHC Bandra · CHC Dadar · UHC Kurla · PHC Goregaon · PHC Mulun
 
 | Member | Role |
 |--------|------|
-| **Mahir Kachwala** | Full Stack Developer & Team Lead |
-| **Arnav Kadhe** | Blockchain & IoT Developer |
-| **Atharv Kanase** | Frontend Developer |
+| **Arnav Kadhe** | Team Leader & Blockchain Developer |
+| **Mahir Kachwala** | Frontend Developer |
+| **Arindam Dwivedi** | Backend Developer |
+| **Rohan Suri** | IoT & Hardware Developer |
+| **Rohan Kanse** | Full Stack Developer |
 
 </div>
 
